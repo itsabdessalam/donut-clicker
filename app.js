@@ -8,16 +8,42 @@ const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
 
-mongoose.connect(
-  "mongodb://SuperDonut:tunodrepus@ds247078.mlab.com:47078/donutdb"
-);
-
 const index = require("./routes/index");
 const users = require("./routes/users");
 const Auth0Strategy = require("passport-auth0"),
   passport = require("passport");
 
 const app = express();
+
+var usermodel = require("./model/user");
+// db connection
+mongoose.connect(
+  "mongodb://SuperDonut:tunodrepus@ds247078.mlab.com:47078/donutdb",
+  function(err) {
+    if (err) {
+      throw err;
+    }
+  }
+);
+
+app.get("/User", (req, res) =>
+  usermodel.user.find({}).exec((err, User) => res.json(User))
+);
+
+// create collection
+app.put("/User", (req, res) =>
+  new usermodel.user({
+    username: "Bob",
+    email: "bob.sponge@test.com",
+    password: "test"
+  }).save(err => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send("success");
+    }
+  })
+);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
