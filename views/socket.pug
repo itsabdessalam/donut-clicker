@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+
+  span.connected
+      = 'Il y a actuellement '
+      span.connected-number 0
+      = ' personnes connectés'
+  
+  script(src='/socket.io/socket.io.js')
+  script(src='https://code.jquery.com/jquery-1.11.3.min.js')
+  script(src='/javascripts/app.js')

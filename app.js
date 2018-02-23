@@ -10,6 +10,7 @@ const mongoose = require("mongoose");
 
 const index = require("./routes/index");
 const users = require("./routes/users");
+const socket = require("./routes/socket");
 const Auth0Strategy = require("passport-auth0"),
   passport = require("passport");
 
@@ -63,6 +64,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", index);
 app.use("/users", users);
+app.use("/socket", socket);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
