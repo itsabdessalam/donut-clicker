@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .main.signup
+        .header-text
+            img(src="/images/donut1.png", alt="",width="100px")
+            h1(class="header-title") Donut Clicker
+            small Built with NodeJS
+        .valign-wrapper.row.login-box
+            .col.card.hoverable.s10.pull-s1.m6.pull-m3.l4.pull-l4
+                form(method="POST")
+                    .card-content
+                        span.card-title.left-align Inscription
+
+                        .row
+                            .input-field.col.s12
+                                label(for="username") Nom d'utilisateur
+                                input#username.validate(type="text" name="username")
+                            .input-field.col.s12
+                                label(for="email") Adresse email
+                                input#email.validate(type="email" name="email")
+                            .input-field.col.s12
+                                label(for="password") Mot de passe 
+                                input#password.validate(type="password" name="password")
+                            .input-field.col.s12
+                                label(for="password") Confirmez votre mot de passe
+                                input#password_c.validate(type="password" name="password_c")
+                            .input-field.col.s12
+                                input.btn.btn-custom.waves-effect.waves-light(type="submit" value="S'inscrire")
+                    .card-action
+                        a.link-left  Déjà un compte ?
+                        a(class="link-right" , href="/users/login") Se connecter

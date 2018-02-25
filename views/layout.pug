@@ -4,4 +4,17 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    nav(class="custom-nav")
+      .nav-wrapper
+        a.brand-logo(href='#') 
+          img(src="/images/logo-nav.png", alt="",width="160px")
+        ul#nav-mobile.right.hide-on-med-and-down
+          li
+            a(href='') Donut
+          li
+            a(href='') Cookie
+          li
+            a(href='') Sprinkles
     block content
+  script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
+  script(src="/javascripts/bin/materialize.min.js")

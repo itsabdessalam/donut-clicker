@@ -1,0 +1,174 @@
+@charset "UTF-8";
+// Colors
+@import "components/color";
+// Variables;
+@import "components/variables";
+// Reset
+@import "components/normalize";
+// components
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import "components/global";
+@import "components/badges";
+@import "components/icons-material-design";
+@import "components/grid";
+@import "components/navbar";
+@import "components/roboto";
+@import "components/custom-font";
+@import "components/typography";
+@import "components/transitions";
+@import "components/cards";
+@import "components/toast";
+@import "components/tabs";
+@import "components/tooltip";
+@import "components/buttons";
+@import "components/dropdown";
+@import "components/waves";
+@import "components/modal";
+@import "components/collapsible";
+@import "components/chips";
+@import "components/materialbox";
+@import "components/forms/forms";
+@import "components/table_of_contents";
+@import "components/sideNav";
+@import "components/preloader";
+@import "components/slider";
+@import "components/carousel";
+@import "components/tapTarget";
+@import "components/pulse";
+@import "components/date_picker/default";
+@import "components/date_picker/default.date";
+@import "components/date_picker/default.time";
+html,
+body,
+.login-box {
+    height: 100%;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+.login-box {
+    margin-bottom: 0
+}
+
+body {
+    text-align: center;
+    margin: auto;
+    background: linear-gradient(to bottom right, #4086f6, #2f5ca0);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding-top: 20px;
+}
+
+.custom-nav {
+    background: transparent;
+    box-shadow: none;
+    padding: 0 30px;
+}
+
+.custom-nav .brand-logo {
+    float: left;
+    position: relative;
+}
+
+.btn-custom {
+    text-transform: initial;
+    border-color: #ef4c5d;
+    background: #ef4c5d;
+    margin: 0;
+    border-width: 0;
+    font-weight: 400;
+    cursor: pointer;
+    position: relative;
+    font-family: inherit;
+    padding: 0px 30px;
+    overflow: hidden;
+    border-radius: 50px;
+    -webkit-transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);
+    transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1);
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+    border-color: #f23649;
+    background: #f23649;
+}
+
+input:not([type]):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]),
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=email]:not(.browser-default):focus:not([readonly]),
+input[type=url]:not(.browser-default):focus:not([readonly]),
+input[type=time]:not(.browser-default):focus:not([readonly]),
+input[type=date]:not(.browser-default):focus:not([readonly]),
+input[type=datetime]:not(.browser-default):focus:not([readonly]),
+input[type=datetime-local]:not(.browser-default):focus:not([readonly]),
+input[type=tel]:not(.browser-default):focus:not([readonly]),
+input[type=number]:not(.browser-default):focus:not([readonly]),
+input[type=search]:not(.browser-default):focus:not([readonly]),
+textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid #ef4c5d;
+    box-shadow: 0 1px 0 0#ef4c5d;
+}
+
+.input-field label.active {
+    color: #ef4c5d;
+}
+
+.login-box span.card-title {
+    color: #3a495e;
+    margin-bottom: 15px !important;
+}
+
+.login-box .card-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-box a.link-right,
+.login-box a.link-left {
+    text-transform: initial;
+    color: #999999 !important;
+}
+
+.main.signup .header-text {
+    margin-bottom: 50px;
+    margin-top: 20px;
+}
+
+.main.login .header-text {
+    margin-bottom: 100px;
+    margin-top: 30px;
+}
+
+.header-text {
+    color: #fff;
+    clear: both;
+}
+
+.header-text .header-title {
+    margin: 0;
+    font-family: Simpson;
+    font-size: 40px;
+}
+
+.header-text small {
+    font-size: 18px;
+}
+
+#card-alert .card-content {
+    padding: 10px;
+}
+
+#card-alert button {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 20px;
+    color: #fff;
+}
