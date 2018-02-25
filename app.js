@@ -24,7 +24,9 @@ const app = express();
 const usermodel = require("./models/user");
 // db connection
 mongoose.connect(
-  "mongodb://localhost/appLogin",
+  "mongodb://SuperDonut:tunodrepus@ds247078.mlab.com:47078/donutdb",
+  // Use only in dev if you have mongodb
+  //"mongodb://localhost/appLogin",
   err => {
     if (err) {
       throw err;
