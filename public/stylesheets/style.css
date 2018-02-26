@@ -7012,8 +7012,13 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .login-box a.link-right,
 .login-box a.link-left {
-  text-transform: initial;
   color: #999999 !important; }
+
+.login-box a.link-right:hover,
+.login-box a.link-right:focus,
+.login-box a.link-left:hover,
+.login-box a.link-left:focus {
+  color: #747474 !important; }
 
 .main.signup .header-text {
   margin-bottom: 50px;
@@ -7046,5 +7051,48 @@ textarea.materialize-textarea:focus:not([readonly]) {
   right: 10px;
   font-size: 20px;
   color: #fff; }
+
+.main.index .header-text {
+  margin-bottom: 50px;
+  margin-top: 20px; }
+
+.main.index .tab-item {
+  background: #fff;
+  min-height: 500px; }
+
+.main.index .valign-wrapper.row {
+  margin-bottom: 0; }
+
+.main.index .main-tabs {
+  padding: 0; }
+
+.main.index .tab-item {
+  padding: 20px; }
+
+.main.index .game {
+  margin-bottom: 30px; }
+
+.main.index .game .main-donut img {
+  max-width: 200px; }
+
+.main.index .tabs {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px; }
+
+.main.index .tab-item {
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px; }
+
+.main.index .tabs .tab a:hover,
+.main.index .tabs .tab a.active {
+  background-color: transparent;
+  color: #ef4c5d; }
+
+.main.index .tabs .indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #ef4c5d;
+  will-change: left, right; }
 
 /*# sourceMappingURL=style.css.map */

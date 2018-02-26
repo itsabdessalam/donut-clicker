@@ -1,5 +1,36 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .main.index
+    .header-text
+      img(src="/images/donut1.png", alt="",width="100px")
+      h1(class="header-title") Donut Clicker
+      small Built with NodeJS
+    .game
+      .valign-wrapper.row
+        .col.s10.pull-s1.m8.pull-m2.l8.pull-l2.main-tabs
+          ul.tabs
+            li.tab.col.s3
+              a(href='#game') Jeu
+            li.tab.col.s3
+              a(href='#options') Options
+            li.tab.col.s3
+              a(href='#stats') Stats
+              li.tab.col.s3
+                a(href='#gains') Gains
+      .valign-wrapper.row
+        #game.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2
+          .row
+            .col.s6 
+              .title Donut Clicker
+              .donuts 0 Donuts
+              .freq  0 par seconde
+              .main-donut
+                a(href="#",id="donutLink")
+                  img(src="/images/main-donut.png", alt="")
+            .col.s6 Extras
+        #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 2
+        #stats.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 3
+        #gains.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 4
+
+
