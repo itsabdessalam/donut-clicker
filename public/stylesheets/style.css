@@ -6932,25 +6932,25 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   stroke-linecap: round;
   /*shape-rendering: crispEdges;*/ }
 
-html,
-body,
-.login-box {
-  height: 100%; }
+html {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: auto; }
 
 body {
-  font-family: 'Nunito', sans-serif; }
-
-.login-box {
-  margin-bottom: 0; }
-
-body {
+  font-family: 'Nunito', sans-serif;
+  height: 100vh;
+  min-height: 100vh;
   text-align: center;
   margin: auto;
   background: linear-gradient(to bottom right, #4086f6, #2f5ca0);
-  background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding-top: 20px; }
+  padding-top: 20px;
+  overflow: auto; }
+
+.login-box {
+  margin-bottom: 0; }
 
 .custom-nav {
   background: transparent;

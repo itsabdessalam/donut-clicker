@@ -1,11 +1,9 @@
 /*jshint esversion: 6*/
 const mongoose = require("mongoose");
 //bcrypt for passwords
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-
+const bcrypt = require("bcrypt");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 // const exports = (module.exports = {});
 
@@ -25,13 +23,13 @@ const UserSchema = mongoose.Schema({
     }
   },
   password: {
-    type: String,
+    type: String
   }
 });
 
-const User = module.exports = mongoose.model('User', UserSchema);
+const User = (module.exports = mongoose.model("User", UserSchema));
 
-module.exports.createUser = function (newUser, callback) {
+module.exports.createUser = function(newUser, callback) {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       newUser.password = hash;

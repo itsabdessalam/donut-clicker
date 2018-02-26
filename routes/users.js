@@ -1,44 +1,44 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 //passport
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 
 //user model
-const User = require('../models/user');
-
+const User = require("../models/user");
 
 //signup
-router.get('/signup', (req, res) => {
-  res.render('signup', {
-    title: 'Inscription - Donut Clicker'
+router.get("/signup", (req, res) => {
+  res.render("signup", {
+    title: "Inscription - Donut Clicker"
   });
 });
 //login
-router.get('/login', (req, res) => {
-  res.render('login', {
-    title: 'Connexion - Donut Clicker'
+router.get("/login", (req, res) => {
+  res.render("login", {
+    title: "Connexion - Donut Clicker"
   });
 });
 
 //when signup post
-router.post('/signup', (req, res) => {
+router.post("/signup", (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
   const password_c = req.body.password_c;
 
-  req.checkBody('username', 'Username is required').notEmpty();
-  req.checkBody('email', 'Email is required').notEmpty();
-  req.checkBody('email', 'Email is not valid').isEmail();
-  req.checkBody('password', 'Password is required').notEmpty();
-  req.checkBody('password_c', 'Passwords do not match').equals(req.body.password);
+  req.checkBody("username", "Username is required").notEmpty();
+  req.checkBody("email", "Email is required").notEmpty();
+  req.checkBody("email", "Email is not valid").isEmail();
+  req.checkBody("password", "Password is required").notEmpty();
+  req
+    .checkBody("password_c", "Passwords do not match")
+    .equals(req.body.password);
   const errors = req.validationErrors();
 
   if (errors) {
-    res.render('signup', {
+    res.render("signup", {
       errors
     });
   } else {
@@ -52,36 +52,40 @@ router.post('/signup', (req, res) => {
       if (err) throw err;
       console.log(user);
     });
-    res.redirect('/users/login');
+    res.redirect("/users/login");
   }
 });
 //use passport strategy and redefine, by default login is with username
-passport.use('local', new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-  (email, password, done) => {
-    User.getUserByEmail(email, (err, user) => {
-      if (err) throw err;
-      if (!user) {
-        return done(null, false, {
-          message: 'Utilisateur introuvable'
-        });
-      }
-
-      User.comparePassword(password, user.password, (err, isMatch) => {
+passport.use(
+  "local",
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password"
+    },
+    (email, password, done) => {
+      User.getUserByEmail(email, (err, user) => {
         if (err) throw err;
-        if (isMatch) {
-          return done(null, user);
-        } else {
+        if (!user) {
           return done(null, false, {
-            message: 'Mot de passe incorrect'
+            message: "Utilisateur introuvable"
           });
         }
-      });
-    });
-  }));
 
+        User.comparePassword(password, user.password, (err, isMatch) => {
+          if (err) throw err;
+          if (isMatch) {
+            return done(null, user);
+          } else {
+            return done(null, false, {
+              message: "Mot de passe incorrect"
+            });
+          }
+        });
+      });
+    }
+  )
+);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -95,19 +99,21 @@ passport.deserializeUser((id, done) => {
 
 //when login post
 
-router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users/login',
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/users/login"
   }),
   (req, res) => {
-    res.redirect('/');
-  });
+    res.redirect("/");
+  }
+);
 
 //when logout
 //passport allows to logout with .logout()
-router.get('/logout', (req, res) => {
+router.get("/logout", (req, res) => {
   req.logOut();
-  res.redirect('/users/login');
+  res.redirect("/users/login");
 });
 module.exports = router;

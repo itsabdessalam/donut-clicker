@@ -5,14 +5,13 @@ const favicon = require("serve-favicon");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
-const sassMiddleware = require('node-sass-middleware');
-const flash = require('connect-flash');
+const sassMiddleware = require("node-sass-middleware");
+const flash = require("connect-flash");
 
-
-const expressValidator = require('express-validator');
-const session = require('express-session');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const expressValidator = require("express-validator");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
 
 const index = require("./routes/index");
@@ -58,7 +57,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 // favicon
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -70,49 +69,55 @@ app.use(
 app.use(cookieParser());
 
 //node-sass-middleware
-app.use(sassMiddleware({
-  src: path.join(__dirname, 'public'),
-  dest: path.join(__dirname, 'public'),
-  indentedSyntax: false,
-  sourceMap: true,
-}));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  sassMiddleware({
+    src: path.join(__dirname, "public"),
+    dest: path.join(__dirname, "public"),
+    indentedSyntax: false,
+    sourceMap: true
+  })
+);
+app.use(express.static(path.join(__dirname, "public")));
 
 //express-session
-app.use(session({
-  secret: 'secret',
-  saveUninitialized: true,
-  resave: true
-}));
+app.use(
+  session({
+    secret: "secret",
+    saveUninitialized: true,
+    resave: true
+  })
+);
 
 //init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 //express validator
-app.use(expressValidator({
-  errorFormatter(param, msg, value) {
-    const namespace = param.split('.');
-    const root = namespace.shift();
-    let formParam = root;
-    while (namespace.length) {
-      formParam += `[${namespace.shift()}]`;
+app.use(
+  expressValidator({
+    errorFormatter(param, msg, value) {
+      const namespace = param.split(".");
+      const root = namespace.shift();
+      let formParam = root;
+      while (namespace.length) {
+        formParam += `[${namespace.shift()}]`;
+      }
+      return {
+        param: formParam,
+        msg,
+        value
+      };
     }
-    return {
-      param: formParam,
-      msg,
-      value
-    };
-  }
-}));
+  })
+);
 
 // use flash
 app.use(flash());
-// Declare global vars 
-app.use(function (req, res, next) {
-  res.locals.success_msg = req.flash('success_msg');
-  res.locals.error_msg = req.flash('error_msg');
-  res.locals.error = req.flash('error');
+// Declare global vars
+app.use(function(req, res, next) {
+  res.locals.success_msg = req.flash("success_msg");
+  res.locals.error_msg = req.flash("error_msg");
+  res.locals.error = req.flash("error");
   res.locals.user = req.user || null;
   next();
 });
@@ -120,8 +125,6 @@ app.use(function (req, res, next) {
 app.use("/", index);
 app.use("/users", users);
 app.use("/socket", socket);
-
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
