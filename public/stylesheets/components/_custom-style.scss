@@ -171,6 +171,21 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .main.index .game .main-donut img {
     max-width: 200px;
 }
+.main.index .game .main-donut .transition {
+  animation: donutSlide;
+  animation-duration: 0.1s;
+}
+@keyframes donutSlide {
+  0% {
+    max-width: 200px;
+  }
+  50% {
+    max-width: 180px;
+  }
+  100% {
+    max-width: 200px;
+  }
+}
 
 .main.index .tabs {
     border-top-right-radius: 5px;
