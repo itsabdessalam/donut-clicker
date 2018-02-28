@@ -25,13 +25,8 @@ const UserSchema = mongoose.Schema({
   password: {
     type: String
   },
-  donuts: {
-    type: Number,
-    default: 0
-  },
-  "donuts/s": {
-    type: Number,
-    default: 0
+  backup: {
+    type: String
   }
 });
 
