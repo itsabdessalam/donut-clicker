@@ -224,7 +224,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
 }
 
 .main.index .game .extras-part .row .card .card-content {
-    padding: 20px;
+    padding: 0;
+    padding-top: 5px;
+    padding-right: 20px;
+    padding-left: 20px;
 }
 
 .main.index .game .extras-part .extra1 .card {
@@ -241,4 +244,43 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .main.index .game .extras-part .extra4 .card {
     background-color: #e6531b !important;
+}
+
+.main.index .game .extra-head {
+    text-align: left;
+    float: left;
+    width: 25%;
+}
+
+.main.index .game .extra-infos {
+    float: left;
+    width: 50%;
+}
+
+.main.index .game .extra-counter {
+    float: left;
+    width: 15%;
+}
+
+.main.index .game .extra-head img {
+    vertical-align: bottom
+}
+
+.main.index .game .card-content {
+    overflow: hidden;
+}
+
+.main.index .game .extra-title {
+    display: block;
+    font-size: 20px;
+}
+
+.main.index .game .extra-infos {
+    line-height: 35px;
+}
+
+.main.index .game .extra-counter {
+    font-family: Simpson;
+    font-size: 25px;
+    line-height: 60px;
 }
