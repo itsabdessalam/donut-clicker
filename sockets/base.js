@@ -1,23 +1,39 @@
 module.exports = function (io) {
     io.on('connection', function (socket) {
-        // On envoie le nombre de personnes actuellement sur le socket à tout le monde (sauf la personne qui vient de se connecter)
-        socket.broadcast.emit('UserState', io.engine.clientsCount);
-        // On envoie le nombre de personnes actuellement sur le socket à la personne qui vient de se connecter
-        socket.emit('UserState', io.engine.clientsCount);
 
         socket.on('AddDonut', (data) => {
             const nbDonuts = data + 1;
             socket.emit('GetDonuts', nbDonuts);
         });
 
-        socket.on('data', (nbDonuts, donutsPerSec) => {
+        socket.on('achievements', (nbDonuts, donutsPerSec) => {
+            switch (nbDonuts) {
+                case 10:
+                    socket.emit('toast', "je suis un toast");
+                    socket.emit('enable', '.extra1');
+                    break;
+                case 20:
+                    socket.emit('toast', "je suis un toast");
+                    socket.emit('enable', '.extra2');
+                    break;
+                case 50:
+                    socket.emit('toast', "je suis un toast");
+                    socket.emit('enable', '.extra3');
+                    break;
+                case 100:
+                    socket.emit('toast', "je suis un toast");
+                    socket.emit('enable', '.extra4');
+                    break;
+            }
+        });
+
+        socket.on('dPs', (nbDonuts, donutsPerSec) => {
             const nbDonutsTot = nbDonuts + donutsPerSec;
             socket.emit('GetDonuts', nbDonutsTot);
         });
 
         socket.on('disconnect', function () {
-            // On prévient tout le monde qu'une personne s'est deconnectée
-            socket.broadcast.emit('UserState', io.engine.clientsCount);
+            // Voir ce qu'on fait 
         });
     });
 };

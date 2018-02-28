@@ -1,22 +1,33 @@
-var socket = io(); // On se connecte au socket du serveur pour avoir les informations en temps réel
+const socket = io();
 
-function updateData() {
+function updateAchievement() {
     const nbDonuts = parseInt($('.nbDonuts').text());
     const donutsPerSec = parseInt($('.donutsPerSec').text());
-    socket.emit('data', nbDonuts, donutsPerSec);
+    socket.emit('achievements', nbDonuts, donutsPerSec);
 }
-let data = setInterval(updateData, 1000);
-// Si le socket nous informe qu'il y a une notification qui se nomme UserState, il executera le callback.
-socket.on('UserState', function (data) {
-    // nous insérons dans la span la valeur envoyée par le socket
-    $('.connected-number').text(data);
-});
-socket.on('GetDonuts', function (data) {
-    // nous insérons dans la span la valeur envoyée par le socket
-    $('.nbDonuts').text(data);
+
+function addDonutsPerSecond() {
+    const nbDonuts = parseInt($('.nbDonuts').text());
+    const donutsPerSec = parseInt($('.donutsPerSec').text());
+    socket.emit('dPs', nbDonuts, donutsPerSec);
+}
+setInterval(addDonutsPerSecond, 1000);
+
+$('#donutLink').click((e) => {
+    e.preventDefault;
+    const nbDonuts = parseInt($('.nbDonuts').text());
+    socket.emit('AddDonut', nbDonuts);
 });
 
-$('#donutLink').click(() => {
-    const nbDonuts = parseInt($('.nbDonuts').text());
-    socket.emit('AddDonut', nbDonuts)
+socket.on('GetDonuts', function (data) {
+    $('.nbDonuts').text(data);
+    updateAchievement();
+});
+
+socket.on('toast', (data) => {
+    Materialize.toast(data, 50000);
+});
+
+socket.on('enable', (extra) => {
+    $(extra).removeClass('disabled');
 });
