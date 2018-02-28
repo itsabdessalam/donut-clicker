@@ -33,9 +33,10 @@ mongoose.connect(
   }
 );
 
-// app.get("/User", (req, res) =>
-//   usermodel.user.find({}).exec((err, User) => res.json(User))
-// );
+// getAllUsers
+app.get("/User", (req, res) =>
+  usermodel.getAllUsers((err, user) => res.json(user))
+);
 
 // // create collection
 // app.put("/User", (req, res) =>
@@ -114,7 +115,7 @@ app.use(
 // use flash
 app.use(flash());
 // Declare global vars
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
