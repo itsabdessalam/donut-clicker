@@ -24,12 +24,20 @@ const UserSchema = mongoose.Schema({
   },
   password: {
     type: String
+  },
+  donuts: {
+    type: Number,
+    default: 0
+  },
+  "donuts/s": {
+    type: Number,
+    default: 0
   }
 });
 
 const User = (module.exports = mongoose.model("User", UserSchema));
 
-module.exports.createUser = function(newUser, callback) {
+module.exports.createUser = function (newUser, callback) {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
       newUser.password = hash;

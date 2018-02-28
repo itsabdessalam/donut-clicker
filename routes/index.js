@@ -4,7 +4,8 @@ const router = express.Router();
 /* GET home page. */
 router.get('/', ensureAuthenticated, (req, res) => {
   res.render('index', {
-    title: 'Express'
+    title: 'Express',
+    user: req.user
   });
 });
 

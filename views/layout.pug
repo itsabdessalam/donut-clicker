@@ -14,8 +14,9 @@ html
             a(href='') Donut
           li
             a(href='') Cookie
-          li
-            a(href='') Sprinkles
+          if user
+            li
+              a(href='/users/logout') Déconnexion
     block content
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(src="/javascripts/materialize/bin/materialize.min.js")
