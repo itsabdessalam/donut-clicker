@@ -7117,6 +7117,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
   margin-bottom: 75px;
   margin-top: 75px; }
 
+.main.index .game .main-donut a {
+  cursor: pointer; }
+
 .main.index .game .extras-part .row {
   margin: 0; }
 
@@ -7137,6 +7140,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .main.index .game .extras-part .extra4 .card {
   background-color: #e6531b !important; }
+
+.main.index .game .extras-part .card {
+  cursor: pointer; }
 
 .main.index .game .extra-head {
   text-align: left;
