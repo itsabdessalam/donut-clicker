@@ -6949,6 +6949,9 @@ body {
   padding-top: 20px;
   overflow: auto; }
 
+.disabled {
+  opacity: .5; }
+
 .login-box {
   margin-bottom: 0; }
 
@@ -7094,5 +7097,42 @@ textarea.materialize-textarea:focus:not([readonly]) {
   height: 2px;
   background-color: #ef4c5d;
   will-change: left, right; }
+
+.main.index .game .title {
+  color: #3365b4;
+  font-family: Simpson;
+  font-size: 20px;
+  margin-bottom: 20px;
+  margin-top: 20px; }
+
+.main.index .game .donuts {
+  margin-bottom: 20px;
+  margin-top: 20px; }
+
+.main.index .game .freq {
+  margin-bottom: 20px;
+  margin-top: 20px; }
+
+.main.index .game .main-donut {
+  margin-bottom: 75px;
+  margin-top: 75px; }
+
+.main.index .game .extras-part .row {
+  margin: 0; }
+
+.main.index .game .extras-part .row .card .card-content {
+  padding: 20px; }
+
+.main.index .game .extras-part .extra1 .card {
+  background-color: #ed599c !important; }
+
+.main.index .game .extras-part .extra2 .card {
+  background-color: #22a15b !important; }
+
+.main.index .game .extras-part .extra3 .card {
+  background-color: #52bedb !important; }
+
+.main.index .game .extras-part .extra4 .card {
+  background-color: #e6531b !important; }
 
 /*# sourceMappingURL=style.css.map */
