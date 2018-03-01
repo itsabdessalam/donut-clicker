@@ -1,34 +1,50 @@
 const socket = io();
 
-function updateAchievement() {
-  const nbDonuts = parseInt($(".nbDonuts").text());
-  const donutsPerSec = parseInt($(".donutsPerSec").text());
-  socket.emit("achievements", nbDonuts, donutsPerSec);
-}
-
-function addDonutsPerSecond() {
-  const nbDonuts = parseInt($(".nbDonuts").text());
-  const donutsPerSec = parseInt($(".donutsPerSec").text());
-  socket.emit("dPs", nbDonuts, donutsPerSec);
-}
-setInterval(addDonutsPerSecond, 1000);
-
-$("#donutLink").click(e => {
-  e.preventDefault;
-  const nbDonuts = parseInt($(".nbDonuts").text());
-  socket.emit("AddDonut", nbDonuts);
-  $("img").toggleClass("transition");
+socket.on('init', (game) => {
+    $('.nbDonuts').text(game.donuts);
+    $('.donutsPerSec').text(game.donutsPerS);
+    for (i = 1; i < 6; i++) {
+        $('.extra' + i + ' .extra-counter span').text(game.extra[i].count);
+    }
 });
 
-socket.on("GetDonuts", function(data) {
-  $(".nbDonuts").text(data);
-  updateAchievement();
+$('#donutLink').click(() => {
+    socket.emit('addDonut', true);
 });
 
-socket.on("toast", data => {
-  Materialize.toast(data, 50000);
+$('.extra1').click(() => {
+    socket.emit('addExtra', 1);
+});
+$('.extra2').click(() => {
+    socket.emit('addExtra', 2);
+});
+$('.extra3').click(() => {
+    socket.emit('addExtra', 3);
+});
+$('.extra4').click(() => {
+    socket.emit('addExtra', 4);
+});
+$('.extra5').click(() => {
+    socket.emit('addExtra', 5);
 });
 
-socket.on("enable", extra => {
-  $(extra).removeClass("disabled");
+socket.on('getDonuts', function (data) {
+    $('.nbDonuts').text(data);
+    updateAchievement();
+});
+
+socket.on('toast', (data) => {
+    Materialize.toast(data, 1000);
+});
+
+socket.on('enable', (extra) => {
+    if (extra !== null) {
+        $(extra).removeClass('disabled');
+    }
+});
+
+socket.on('getExtra', (extra, count, donuts, donutsPerSec) => {
+    $('.extra' + extra + ' .extra-counter span').text(count);
+    $('.nbDonuts').text(donuts);
+    $('.donutsPerSec').text(donutsPerSec);
 });
