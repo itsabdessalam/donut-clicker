@@ -1,17 +1,17 @@
 /* jshint esversion: 6*/
 const socket = io();
 // YesSong
-const maggie = new Audio("https://www.memoclic.com/medias/sons-wav/0/8.mp3");
-const bart = new Audio("");
-const lisa = new Audio("");
-const marge = new Audio("");
-const homer = new Audio("https://www.memoclic.com/medias/sons-wav/0/8.mp3");
+const maggie = new Audio("/songs/maggie.mp3");
+const bart = new Audio("/songs/bart.mp3");
+const lisa = new Audio("/songs/lisa.mp3");
+const marge = new Audio("/songs/marge.mp3");
+const homer = new Audio("/songs/homer.mp3");
 // NoSong
-const NoMaggie = new Audio("");
-const NoBart = new Audio("");
-const NoLisa = new Audio("");
-const NoMarge = new Audio("https://www.memoclic.com/medias/sons-wav/1/404.mp3");
-const NoHomer = new Audio("http://www.soundboard.com/sb/sound/97830");
+const NoMaggie = new Audio("/songs/NoMaggie.mp3");
+const NoBart = new Audio("/songs/NoBart.mp3");
+const NoLisa = new Audio("/songs/NoLisa.mp3");
+const NoMarge = new Audio("/songs/NoMarge.mp3");
+const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 socket.on("init", game => {
   $(".nbDonuts").text(game.donuts);
@@ -66,13 +66,16 @@ socket.on("getExtra", (extra, count, donuts, donutsPerSec) => {
 socket.on("playYesSong", extra => {
   switch (extra) {
     case 1:
-      lisa.play();
+      maggie.play();
       break;
     case 2:
+      bart.play();
       break;
     case 3:
+      lisa.play();
       break;
     case 4:
+      marge.play();
       break;
     case 5:
       homer.play();
@@ -83,10 +86,13 @@ socket.on("playYesSong", extra => {
 socket.on("playNoSong", extra => {
   switch (extra) {
     case 1:
+      NoMaggie.play();
       break;
     case 2:
+      NoBart.play();
       break;
     case 3:
+      NoLisa.play();
       break;
     case 4:
       NoMarge.play();
