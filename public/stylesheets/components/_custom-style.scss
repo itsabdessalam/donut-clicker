@@ -188,6 +188,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
     color: #ef4c5d;
 }
 
+.main.index .tabs .tab a.active {
+    font-weight: 600;
+}
+
 .main.index .tabs .indicator {
     position: absolute;
     bottom: 0;
@@ -316,4 +320,12 @@ textarea.materialize-textarea:focus:not([readonly]) {
     100% {
         max-width: 200px;
     }
+}
+
+.main.index .game .options .thumb {
+    display: none;
+}
+
+.main.index .game .options i.material-icons {
+    vertical-align: middle;
 }

@@ -96,7 +96,11 @@ block content
                         .extra-counter
                           span 0
               
-        #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 2
+        #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.options
+          .volume
+            span
+              i.material-icons volume_up
+            input#vol(style='width: 75%;', type='range', min='0', max='1', step='0.01', value='1')
         #stats.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 3
         #gains.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 4
 

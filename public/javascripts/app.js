@@ -10,6 +10,7 @@ socket.on('init', (game) => {
 
 $('#donutLink').click(() => {
     socket.emit('addDonut', true);
+    $('#donutLink img').toggleClass('transition');
 });
 
 $('.extra1').click(() => {
