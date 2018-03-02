@@ -7143,7 +7143,11 @@ textarea.materialize-textarea:focus:not([readonly]) {
   padding-top: 5px;
   padding-right: 20px;
   padding-left: 20px;
-  user-select: none; }
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
 
 .main.index .game .extras-part .extra1 .card {
   background-color: #ed599c !important; }
