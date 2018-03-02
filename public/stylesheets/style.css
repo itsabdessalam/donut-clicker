@@ -7206,6 +7206,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   display: none; }
 
 .main.index .game .options i.material-icons {
-  vertical-align: middle; }
+  vertical-align: middle;
+  margin-right: 10px; }
 
 /*# sourceMappingURL=style.css.map */
