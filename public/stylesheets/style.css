@@ -7142,7 +7142,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
   padding: 0;
   padding-top: 5px;
   padding-right: 20px;
-  padding-left: 20px; }
+  padding-left: 20px;
+  user-select: none; }
 
 .main.index .game .extras-part .extra1 .card {
   background-color: #ed599c !important; }
