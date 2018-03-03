@@ -9,7 +9,11 @@ const sassMiddleware = require("node-sass-middleware");
 const flash = require("connect-flash");
 
 const expressValidator = require("express-validator");
-const session = require("express-session");
+const session = require("express-session")({
+  secret: "secret",
+  saveUninitialized: true,
+  resave: true
+});
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
@@ -81,13 +85,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 //express-session
-app.use(
-  session({
-    secret: "secret",
-    saveUninitialized: true,
-    resave: true
-  })
-);
+app.use(session);
 
 //init passport
 app.use(passport.initialize());
@@ -115,7 +113,7 @@ app.use(
 // use flash
 app.use(flash());
 // Declare global vars
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
@@ -144,4 +142,5 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render("error");
 });
-module.exports = app;
+module.exports.app = app;
+module.exports.session = session;
