@@ -7,7 +7,92 @@ module.exports = function (io) {
         autoSave: true
     }));
     io.on('connection', function (socket) {
-        let game = null;
+        const game = {
+            info: null,
+            unlockAchievement: [{
+                    isUnlock: () => {
+                        if (game.info.donuts >= 10) {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                {
+                    isUnlock: () => {
+                        if (game.info.donuts >= 200) {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                {
+                    isUnlock: () => {
+                        if (game.info.donuts >= 3000) {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                {
+                    isUnlock: () => {
+                        if (game.info.donuts >= 40000) {
+                            return true;
+                        }
+                        return false;
+                    }
+                },
+                {
+                    isUnlock: () => {
+                        if (game.info.donuts >= 500000) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            ],
+            save: () => {
+                axios({
+                        method: 'put',
+                        url: '/save',
+                        baseURL: 'http://localhost:3000',
+                        data: {
+                            id: socket.handshake.session.passport.user,
+                            backup: game.info
+                        },
+                    })
+                    .then((response) => {
+                        console.log(response.data);
+                        if (response.data.saved) {
+                            socket.emit('toast', 'Partie Sauvegardé !');
+                            console.log('saved');
+                        } else {
+                            socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !');
+                            console.log('not saved');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+            achievements: () => {
+                game.info.achievements.forEach((achievement, index) => {
+                    if (!achievement.enable) {
+                        const regex = /\d/;
+                        achievement.enable = game.info.extra[regex.exec(achievement.unlock)].enable = game.unlockAchievement[index].isUnlock();
+                        if (achievement.enable) {
+                            socket.emit("toast", achievement.name);
+                            socket.emit("enable", achievement.unlock);
+                        }
+                    }
+                });
+            },
+            donutsPerSec: () => {
+                game.info.donuts += game.info.donutsPerS;
+                game.info.donutsTot += game.info.donutsPerS;
+                game.achievements();
+                socket.emit("getDonuts", game.info.donuts);
+            },
+        };
         //console.log('Socket Session');
         //console.log(socket.handshake.session);
         const newGame = {
@@ -90,93 +175,6 @@ module.exports = function (io) {
             ],
         };
 
-        const achievementsIsUnlock = [{
-                isUnlock: () => {
-                    if (game.donuts >= 10) {
-                        return true;
-                    }
-                    return false;
-                }
-            },
-            {
-                isUnlock: () => {
-                    if (game.donuts >= 200) {
-                        return true;
-                    }
-                    return false;
-                }
-            },
-            {
-                isUnlock: () => {
-                    if (game.donuts >= 3000) {
-                        return true;
-                    }
-                    return false;
-                }
-            },
-            {
-                isUnlock: () => {
-                    if (game.donuts >= 40000) {
-                        return true;
-                    }
-                    return false;
-                }
-            },
-            {
-                isUnlock: () => {
-                    if (game.donuts >= 500000) {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        ];
-
-        function save() {
-            axios({
-                    method: 'put',
-                    url: '/save',
-                    baseURL: 'http://localhost:3000',
-                    data: {
-                        id: socket.handshake.session.passport.user,
-                        backup: game
-                    },
-                })
-                .then((response) => {
-                    console.log(response.data);
-                    if (response.data.saved) {
-                        socket.emit('toast', 'Partie Sauvegardé !');
-                        console.log('saved');
-                    } else {
-                        socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !');
-                        console.log('not saved');
-                    }
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-
-        function achievements() {
-            game.achievements.forEach((achievement, index) => {
-                if (!achievement.enable) {
-                    achievement.enable = achievementsIsUnlock[index].isUnlock();
-                    if (achievement.enable) {
-                        socket.emit("toast", achievement.name);
-                        const regex = /\d/;
-                        game.extra[regex.exec(achievement.unlock)].enable = true;
-                        socket.emit("enable", achievement.unlock);
-                    }
-                }
-            });
-        }
-
-        function donutsPerSec() {
-            game.donuts += game.donutsPerS;
-            game.donutsTot += game.donutsPerS;
-            achievements();
-            socket.emit("getDonuts", game.donuts);
-        }
         if ('passport' in socket.handshake.session) {
 
             axios({
@@ -191,17 +189,17 @@ module.exports = function (io) {
                     //console.log(response);
                     console.log(response.data);
                     if (response.data.backup !== null) {
-                        game = JSON.parse(response.data.backup);
+                        game.info = JSON.parse(response.data.backup);
                         console.log('Game Retrieve');
                     } else {
-                        game = newGame;
+                        game.info = newGame;
                         console.log('New Game');
                     }
                     //console.log(game);
                     console.log('Initialize game...');
-                    socket.emit('init', game);
-                    setInterval(save, 30000);
-                    setInterval(donutsPerSec, 1000);
+                    socket.emit('init', game.info);
+                    setInterval(game.save, 30000);
+                    setInterval(game.donutsPerSec, 1000);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -211,18 +209,18 @@ module.exports = function (io) {
 
 
             socket.on('addDonut', (data) => {
-                game.donutsTot += 1;
-                game.donuts += 1;
-                achievements();
-                socket.emit('getDonuts', game.donuts);
+                game.info.donutsTot += 1;
+                game.info.donuts += 1;
+                game.achievements();
+                socket.emit('getDonuts', game.info.donuts);
             });
 
             socket.on('addExtra', (extra) => {
-                if (game.donuts >= game.extra[extra].cost) {
-                    game.extra[extra].count++;
-                    game.donuts -= game.extra[extra].cost;
-                    game.donutsPerS += game.extra[extra].bonus.donutsPerSec;
-                    socket.emit('getExtra', extra, game.extra[extra].count, game.donuts, game.donutsPerS);
+                if (game.info.donuts >= game.info.extra[extra].cost) {
+                    game.info.extra[extra].count++;
+                    game.info.donuts -= game.info.extra[extra].cost;
+                    game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec;
+                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS);
                     socket.emit("playYesSong", extra);
 
                 } else {
