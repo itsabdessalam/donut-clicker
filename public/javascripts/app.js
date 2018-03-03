@@ -13,12 +13,13 @@ const NoLisa = new Audio("/songs/NoLisa.mp3");
 const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
-socket.on("init", game => {
-  $(".nbDonuts").text(game.donuts);
-  $(".donutsPerSec").text(game.donutsPerS);
-  for (i = 1; i < 6; i++) {
-    $(".extra" + i + " .extra-counter span").text(game.extra[i].count);
-  }
+socket.on('init', (game) => {
+    $('.nbDonuts').text(game.donuts);
+    console.log(JSON.stringify(game));
+    $('.donutsPerSec').text(game.donutsPerS);
+    for (i = 1; i < 6; i++) {
+        $('.extra' + i + ' .extra-counter span').text(game.extra[i].count);
+    }
 });
 
 $("#donutLink").click(() => {
@@ -42,9 +43,8 @@ $(".extra5").click(() => {
   socket.emit("addExtra", 5);
 });
 
-socket.on("getDonuts", function(data) {
-  $(".nbDonuts").text(data);
-  updateAchievement();
+socket.on('getDonuts', function (data) {
+    $('.nbDonuts').text(data);
 });
 
 socket.on("toast", data => {
