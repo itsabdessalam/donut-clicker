@@ -17,7 +17,7 @@ block content
             li.tab.col.s3
               a(href='#stats') Stats
               li.tab.col.s3
-                a(href='#gains') Gains
+                a(href='#gains') Success
       .valign-wrapper.row
         #game.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2
           .row
@@ -32,6 +32,21 @@ block content
               .main-donut
                 a(id="donutLink")
                   img(src="/images/main-donut.png", alt="")
+              .bonus
+                .bonus-title Bonus
+                .col.s2.bonus-item
+                  .bonus-content 1
+                    //-  img(src="", alt="")
+                .col.s2.bonus-item
+                  .bonus-content 2
+                .col.s2.bonus-item
+                  .bonus-content 3
+                .col.s2.bonus-item
+                  .bonus-content 4
+                .col.s2.bonus-item
+                  .bonus-content 5
+                .col.s2.bonus-item
+                  .bonus-content 6
             .col.s6.extras-part
               .title Extras
               .extra1.disabled
@@ -40,12 +55,15 @@ block content
                     .card.hoverable.blue
                       .card-content.white-text
                         .extra-head
-                          img(src="/images/simpson/maggie.png", alt="",width="72px")
+                          img(class="extra-head-img" src="/images/simpson/maggie.png", alt="",width="72px")
+                          img(class="extra-head-shadow  hidden" src="/images/simpson/simpson-shadow/maggie_shadow.png", alt="",width="72px")
                         .extra-infos
                           span.extra-title Maggie
                           span.extra-cost 10
+                          span.extra-donut
+                            img(src="/images/donut1.png", alt="",width="15px")
                         .extra-counter
-                          span 0
+                          span
 
               .extra2.disabled
                 .row
@@ -53,48 +71,60 @@ block content
                     .card.hoverable.blue
                       .card-content.white-text
                         .extra-head
-                          img(src="/images/simpson/lisa.png", alt="",width="72px")
+                          img(class="extra-head-img" src="/images/simpson/bart.png", alt="",width="70px")
+                          img(class="extra-head-shadow  hidden" src="/images/simpson/simpson-shadow/bart_shadow.png", alt="",width="70px")
                         .extra-infos
-                          span.extra-title Lisa
+                          span.extra-title Bart
                           span.extra-cost 200
+                          span.extra-donut
+                            img(src="/images/donut1.png", alt="",width="15px")
                         .extra-counter
-                          span 0
+                          span
               .extra3.disabled
                 .row
                   .col.s12
                     .card.hoverable.blue
                       .card-content.white-text
                         .extra-head
-                          img(src="/images/simpson/bart.png", alt="",width="70px")
+                          img(class="extra-head-img" src="/images/simpson/lisa.png", alt="",width="72px")
+                          img(class="extra-head-shadow  hidden" src="/images/simpson/simpson-shadow/lisa_shadow.png", alt="",width="72px")
                         .extra-infos
-                          span.extra-title Bart
+                          span.extra-title Lisa
                           span.extra-cost 3000
+                          span.extra-donut
+                            img(src="/images/donut1.png", alt="",width="15px")
                         .extra-counter
-                          span 0
+                          span
               .extra4.disabled
                 .row
                   .col.s12
                     .card.hoverable.blue
                       .card-content.white-text
                         .extra-head
-                          img(src="/images/simpson/marge.png", alt="",width="70px")
+                          img(class="extra-head-img" src="/images/simpson/marge.png", alt="",width="70px")
+                          img(class="extra-head-shadow  hidden" src="/images/simpson/simpson-shadow/marge_shadow.png", alt="",width="70px")
                         .extra-infos
                           span.extra-title Marge
                           span.extra-cost 40000
+                          span.extra-donut
+                            img(src="/images/donut1.png", alt="",width="15px")
                         .extra-counter
-                          span 0
+                          span
               .extra5.disabled
                 .row
                   .col.s12
                     .card.hoverable.blue
                       .card-content.white-text
                         .extra-head
-                          img(src="/images/simpson/homer.png", alt="",width="70px")
+                          img(class="extra-head-img" src="/images/simpson/homer.png", alt="",width="70px")
+                          img(class="extra-head-shadow hidden" src="/images/simpson/simpson-shadow/homer_shadow.png", alt="",width="70px")
                         .extra-infos
                           span.extra-title Homer
                           span.extra-cost 500000
+                          span.extra-donut
+                            img(src="/images/donut1.png", alt="",width="15px")
                         .extra-counter
-                          span 0
+                          span
 
         #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.options
           .volume

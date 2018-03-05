@@ -6955,6 +6955,10 @@ body {
   padding-top: 20px;
   overflow: auto; }
 
+.hidden {
+  opacity: 0;
+  display: none; }
+
 .disabled {
   opacity: .5; }
 
@@ -7123,11 +7127,14 @@ textarea.materialize-textarea:focus:not([readonly]) {
   margin-top: 20px; }
 
 .main.index .game .main-donut {
-  margin-bottom: 75px;
-  margin-top: 75px; }
+  margin-bottom: 10px;
+  margin-top: 50px;
+  height: 220px; }
 
 .main.index .game .main-donut a {
-  cursor: pointer; }
+  cursor: pointer;
+  vertical-align: middle;
+  line-height: 220px; }
 
 .main.index .game .main-donut a img {
   transition: all 0.2s; }
@@ -7153,10 +7160,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
   background-color: #ed599c !important; }
 
 .main.index .game .extras-part .extra2 .card {
-  background-color: #22a15b !important; }
+  background-color: #52bedb !important; }
 
 .main.index .game .extras-part .extra3 .card {
-  background-color: #52bedb !important; }
+  background-color: #22a15b !important; }
 
 .main.index .game .extras-part .extra4 .card {
   background-color: #e6531b !important; }
@@ -7177,7 +7184,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
   float: left;
   width: 15%; }
 
-.main.index .game .extra-head img {
+.main.index .game .extra-head img.extra-head-img {
+  vertical-align: bottom; }
+
+.main.index .game .extra-head img.extra-head-shadow {
   vertical-align: bottom; }
 
 .main.index .game .card-content {
@@ -7213,5 +7223,23 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .main.index .game .options i.material-icons {
   vertical-align: middle;
   margin-right: 10px; }
+
+.main.index .game .extras-part .extra-cost {
+  margin-right: 5px; }
+
+.main.index .game .extras-part .extra-donut img {
+  vertical-align: -2px; }
+
+.main.index .game .bonus .bonus-content {
+  width: 50px;
+  line-height: 50px;
+  box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
+  border-radius: 2px; }
+
+.main.index .game .bonus .bonus-title {
+  color: #3365b4;
+  font-family: Simpson;
+  font-size: 20px;
+  margin-bottom: 45px; }
 
 /*# sourceMappingURL=style.css.map */
