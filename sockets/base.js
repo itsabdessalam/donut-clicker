@@ -1,3 +1,5 @@
+import { isObject } from 'util';
+
 const axios = require('axios');
 const session = require('../app').session;
 const url = require('url');
@@ -199,7 +201,11 @@ module.exports = function (io) {
                     //console.log(response);
                     console.log(response.data);
                     if (response.data.backup !== null) {
-                        game.info = response.data.backup;
+                        if (isObject(response.data.backup)) {
+                            game.info = response.data.backup;
+                        } else {
+                            game.info = JSON.parse(response.data.backup);
+                        }
                         console.log('Game Retrieve');
                     } else {
                         game.info = newGame;
