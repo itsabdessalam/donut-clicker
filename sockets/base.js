@@ -123,7 +123,7 @@ module.exports = function (io) {
                 },
                 2: {
                     enable: false,
-                    name: 'Lisa',
+                    name: 'Bart',
                     count: 0,
                     cost: 200,
                     bonus: {
@@ -132,7 +132,7 @@ module.exports = function (io) {
                 },
                 3: {
                     enable: false,
-                    name: 'Bart',
+                    name: 'Lisa',
                     count: 0,
                     cost: 3000,
                     bonus: {
@@ -165,12 +165,12 @@ module.exports = function (io) {
                     unlock: '.extra1',
                 },
                 'bart': {
-                    name: 'Lisa débloqué !',
+                    name: 'Bart débloqué !',
                     enable: false,
                     unlock: '.extra2',
                 },
                 'lisa': {
-                    name: 'Bart débloqué !',
+                    name: 'Lisa débloqué !',
                     enable: false,
                     unlock: '.extra3',
                 },
