@@ -26,7 +26,7 @@ const UserSchema = mongoose.Schema({
     type: String
   },
   backup: {
-    type: String,
+    type: JSON,
     default: null
   }
 });

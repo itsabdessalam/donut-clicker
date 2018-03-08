@@ -17,7 +17,10 @@ socket.on('init', (game) => {
   $('.nbDonuts').text(game.donuts);
   $('.donutsPerSec').text(game.donutsPerS);
   for (i = 1; i < 6; i++) {
-    $('.extra' + i + ' .extra-counter span').text(game.extra[i].count);
+    const extra = '.extra' + i;
+    $(extra + ' .extra-counter span').text(game.extra[i].count);
+    $(extra + ' .extra-infos .extra-cost').text(game.extra[i].cost);
+    $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
     if (game.extra[i].enable) {
       $('.extra' + i).removeClass("disabled");
     }
@@ -46,7 +49,7 @@ $(".extra5").click(() => {
 });
 
 socket.on('getDonuts', function (data) {
-  $('.nbDonuts').text(data);
+  $('.nbDonuts').text(Math.trunc(data));
 });
 
 socket.on("toast", data => {
@@ -59,7 +62,8 @@ socket.on("enable", extra => {
   }
 });
 
-socket.on("getExtra", (extra, count, donuts, donutsPerSec) => {
+socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
+  $(".extra" + extra + " .extra-infos .extra-cost").text(costExtra);
   $(".extra" + extra + " .extra-counter span").text(count);
   $(".nbDonuts").text(donuts);
   $(".donutsPerSec").text(donutsPerSec);

@@ -6,8 +6,8 @@ const User = require("../models/user");
 
 /* GET home page. */
 router.get('/', ensureAuthenticated, (req, res) => {
-  console.log("Browser session");
-  console.log(req.session);
+  //console.log("Browser session");
+  //console.log(req.session);
   res.render('index', {
     title: 'Express',
     user: req.user
@@ -37,14 +37,14 @@ router.get('/backup', (req, res) => {
 
 router.put('/save', (req, res) => {
   console.log('Saving...');
-  console.log('Game info are :');
-  console.log(JSON.stringify(req.body));
+  //console.log('Game info are :');
+  //console.log(JSON.stringify(req.body));
   //console.log(req.user);
   if ('id' in req.body) {
     User.getUserById(req.body.id, (err, user) => {
       if (err) throw err;
 
-      user.backup = JSON.stringify(req.body.backup);
+      user.backup = req.body.backup;
 
       user.save(function (err) {
         if (err) throw err;
