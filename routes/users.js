@@ -58,8 +58,7 @@ router.post("/signup", (req, res) => {
 //use passport strategy and redefine, by default login is with username
 passport.use(
   "local",
-  new LocalStrategy(
-    {
+  new LocalStrategy({
       usernameField: "email",
       passwordField: "password"
     },
