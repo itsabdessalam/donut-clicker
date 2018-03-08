@@ -14,6 +14,8 @@ module.exports = function (io) {
         callback(null, true);
     });
     io.on('connection', function (socket) {
+        let save;
+        let dPs;
         const game = {
             info: null,
             unlockAchievement: {
@@ -206,8 +208,8 @@ module.exports = function (io) {
                     //console.log(game);
                     console.log('Initialize game...');
                     socket.emit('init', game.info);
-                    const save = setInterval(game.save, 30000);
-                    const dPs = setInterval(game.donutsPerSec, 10);
+                    save = setInterval(game.save, 30000);
+                    dPs = setInterval(game.donutsPerSec, 10);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -239,11 +241,13 @@ module.exports = function (io) {
                 }
             });
 
+            socket.on("disconnect", function () {
+                game.save();
+                clearInterval(save);
+                clearInterval(dPs);
+                console.log('Exit Game');
+            });
         }
 
-        socket.on("disconnect", function () {
-            clearInterval(save);
-            clearInterval(dPs);
-        });
     });
 };
