@@ -127,10 +127,18 @@ block content
                           span
 
         #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.options
-          .volume
-            span
-              i.material-icons volume_up
-            input#vol(style='width: 75%;', type='range', min='0', max='1', step='0.01', value='1')
+          .opt-main
+            .volume
+              span
+                i.material-icons volume_up 
+                | Volume
+                .switch
+                  label
+                    | Off
+                    input(type='checkbox')
+                    span.lever
+                    | On
+
         #stats.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2
           table.striped.responsive-table.stats
             thead

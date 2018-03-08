@@ -7242,4 +7242,11 @@ textarea.materialize-textarea:focus:not([readonly]) {
   font-size: 20px;
   margin-bottom: 45px; }
 
+.main.index .options .opt-main {
+  text-align: left;
+  padding: 50px; }
+
+.main.index .options .opt-main .switch {
+  margin: 20px; }
+
 /*# sourceMappingURL=style.css.map */
