@@ -210,6 +210,9 @@ module.exports = function (io) {
                         game.info = newGame;
                         console.log('New Game');
                     }
+                    if (!game.info.hasOwnProperty('donutsPerC')) {
+                        game.info.donutsPerC = 1;
+                    }
                     //console.log(game);
                     console.log('Initialize game...');
                     socket.emit('init', game.info);
