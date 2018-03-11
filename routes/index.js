@@ -9,7 +9,7 @@ router.get('/', ensureAuthenticated, (req, res) => {
   //console.log("Browser session");
   //console.log(req.session);
   res.render('index', {
-    title: 'Express',
+    title: 'Donut Clicker',
     user: req.user
   });
 });

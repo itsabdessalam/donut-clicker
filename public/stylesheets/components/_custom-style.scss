@@ -15,11 +15,21 @@ body {
     background-repeat: no-repeat;
     padding-top: 20px;
     overflow: auto;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .hidden {
     opacity: 0;
     display: none;
+}
+
+.visible {
+    opacity: 1 !important;
+    display: initial !important;
 }
 
 .disabled {
@@ -34,6 +44,12 @@ body {
     background: transparent;
     box-shadow: none;
     padding: 0 30px;
+}
+
+.custom-nav [class^='ion-'] {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 
 .custom-nav .brand-logo {
@@ -227,16 +243,35 @@ textarea.materialize-textarea:focus:not([readonly]) {
     margin-bottom: 10px;
     margin-top: 50px;
     height: 220px;
+    position: relative;
 }
 
 .main.index .game .main-donut a {
     cursor: pointer;
     vertical-align: middle;
     line-height: 220px;
+    position: relative;
+}
+
+.main.index .game .main-donut span.donutParticle {
+    position: absolute;
+    background: url('/images/donut1.png') no-repeat;
+    background-size: 22px 22px;
+    width: 22px;
+    height: 22px;
+}
+
+.main.index .game .main-donut span.donutParticleNb {
+    font-family: 'Lemon', sans-serif;
+    color: #fbd429;
+    position: absolute;
+    left: 0;
+    top: -120px;
 }
 
 .main.index .game .main-donut a img {
     transition: all 0.2s;
+    vertical-align: middle
 }
 
 .main.index .game .main-donut a:hover img {
@@ -322,23 +357,25 @@ textarea.materialize-textarea:focus:not([readonly]) {
     line-height: 60px;
 }
 
-.main.index .game .main-donut .transition {
-    animation: donutSlide;
-    animation-duration: 0.1s;
+.main.index .game .main-donut a:active img {
+    transform: translateY(4px);
 }
 
-@keyframes donutSlide {
-    0% {
-        max-width: 200px;
-    }
-    50% {
-        max-width: 180px;
-    }
-    100% {
-        max-width: 200px;
-    }
-}
-
+// .main.index .game .main-donut .transition {
+//     animation: donutSlide;
+//     animation-duration: 0.1s;
+// }
+// @keyframes donutSlide {
+//     0% {
+//         max-width: 200px;
+//     }
+//     50% {
+//         max-width: 150px;
+//     }
+//     100% {
+//         max-width: 200px;
+//     }
+// }
 .main.index .game .options .thumb {
     display: none;
 }

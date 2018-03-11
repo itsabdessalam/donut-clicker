@@ -4,6 +4,7 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title= title
     link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    link(rel="stylesheet", href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css")
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     nav(class="custom-nav")
@@ -11,16 +12,22 @@ html
         a.brand-logo(href='#') 
           img(src="/images/logo-nav.png", alt="",width="160px")
         ul#nav-mobile.right.hide-on-med-and-down
-          li
-            a(href='') Donut
-          li
-            a(href='') Cookie
           if user
             li
-              a(href='/users/logout') Déconnexion
+              a(href='') 
+                i.ion-ios-help-outline
+                | Comment jouer ?
+            li
+              a(href='') 
+               i.ion-ios-person
+               | Profile
+
+            li
+              a(href='/users/logout') 
+                i.ion-log-in 
+                | Déconnexion
     block content
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(src="/javascripts/materialize/bin/materialize.min.js")
   block script
-    
-  
+

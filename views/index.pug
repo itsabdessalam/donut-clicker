@@ -32,6 +32,9 @@ block content
               .main-donut
                 a(id="donutLink")
                   img(src="/images/main-donut.png", alt="")
+                  span.donutParticle.hidden
+                    span.donutParticleNb +10
+
               .bonus
                 .bonus-title Bonus
                 .col.s2.bonus-item
@@ -166,6 +169,20 @@ block content
 block script
   script(src='/socket.io/socket.io.js')
   script(src="/javascripts/app.js")
+  //-script test
+  script.
+    const smallDonut = $(".donutParticle");
+    const container = $("#donutLink");
 
+    container.click(function(e){
+      const xPosition = (event.pageX - this.getBoundingClientRect().left - (smallDonut.innerWidth() / 2));
+      const yPosition = event.pageY - this.getBoundingClientRect().top - (smallDonut.innerHeight() / 2);
+      smallDonut.css({left:xPosition,top:yPosition});
+      smallDonut.removeClass("hidden").fadeOut("slow");
+      smallDonut.addClass("visible").fadeIn("slow");
+      setTimeout(function () {      
+          smallDonut.removeClass("visible").fadeOut("slow");
+          smallDonut.addClass("hidden").fadeIn("slow");
+      }, 300);
 
-
+    });
