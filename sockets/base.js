@@ -16,7 +16,7 @@ module.exports = function (io) {
     });
     io.on('connection', function (socket) {
         let save;
-        let dPs;
+        let refresh;
         const game = {
             info: null,
             unlockAchievement: {
@@ -217,14 +217,14 @@ module.exports = function (io) {
                     console.log('Initialize game...');
                     socket.emit('init', game.info);
                     save = setInterval(game.save, 30000);
-                    dPs = setInterval(game.donutsPerSec, 10);
+                    refresh = setInterval(() => {
+                        game.donutsPerSec();
+                        socket.emit('getRefresh', game.info);
+                    }, 10);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-
-
-
 
             socket.on('addDonut', (data) => {
                 game.info.donutsTot += game.info.donutsPerC;
@@ -252,7 +252,7 @@ module.exports = function (io) {
             socket.on("disconnect", function () {
                 game.save();
                 clearInterval(save);
-                clearInterval(dPs);
+                clearInterval(refresh);
                 console.log('Exit Game');
             });
         }

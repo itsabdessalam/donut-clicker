@@ -14,8 +14,10 @@ const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 socket.on('init', (game) => {
+  console.log('Init Game...');
   $('.nbDonuts').text(game.donuts);
   $('.donutsPerSec').text(game.donutsPerS);
+  $('.donutParticleNb').text('+' + game.donutsPerC);
   for (i = 1; i < 6; i++) {
     const extra = '.extra' + i;
     $(extra + ' .extra-counter span').text(game.extra[i].count);
@@ -23,8 +25,12 @@ socket.on('init', (game) => {
     $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
     if (game.extra[i].enable) {
       $('.extra' + i).removeClass("disabled");
+    } else {
+      $(extra + ' .extra-head-img').addClass('hidden');
+      $(extra + ' .extra-head-shadow').removeClass('hidden');
     }
   }
+  console.log('Done');
 });
 
 $("#donutLink").click(() => {
@@ -58,7 +64,9 @@ socket.on("toast", data => {
 
 socket.on("enable", extra => {
   if (extra !== null) {
-    $(extra).removeClass("disabled");
+    $(extra).removeClass('disabled');
+    $(extra + ' .extra-head-img').removeClass('hidden');
+    $(extra + ' .extra-head-shadow').addClass('hidden');
   }
 });
 
@@ -106,5 +114,16 @@ socket.on("playNoSong", extra => {
     case 5:
       NoHomer.play();
       break;
+  }
+});
+
+socket.on('getRefresh', (infos) => {
+
+  for (let property in infos.extra) {
+    if (infos.extra[property].cost > infos.donuts) {
+      $('.extra' + property).addClass('disabled');
+    } else {
+      $('.extra' + property).removeClass('disabled');
+    }
   }
 });
