@@ -15,13 +15,15 @@ const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 socket.on('init', (game) => {
   console.log('Init Game...');
-  $('.nbDonuts').text(game.donuts);
-  $('.donutsPerSec').text(game.donutsPerS);
-  $('.donutParticleNb').text('+' + game.donutsPerC);
+  $('.nbDonuts').text(beautifyNumber(game.donuts));
+  $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
+  $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC));
   for (i = 1; i < 6; i++) {
     const extra = '.extra' + i;
-    $(extra + ' .extra-counter span').text(game.extra[i].count);
-    $(extra + ' .extra-infos .extra-cost').text(game.extra[i].cost);
+    $(extra + ' .extra-counter span').text(beautifyNumber(game.extra[i].count));
+    console.log(beautifyNumber(game.extra[i].count));
+    console.log(typeof (game.extra[i].count));
+    $(extra + ' .extra-infos .extra-cost').text(beautifyNumber(game.extra[i].cost));
     $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
     if (game.extra[i].enable) {
       $('.extra' + i).removeClass("disabled");
@@ -55,7 +57,7 @@ $(".extra5").click(() => {
 });
 
 socket.on('getDonuts', function (data) {
-  $('.nbDonuts').text(Math.trunc(data));
+  $('.nbDonuts').text(beautifyNumber(data));
 });
 
 socket.on("toast", data => {
@@ -71,10 +73,10 @@ socket.on("enable", extra => {
 });
 
 socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
-  $(".extra" + extra + " .extra-infos .extra-cost").text(costExtra);
-  $(".extra" + extra + " .extra-counter span").text(count);
-  $(".nbDonuts").text(donuts);
-  $(".donutsPerSec").text(donutsPerSec);
+  $(".extra" + extra + " .extra-infos .extra-cost").text(beautifyNumber(costExtra));
+  $(".extra" + extra + " .extra-counter span").text(beautifyNumber(count));
+  $(".nbDonuts").text(beautifyNumber(donuts));
+  $(".donutsPerSec").text(beautifyNumber(donutsPerSec));
 });
 
 socket.on("playYesSong", extra => {
@@ -127,3 +129,29 @@ socket.on('getRefresh', (infos) => {
     }
   }
 });
+
+function beautifyNumber(number) {
+
+  let unitKey = 0;
+
+  const unit = {
+    0: '',
+    1: ' K',
+    2: ' M',
+    3: ' MD',
+    4: ' BM',
+    5: ' BMD',
+  };
+
+  while (number >= 1000) {
+    number = precisionRound(number / 1000, 2);
+    unitKey++;
+  }
+
+  return number.toFixed(2) + unit[unitKey];
+}
+
+function precisionRound(number, precision) {
+  var factor = Math.pow(10, precision);
+  return Math.round(number * factor) / factor;
+}
