@@ -17,12 +17,10 @@ socket.on('init', (game) => {
   console.log('Init Game...');
   $('.nbDonuts').text(beautifyNumber(game.donuts));
   $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
-  $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC));
+  $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
   for (i = 1; i < 6; i++) {
     const extra = '.extra' + i;
-    $(extra + ' .extra-counter span').text(beautifyNumber(game.extra[i].count));
-    console.log(beautifyNumber(game.extra[i].count));
-    console.log(typeof (game.extra[i].count));
+    $(extra + ' .extra-counter span').text(beautifyNumber(game.extra[i].count, true));
     $(extra + ' .extra-infos .extra-cost').text(beautifyNumber(game.extra[i].cost));
     $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
     if (game.extra[i].enable) {
@@ -74,7 +72,7 @@ socket.on("enable", extra => {
 
 socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
   $(".extra" + extra + " .extra-infos .extra-cost").text(beautifyNumber(costExtra));
-  $(".extra" + extra + " .extra-counter span").text(beautifyNumber(count));
+  $(".extra" + extra + " .extra-counter span").text(beautifyNumber(count, true));
   $(".nbDonuts").text(beautifyNumber(donuts));
   $(".donutsPerSec").text(beautifyNumber(donutsPerSec));
 });
@@ -130,9 +128,10 @@ socket.on('getRefresh', (infos) => {
   }
 });
 
-function beautifyNumber(number) {
+function beautifyNumber(number, istrunc = false) {
 
   let unitKey = 0;
+  let trunc = true;
 
   const unit = {
     0: '',
@@ -144,11 +143,14 @@ function beautifyNumber(number) {
   };
 
   while (number >= 1000) {
+    trunc = false;
     number = precisionRound(number / 1000, 2);
     unitKey++;
   }
 
-  return number.toFixed(2) + unit[unitKey];
+  trunc = istrunc ? true : false;
+
+  return (trunc ? number : number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {
