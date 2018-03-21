@@ -253,7 +253,7 @@ module.exports = function (io) {
                 game.save();
                 clearInterval(save);
                 clearInterval(refresh);
-                console.log('Exit Game');
+                console.log(socket.handshake.session.passport.user + ' : Exit Game');
             });
         }
 
