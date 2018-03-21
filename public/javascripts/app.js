@@ -25,7 +25,7 @@ const songs = {
   }],
   "NoSong": [{
     "maggie": new Audio("/songs/NoMaggie.mp3"),
-    "bart": new Audio("/songs/NotBart.mp3"),
+    "bart": new Audio("/songs/NoBart.mp3"),
     "lisa": new Audio("/songs/NoLisa.mp3"),
     "marge": new Audio("/songs/NoMarge.mp3"),
     "homer": new Audio("/songs/NoHomer.mp3"),
