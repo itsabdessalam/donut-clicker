@@ -36,11 +36,11 @@ router.get('/backup', (req, res) => {
 });
 
 router.put('/save', (req, res) => {
-  console.log('Saving...');
-  //console.log('Game info are :');
-  //console.log(JSON.stringify(req.body));
-  //console.log(req.user);
   if ('id' in req.body) {
+    console.log(req.body.id + ' : Saving...');
+    //console.log('Game info are :');
+    //console.log(JSON.stringify(req.body));
+    //console.log(req.user);
     User.getUserById(req.body.id, (err, user) => {
       if (err) throw err;
 
@@ -48,7 +48,7 @@ router.put('/save', (req, res) => {
 
       user.save(function (err) {
         if (err) throw err;
-        console.log('Game Saved !');
+        console.log(req.body.id + ' : Game Saved !');
         res.send({
           saved: true
         });

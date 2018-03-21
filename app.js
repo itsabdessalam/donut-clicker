@@ -20,7 +20,6 @@ const mongoose = require("mongoose");
 
 const index = require("./routes/index");
 const users = require("./routes/users");
-const socket = require("./routes/socket");
 
 const app = express();
 
@@ -41,6 +40,10 @@ mongoose.connect(
 app.get("/User", (req, res) =>
   usermodel.getAllUsers((err, user) => res.json(user))
 );
+
+app.put('/reset', usermodel.resetAllUsers);
+
+app.put('/reset/:id', usermodel.resetUserById);
 
 // // create collection
 // app.put("/User", (req, res) =>
@@ -123,7 +126,6 @@ app.use(function (req, res, next) {
 
 app.use("/", index);
 app.use("/users", users);
-app.use("/socket", socket);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

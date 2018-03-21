@@ -37,6 +37,42 @@ module.exports.getAllUsers = callback => {
   User.find({}, callback);
 };
 
+module.exports.resetAllUsers = (req, res) => {
+
+  User.find({}, function (err, users) {
+    if (err) throw err;
+    users.forEach(user => {
+
+      user.backup = null;
+
+      // save the user
+      user.save(function (err) {
+        if (err) throw err;
+        console.log('User successfully updated!');
+      });
+    });
+  });
+
+  res.redirect('/user');
+};
+
+module.exports.resetUserById = (req, res) => {
+
+  User.findById(req.params.id, function (err, user) {
+    if (err) throw err;
+
+    user.backup = null;
+
+    // save the user
+    user.save(function (err) {
+      if (err) throw err;
+      console.log(req.params.id + ' : User successfully updated!');
+    });
+  });
+
+  res.redirect('/user');
+};
+
 module.exports.createUser = (newUser, callback) => {
   bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(newUser.password, salt, (err, hash) => {
