@@ -2,6 +2,7 @@ const util = require('util');
 const axios = require('axios');
 const session = require('../app').session;
 const url = require('url');
+const moment = require('moment');
 const sharedsession = require('express-socket.io-session');
 
 module.exports = function (io) {
@@ -103,6 +104,15 @@ module.exports = function (io) {
                 game.achievements();
                 socket.emit("getDonuts", game.info.donuts);
             },
+            costTotal: (extra) => {
+                let costTot = 0;
+                for (let i = 0; i < game.info.buyMultiplier; i++) {
+                    costTot += game.info.extra[extra].cost;
+                    game.info.extra[extra].cost = Math.trunc(game.info.extra[extra].cost * 1.1);
+                }
+
+                return costTot;
+            },
         };
         //console.log('Socket Session');
         //console.log(socket.handshake.session);
@@ -111,6 +121,14 @@ module.exports = function (io) {
             donutsPerS: 0,
             donutsPerC: 1,
             donutsTot: 0,
+            clicks: 0,
+            donutsOnClick: 0,
+            countAll: 0,
+            buyMultiplier: 1,
+            start: moment().format(),
+            options: {
+
+            },
             extra: {
                 1: {
                     enable: false,
@@ -228,25 +246,32 @@ module.exports = function (io) {
 
             socket.on('addDonut', (data) => {
                 game.info.donutsTot += game.info.donutsPerC;
+                game.info.donutsOnClick += game.info.donutsPerC;
                 game.info.donuts += game.info.donutsPerC;
+                game.info.clicks++;
                 game.achievements();
                 socket.emit('getDonuts', game.info.donuts);
             });
 
             socket.on('addExtra', (extra) => {
-                if (game.info.donuts >= game.info.extra[extra].cost) {
-                    game.info.extra[extra].count++;
-                    game.info.donuts -= game.info.extra[extra].cost;
-                    game.info.extra[extra].cost = Math.trunc(game.info.extra[extra].cost * 1.2);
-                    game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec;
+                let cost = game.costTotal(extra);
+                if (game.info.donuts >= cost) {
+                    game.info.countAll += game.info.buyMultiplier;
+                    game.info.extra[extra].count += game.info.buyMultiplier;
+                    game.info.donuts -= cost;
+                    game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
                     socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS,
-                        game.info.extra[extra].cost);
+                        cost);
                     socket.emit("playYesSong", extra);
 
                 } else {
                     socket.emit("playNoSong", extra);
                     socket.emit('toast', 'Donuts insuffisant');
                 }
+            });
+
+            socket.on('updateBuy', (value) => {
+                game.info.buyMultiplier = value;
             });
 
             socket.on("disconnect", function () {
