@@ -52,6 +52,13 @@ $('.switchVolume').change(function (evt) {
     for (key in songs.YesSong[0]) {
       songs.YesSong[0][key].muted = true;
     }
+  } else {
+    for (key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = false;
+    }
+    for (key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = false;
+    }
   }
 });
 
