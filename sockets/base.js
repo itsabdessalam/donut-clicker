@@ -72,13 +72,13 @@ module.exports = function (io) {
                         },
                     })
                     .then((response) => {
-                        console.log(response.data);
+                        //console.log(response.data);
                         if (response.data.saved) {
                             socket.emit('toast', 'Partie Sauvegardé !');
-                            console.log('saved');
+                            console.log(socket.handshake.session.passport.user + ' : Game successfully saved !');
                         } else {
                             socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !');
-                            console.log('not saved');
+                            console.log(socket.handshake.session.passport.user + ' : Game not saved !');
                         }
                     })
                     .catch((error) => {
@@ -198,23 +198,23 @@ module.exports = function (io) {
                 })
                 .then((response) => {
                     //console.log(response);
-                    console.log(response.data);
+                    //console.log(response.data);
                     if (response.data.backup !== null) {
                         if (util.isObject(response.data.backup)) {
                             game.info = response.data.backup;
                         } else {
                             game.info = JSON.parse(response.data.backup);
                         }
-                        console.log('Game Retrieve');
+                        console.log(socket.handshake.session.passport.user + ' : Game Retrieve');
                     } else {
                         game.info = newGame;
-                        console.log('New Game');
+                        console.log(socket.handshake.session.passport.user + ' : New Game');
                     }
                     if (!game.info.hasOwnProperty('donutsPerC')) {
                         game.info.donutsPerC = 1;
                     }
                     //console.log(game);
-                    console.log('Initialize game...');
+                    console.log(socket.handshake.session.passport.user + ' : Initialize game...');
                     socket.emit('init', game.info);
                     save = setInterval(game.save, 30000);
                     refresh = setInterval(() => {

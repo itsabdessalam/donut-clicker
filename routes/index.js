@@ -17,14 +17,14 @@ router.get('/', ensureAuthenticated, (req, res) => {
 router.get('/backup', (req, res) => {
 
   if ('id' in req.query) {
-    console.log('Retrieve Backup...');
+    console.log(req.query.id + ' : Retrieve Backup...');
     User.getUserById(req.query.id, (err, user) => {
       if (err) throw err;
 
       res.send({
         backup: user.backup
       });
-      console.log('Backup loaded');
+      console.log(req.query.id + ' : Backup loaded');
     });
   } else {
     console.log('Undefined user');
