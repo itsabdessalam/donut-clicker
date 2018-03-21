@@ -14,6 +14,13 @@ const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 
+// test
+
+window.addEventListener("devicelight", function (event) {
+  var lux = event.value;
+  console.log(lux);
+});
+
 
 const songs = {
   "YesSong": [{

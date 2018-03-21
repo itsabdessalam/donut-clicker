@@ -7093,6 +7093,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .main.index .main-tabs {
   padding: 0; }
 
+.main.index .main-tabs li a {
+  outline: none; }
+
 .main.index .tab-item {
   padding: 20px; }
 

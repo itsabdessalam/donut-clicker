@@ -175,8 +175,10 @@ block script
     const container = $("#donutLink");
 
     container.click(function(e){
-      const xPosition = (event.pageX - this.getBoundingClientRect().left - (smallDonut.innerWidth() / 2));
-      const yPosition = event.pageY - this.getBoundingClientRect().top - (smallDonut.innerHeight() / 2);
+      const posX= e.pageX||e.clientX+document.body.scrollLeft;
+      const posY= e.pageY||e.clientY+document.body.scrollTop;
+      const xPosition = (posX - this.getBoundingClientRect().left - (smallDonut.innerWidth() / 2));
+      const yPosition = (posY - this.getBoundingClientRect().top - (smallDonut.innerHeight() / 2));
       smallDonut.css({left:xPosition,top:yPosition});
       smallDonut.removeClass("hidden").fadeOut("slow");
       smallDonut.addClass("visible").fadeIn("slow");
