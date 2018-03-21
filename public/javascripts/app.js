@@ -13,6 +13,50 @@ const NoLisa = new Audio("/songs/NoLisa.mp3");
 const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
+
+
+const songs = {
+  "YesSong": [{
+    "maggie": new Audio("/songs/maggie.mp3"),
+    "bart": new Audio("/songs/bart.mp3"),
+    "lisa": new Audio("/songs/lisa.mp3"),
+    "marge": new Audio("/songs/marge.mp3"),
+    "homer": new Audio("/songs/homer.mp3"),
+  }],
+  "NoSong": [{
+    "maggie": new Audio("/songs/NoMaggie.mp3"),
+    "bart": new Audio("/songs/NotBart.mp3"),
+    "lisa": new Audio("/songs/NoLisa.mp3"),
+    "marge": new Audio("/songs/NoMarge.mp3"),
+    "homer": new Audio("/songs/NoHomer.mp3"),
+  }]
+}
+
+// on by default
+$('.switchVolume').prop('checked', true);
+
+if ($('.switchVolume').prop('checked') !== true) {
+  for (key in songs.NoSong[0]) {
+    songs.NoSong[0][key].muted = true;
+  }
+  for (key in songs.YesSong[0]) {
+    songs.YesSong[0][key].muted = true;
+  }
+}
+
+$('.switchVolume').change(function (evt) {
+  if ($(this).prop('checked') !== true) {
+    for (key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = true;
+    }
+    for (key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = true;
+    }
+  }
+});
+
+
+
 socket.on('init', (game) => {
   console.log('Init Game...');
   $('.nbDonuts').text(beautifyNumber(game.donuts));
@@ -80,19 +124,19 @@ socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
 socket.on("playYesSong", extra => {
   switch (extra) {
     case 1:
-      maggie.play();
+      songs.YesSong[0].maggie.play();
       break;
     case 2:
-      bart.play();
+      songs.YesSong[0].bart.play();
       break;
     case 3:
-      lisa.play();
+      songs.YesSong[0].lisa.play();
       break;
     case 4:
-      marge.play();
+      songs.YesSong[0].marge.play();
       break;
     case 5:
-      homer.play();
+      songs.YesSong[0].homer.play();
       break;
   }
 });
@@ -100,19 +144,19 @@ socket.on("playYesSong", extra => {
 socket.on("playNoSong", extra => {
   switch (extra) {
     case 1:
-      NoMaggie.play();
+      songs.NoSong[0].maggie.play();
       break;
     case 2:
-      NoBart.play();
+      songs.NoSong[0].bart.play();
       break;
     case 3:
-      NoLisa.play();
+      songs.NoSong[0].lisa.play();
       break;
     case 4:
-      NoMarge.play();
+      songs.NoSong[0].marge.play();
       break;
     case 5:
-      NoHomer.play();
+      songs.NoSong[0].homer.play();
       break;
   }
 });
