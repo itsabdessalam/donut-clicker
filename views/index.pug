@@ -51,7 +51,19 @@ block content
                 .col.s2.bonus-item
                   .bonus-content 6
             .col.s6.extras-part
-              .title Extras
+              .title 
+                span.main-title Extras
+                .buy
+                  span
+                    input#value1(name='group1', type='radio',checked)
+                    label(for='value1') x 1
+                  span
+                    input#value10(name='group1', type='radio')
+                    label(for='value10') x 10
+                  span
+                    input#value100(name='group1', type='radio')
+                    label(for='value100') x 100
+
               .extra1.disabled
                 .row
                   .col.s12
@@ -131,6 +143,15 @@ block content
 
         #options.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.options
           .opt-main
+            .langage
+              span
+                i.ion-earth
+                | Langage
+                .opt-langages
+                  input#filled-in-box1.filled-in.opt1(type='checkbox')
+                  label(for='filled-in-box1') French
+                  input#filled-in-box2.filled-in.opt2(type='checkbox')
+                  label(for='filled-in-box2') English
             .volume
               span
                 i.material-icons volume_up 
@@ -141,6 +162,27 @@ block content
                     input(type='checkbox' class="switchVolume")
                     span.lever
                     | On
+            .music
+              span
+                i.ion-music-note
+                | Music
+                .switch
+                  label
+                    | Off
+                    input(type='checkbox' class="switchVolume")
+                    span.lever
+                    | On
+            .notifications
+              span
+                i.ion-ios-bell
+                | Notifications
+                .switch
+                  label
+                    | Off
+                    input(type='checkbox' class="switchVolume")
+                    span.lever
+                    | On
+
 
         #stats.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2
           table.striped.responsive-table.stats
@@ -183,8 +225,8 @@ block script
       smallDonut.removeClass("hidden").fadeOut("slow");
       smallDonut.addClass("visible").fadeIn("slow");
       setTimeout(function () {      
-          smallDonut.removeClass("visible").fadeOut("slow");
-          smallDonut.addClass("hidden").fadeIn("slow");
+        smallDonut.removeClass("visible").fadeOut("slow");
+        smallDonut.addClass("hidden").fadeIn("slow");
       }, 300);
 
     });

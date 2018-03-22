@@ -13,15 +13,6 @@ const NoLisa = new Audio("/songs/NoLisa.mp3");
 const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
-
-// test
-
-window.addEventListener("devicelight", function (event) {
-  var lux = event.value;
-  console.log(lux);
-});
-
-
 const songs = {
   "YesSong": [{
     "maggie": new Audio("/songs/maggie.mp3"),
@@ -39,8 +30,20 @@ const songs = {
   }]
 }
 
+
+
+
+$('.opt-langages input[type="checkbox"]').on('change', function () {
+  $('.opt-langages input[type="checkbox"]').not(this).prop('checked', false);
+});
+
 // on by default
+
+$('#filled-in-box1').prop('checked', true);
+
 $('.switchVolume').prop('checked', true);
+
+
 
 if ($('.switchVolume').prop('checked') !== true) {
   for (key in songs.NoSong[0]) {
@@ -74,7 +77,6 @@ $('.switchVolume').change(function (evt) {
 socket.on('init', (game) => {
   console.log('Init Game...');
   $('.nbDonuts').text(beautifyNumber(game.donuts));
-  $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
   $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
   $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
   for (i = 1; i < 6; i++) {
@@ -97,12 +99,6 @@ $("#donutLink").click(() => {
   // $("#donutLink img").toggleClass("transition");
 });
 
-// rempplacer par la classe correspondante au boutton radio
-// voir a utiliser 'onchange' 
-$('.multiplier').click(() => {
-  socket.emit('updateBuy', $('.multiplier').val());
-});
-
 $(".extra1").click(() => {
   socket.emit("addExtra", 1);
 });
@@ -121,7 +117,6 @@ $(".extra5").click(() => {
 
 socket.on('getDonuts', function (data) {
   $('.nbDonuts').text(beautifyNumber(data));
-  $('title').text(beautifyNumber(data) + ' donuts - Donut Clicker');
 });
 
 socket.on("toast", data => {
