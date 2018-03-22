@@ -77,7 +77,8 @@ $('.switchVolume').change(function (evt) {
 socket.on('init', (game) => {
   console.log('Init Game...');
   $('.nbDonuts').text(beautifyNumber(game.donuts));
-  $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
+  document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
+  // $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
   $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
   $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
   for (i = 1; i < 6; i++) {
@@ -124,7 +125,8 @@ $(".extra5").click(() => {
 
 socket.on('getDonuts', function (data) {
   $('.nbDonuts').text(beautifyNumber(data));
-  $('title').text(beautifyNumber(data) + ' donuts - Donut Clicker');
+  document.title = '' + beautifyNumber(data) + ' donuts - Donut Clicker';
+  // $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
 });
 
 socket.on("toast", data => {
