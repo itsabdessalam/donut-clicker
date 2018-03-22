@@ -126,7 +126,7 @@ $(".extra5").click(() => {
 socket.on('getDonuts', function (data) {
   $('.nbDonuts').text(beautifyNumber(data));
   document.title = '' + beautifyNumber(data) + ' donuts - Donut Clicker';
-  // $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
+  // $('title').text(beautifyNumber(data) + ' donuts - Donut Clicker');
 });
 
 socket.on("toast", data => {
