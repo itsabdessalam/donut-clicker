@@ -1,6 +1,8 @@
 /*jshint esversion: 6*/
 const dotenv = require('dotenv').config()
 const express = require("express");
+const Session = require("express-session");
+const FileStore = require('session-file-store')(Session);
 const path = require("path");
 const favicon = require("serve-favicon");
 const logger = require("morgan");
@@ -10,7 +12,14 @@ const sassMiddleware = require("node-sass-middleware");
 const flash = require("connect-flash");
 
 const expressValidator = require("express-validator");
-const session = require("express-session")({secret: process.env.SESSION_SECRET, saveUninitialized: true, resave: true});
+
+const session = Session({
+  store: new FileStore({secret: process.env.SESSION_FILE_STORE}),
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: true,
+  resave: true
+});
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
