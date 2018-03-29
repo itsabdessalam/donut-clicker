@@ -20,6 +20,19 @@ body {
     -khtml-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    p.message_error {
+        color: #EA2027 !important;
+        text-align: center;
+        font-size: 18px;
+        animation: .2s fadeIn both;
+        margin-bottom: 20px !important;
+        span.error_icon i {
+            font-size: 32px;
+            display: block;
+            font-size: 35px;
+            line-height: 0;
+        }
+    }
 }
 
 .hidden {
@@ -408,4 +421,27 @@ textarea.materialize-textarea:focus:not([readonly]) {
             }
         }
     }
+}
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
 }

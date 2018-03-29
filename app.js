@@ -1,4 +1,5 @@
 /*jshint esversion: 6*/
+const dotenv = require('dotenv').config()
 const express = require("express");
 const path = require("path");
 const favicon = require("serve-favicon");
@@ -8,12 +9,9 @@ const bodyParser = require("body-parser");
 const sassMiddleware = require("node-sass-middleware");
 const flash = require("connect-flash");
 
+const session = require("express-session");
+const FileStore = require('session-file-store')(session);
 const expressValidator = require("express-validator");
-const session = require("express-session")({
-  secret: "secret",
-  saveUninitialized: true,
-  resave: true
-});
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
@@ -25,42 +23,25 @@ const app = express();
 
 const usermodel = require("./models/user");
 // db connection
-mongoose.connect(
-  "mongodb://SuperDonut:tunodrepus@ds247078.mlab.com:47078/donutdb",
-  // Use only in dev if you have mongodb
-  //"mongodb://localhost/appLogin",
-  err => {
-    if (err) {
-      throw err;
-    }
+mongoose.connect(process.env.DB_URL,
+// Use only in dev if you have mongodb "mongodb://localhost/appLogin",
+err => {
+  if (err) {
+    throw err;
   }
-);
+});
 
 // getAllUsers
-app.get("/User", (req, res) =>
-  usermodel.getAllUsers((err, user) => res.json(user))
-);
+app.get("/User", (req, res) => usermodel.getAllUsers((err, user) => res.json(user)));
 
 app.put('/reset', usermodel.resetAllUsers);
 
 app.put('/reset/:id', usermodel.resetUserById);
 
-// // create collection
-// app.put("/User", (req, res) =>
-//   new usermodel.user({
-//     username: "Bob",
-//     email: "bob.sponge@test.com",
-//     password: "test"
-//   }).save(err => {
-//     if (err) {
-//       res.send(err);
-//     } else {
-//       res.send("success");
-//     }
-//   })
-// );
-
-// view engine setup
+// // create collection app.put("/User", (req, res) =>   new usermodel.user({
+// username: "Bob",     email: "bob.sponge@test.com",     password: "test"
+// }).save(err => {     if (err) {       res.send(err);     } else {
+// res.send("success");     }   }) ); view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
@@ -69,49 +50,42 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
-);
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
 //node-sass-middleware
-app.use(
-  sassMiddleware({
-    src: path.join(__dirname, "public"),
-    dest: path.join(__dirname, "public"),
-    indentedSyntax: false,
-    sourceMap: true
-  })
-);
+app.use(sassMiddleware({
+  src: path.join(__dirname, "public"),
+  dest: path.join(__dirname, "public"),
+  indentedSyntax: false,
+  sourceMap: true
+}));
 app.use(express.static(path.join(__dirname, "public")));
 
 //express-session
-app.use(session);
+app.use(session({
+  store: new FileStore({secret: process.env.SESSION_FILE_STORE}),
+  secret: process.env.SESSION_SECRET,
+  saveUninitialized: true,
+  resave: true
+}));
 
 //init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
 //express validator
-app.use(
-  expressValidator({
-    errorFormatter(param, msg, value) {
-      const namespace = param.split(".");
-      const root = namespace.shift();
-      let formParam = root;
-      while (namespace.length) {
-        formParam += `[${namespace.shift()}]`;
-      }
-      return {
-        param: formParam,
-        msg,
-        value
-      };
+app.use(expressValidator({
+  errorFormatter(param, msg, value) {
+    const namespace = param.split(".");
+    const root = namespace.shift();
+    let formParam = root;
+    while (namespace.length) {
+      formParam += `[${namespace.shift()}]`;
     }
-  })
-);
+    return {param: formParam, msg, value};
+  }
+}));
 
 // use flash
 app.use(flash());
@@ -138,7 +112,11 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+  res.locals.error = req
+    .app
+    .get("env") === "development"
+    ? err
+    : {};
 
   // render the error page
   res.status(err.status || 500);

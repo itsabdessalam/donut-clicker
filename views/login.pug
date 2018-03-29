@@ -1,7 +1,6 @@
 extends layout
 
 block content
-block content
     .main.login
         .header-text
             img(src="/images/donut1.png", alt="",width="100px")
@@ -12,6 +11,11 @@ block content
             .col.card.hoverable.s10.pull-s1.m6.pull-m3.l4.pull-l4
                 form(method="POST")
                     .card-content
+                        if error.length>0 && error!==null
+                            p.message_error
+                                span.error_icon
+                                    i.ion-ios-close-outline 
+                                | #{error}
                         span.card-title.left-align Connexion
                         .row
                             .input-field.col.s12

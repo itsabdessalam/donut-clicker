@@ -10,6 +10,11 @@ block content
             .col.card.hoverable.s10.pull-s1.m6.pull-m3.l4.pull-l4
                 form(method="POST")
                     .card-content
+                        if errors
+                            p.message_error
+                                span.error_icon
+                                    i.ion-ios-close-outline 
+                                | All fields are required
                         span.card-title.left-align Inscription
                         .row
                             .input-field.col.s12
