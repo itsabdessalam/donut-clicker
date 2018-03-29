@@ -6971,22 +6971,37 @@ body {
 .disabled {
   opacity: .5; }
 
-.login-box {
-  margin-bottom: 0; }
-
+/*=========== Navbar ===========*/
 .custom-nav {
   background: transparent;
   box-shadow: none;
   padding: 0 30px; }
+  .custom-nav [class^='ion-'] {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px; }
+  .custom-nav .brand-logo {
+    float: left;
+    position: relative; }
 
-.custom-nav [class^='ion-'] {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 5px; }
-
-.custom-nav .brand-logo {
-  float: left;
-  position: relative; }
+/*=========== Login Box ===========*/
+.login-box {
+  margin-bottom: 0; }
+  .login-box span.card-title {
+    color: #3a495e;
+    margin-bottom: 15px !important; }
+  .login-box .card-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; }
+  .login-box a.link-right,
+  .login-box a.link-left {
+    color: #999999 !important; }
+  .login-box a.link-right:hover,
+  .login-box a.link-right:focus,
+  .login-box a.link-left:hover,
+  .login-box a.link-left:focus {
+    color: #747474 !important; }
 
 .btn-custom {
   text-transform: initial;
@@ -7028,25 +7043,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .input-field label.active {
   color: #ef4c5d; }
 
-.login-box span.card-title {
-  color: #3a495e;
-  margin-bottom: 15px !important; }
-
-.login-box .card-action {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; }
-
-.login-box a.link-right,
-.login-box a.link-left {
-  color: #999999 !important; }
-
-.login-box a.link-right:hover,
-.login-box a.link-right:focus,
-.login-box a.link-left:hover,
-.login-box a.link-left:focus {
-  color: #747474 !important; }
-
 .main.signup .header-text {
   margin-bottom: 50px;
   margin-top: 20px; }
@@ -7079,6 +7075,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
   font-size: 20px;
   color: #fff; }
 
+/*=========== Main page ===========*/
 .main.index .header-text {
   margin-bottom: 50px;
   margin-top: 20px; }
@@ -7092,18 +7089,11 @@ textarea.materialize-textarea:focus:not([readonly]) {
 
 .main.index .main-tabs {
   padding: 0; }
-
-.main.index .main-tabs li a {
-  outline: none; }
+  .main.index .main-tabs li a {
+    outline: none; }
 
 .main.index .tab-item {
   padding: 20px; }
-
-.main.index .game {
-  margin-bottom: 30px; }
-
-.main.index .game .main-donut img {
-  max-width: 200px; }
 
 .main.index .tabs {
   border-top-right-radius: 5px;
@@ -7128,193 +7118,152 @@ textarea.materialize-textarea:focus:not([readonly]) {
   background-color: #ef4c5d;
   will-change: left, right; }
 
-.main.index .game .title {
-  color: #3365b4;
-  font-family: Simpson;
-  font-size: 20px;
-  margin-bottom: 20px;
-  margin-top: 20px; }
-
-.main.index .game .donuts {
-  margin-bottom: 20px;
-  margin-top: 20px; }
-
-.main.index .game .freq {
-  margin-bottom: 20px;
-  margin-top: 20px; }
-
-.main.index .game .main-donut {
-  margin-bottom: 10px;
-  margin-top: 50px;
-  height: 220px;
-  position: relative; }
-
-.main.index .game .main-donut a {
-  cursor: pointer;
-  vertical-align: middle;
-  line-height: 220px;
-  position: relative; }
-
-.main.index .game .main-donut span.donutParticle {
-  position: absolute;
-  background: url("/images/donut1.png") no-repeat;
-  background-size: 22px 22px;
-  width: 22px;
-  height: 22px; }
-
-.main.index .game .main-donut span.donutParticleNb {
-  font-family: 'Lemon', sans-serif;
-  color: #fbd429;
-  position: absolute;
-  left: 0;
-  top: -120px; }
-
-.main.index .game .main-donut a img {
-  transition: all 0.2s;
-  vertical-align: middle; }
-
-.main.index .game .main-donut a:hover img {
-  transform: scale(1.1); }
-
-.main.index .game .extras-part .row {
-  margin: 0; }
-
-.main.index .game .extras-part .row .card .card-content {
-  padding: 0;
-  padding-top: 5px;
-  padding-right: 20px;
-  padding-left: 20px;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none; }
-
-.main.index .game .extras-part .extra1 .card {
-  background-color: #ed599c !important; }
-
-.main.index .game .extras-part .extra2 .card {
-  background-color: #52bedb !important; }
-
-.main.index .game .extras-part .extra3 .card {
-  background-color: #22a15b !important; }
-
-.main.index .game .extras-part .extra4 .card {
-  background-color: #e6531b !important; }
-
-.main.index .game .extras-part .card {
-  cursor: pointer; }
-
-.main.index .game .extras-part [type="radio"]:not(:checked) + label:before,
-.main.index .game .extras-part [type="radio"]:not(:checked) + label:after,
-.main.index .game .extras-part [type="radio"]:checked + label:after,
-.main.index .game .extras-part [type="radio"].with-gap:checked + label:after {
-  display: none; }
-
-.main.index .game .extras-part [type="radio"]:checked + label {
-  color: #ef4c5c !important; }
-
-.main.index .game .extras-part .title {
-  padding: 0 20px;
-  padding-bottom: 30px;
-  margin-bottom: 20px; }
-
-.main.index .game .extras-part .title .main-title {
-  float: left; }
-
-.main.index .game .extras-part .title .buy {
-  float: right; }
-
-.main.index .game .extras-part .extra1 {
-  clear: both; }
-
-.main.index .game .extra-head {
-  text-align: left;
-  float: left;
-  width: 25%; }
-
-.main.index .game .extra-infos {
-  float: left;
-  width: 50%; }
-
-.main.index .game .extra-counter {
-  float: left;
-  width: 15%; }
-
-.main.index .game .extra-head img.extra-head-img {
-  vertical-align: bottom; }
-
-.main.index .game .extra-head img.extra-head-shadow {
-  vertical-align: bottom; }
-
-.main.index .game .card-content {
-  overflow: hidden; }
-
-.main.index .game .extra-title {
-  display: block;
-  font-size: 20px; }
-
-.main.index .game .extra-infos {
-  line-height: 35px; }
-
-.main.index .game .extra-counter {
-  font-family: Simpson;
-  font-size: 25px;
-  line-height: 60px; }
-
-.main.index .game .main-donut a:active img {
-  transform: translateY(4px); }
-
-.main.index .game .options .thumb {
-  display: none; }
-
-.main.index .game .options i.material-icons {
-  vertical-align: middle;
-  margin-right: 10px; }
-
-.main.index .game .extras-part .extra-cost {
-  margin-right: 5px; }
-
-.main.index .game .extras-part .extra-donut img {
-  vertical-align: -2px; }
-
-.main.index .game .bonus .bonus-content {
-  width: 50px;
-  line-height: 50px;
-  box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
-  border-radius: 2px; }
-
-.main.index .game .bonus .bonus-title {
-  color: #3365b4;
-  font-family: Simpson;
-  font-size: 20px;
-  margin-bottom: 45px; }
-
-.main.index .options .opt-main {
-  text-align: left;
-  padding: 50px; }
-
-.main.index .options .opt-main .switch {
-  margin-left: 20px;
-  display: inline-block; }
-
-.main.index .options .opt-main [class^='ion-'] {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  font-size: 20px; }
-
-.main.index .options .opt-main .opt-langages {
-  display: inline-block;
-  margin-left: 10px; }
-
-.main.index .options .opt-main .opt-langages label {
-  margin-right: 10px; }
-
-.main.index .options .opt-main .langage,
-.main.index .options .opt-main .volume,
-.main.index .options .opt-main .music,
-.main.index .options .opt-main .notifications {
-  padding: 20px 0; }
+.main.index .game {
+  margin-bottom: 30px; }
+  .main.index .game .title {
+    color: #3365b4;
+    font-family: Simpson;
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 20px; }
+  .main.index .game .donuts {
+    margin-bottom: 20px;
+    margin-top: 20px; }
+  .main.index .game .freq {
+    margin-bottom: 20px;
+    margin-top: 20px; }
+  .main.index .game .main-donut {
+    margin-bottom: 10px;
+    margin-top: 50px;
+    height: 220px;
+    position: relative; }
+    .main.index .game .main-donut img {
+      max-width: 200px; }
+    .main.index .game .main-donut a {
+      cursor: pointer;
+      vertical-align: middle;
+      line-height: 220px;
+      position: relative; }
+    .main.index .game .main-donut span.donutParticle {
+      position: absolute;
+      background: url("/images/donut1.png") no-repeat;
+      background-size: 22px 22px;
+      width: 22px;
+      height: 22px; }
+    .main.index .game .main-donut span.donutParticleNb {
+      font-family: 'Lemon', sans-serif;
+      color: #fbd429;
+      position: absolute;
+      left: 0;
+      top: -120px; }
+    .main.index .game .main-donut a img {
+      transition: all 0.2s;
+      vertical-align: middle; }
+    .main.index .game .main-donut a:hover img {
+      transform: scale(1.1); }
+    .main.index .game .main-donut a:active img {
+      transform: translateY(4px); }
+  .main.index .game .extras-part .row {
+    margin: 0; }
+  .main.index .game .extras-part .row .card .card-content {
+    padding: 0;
+    padding-top: 5px;
+    padding-right: 20px;
+    padding-left: 20px;
+    user-select: none;
+    overflow: hidden;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none; }
+  .main.index .game .extras-part .extra1 .card {
+    background-color: #ed599c !important; }
+  .main.index .game .extras-part .extra2 .card {
+    background-color: #52bedb !important; }
+  .main.index .game .extras-part .extra3 .card {
+    background-color: #22a15b !important; }
+  .main.index .game .extras-part .extra4 .card {
+    background-color: #e6531b !important; }
+  .main.index .game .extras-part .card {
+    cursor: pointer; }
+  .main.index .game .extras-part .title {
+    padding: 0 20px;
+    padding-bottom: 30px;
+    margin-bottom: 20px; }
+  .main.index .game .extras-part [type="radio"]:not(:checked) + label:before,
+  .main.index .game .extras-part [type="radio"]:not(:checked) + label:after,
+  .main.index .game .extras-part [type="radio"]:checked + label:after,
+  .main.index .game .extras-part [type="radio"].with-gap:checked + label:after {
+    display: none; }
+  .main.index .game .extras-part [type="radio"]:checked + label {
+    color: #ef4c5c !important; }
+  .main.index .game .extras-part .title .main-title {
+    float: left; }
+  .main.index .game .extras-part .title .buy {
+    float: right; }
+  .main.index .game .extras-part .extra1 {
+    clear: both; }
+  .main.index .game .extras-part .extra-head {
+    text-align: left;
+    float: left;
+    width: 25%; }
+  .main.index .game .extras-part .extra-infos {
+    float: left;
+    width: 50%; }
+  .main.index .game .extras-part .extra-counter {
+    font-family: Simpson;
+    font-size: 25px;
+    line-height: 60px;
+    float: left;
+    width: 15%; }
+  .main.index .game .extras-part .extra-head img.extra-head-img {
+    vertical-align: bottom; }
+  .main.index .game .extras-part .extra-head img.extra-head-shadow {
+    vertical-align: bottom; }
+  .main.index .game .extras-part .extra-title {
+    display: block;
+    font-size: 20px; }
+  .main.index .game .extras-part .extra-infos {
+    line-height: 35px; }
+  .main.index .game .extras-part .extra-cost {
+    margin-right: 5px; }
+  .main.index .game .extras-part .extra-donut img {
+    vertical-align: -2px; }
+  .main.index .game .bonus .bonus-title {
+    color: #3365b4;
+    font-family: Simpson;
+    font-size: 20px;
+    margin-bottom: 45px; }
+  .main.index .game .bonus .bonus-content {
+    width: 50px;
+    line-height: 50px;
+    box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
+    border-radius: 2px; }
+  .main.index .game .options .thumb {
+    display: none; }
+  .main.index .game .options i.material-icons {
+    vertical-align: middle;
+    margin-right: 10px; }
+  .main.index .game .options .opt-main {
+    text-align: left;
+    padding: 50px; }
+  .main.index .game .options .opt-main .switch {
+    margin-left: 20px;
+    display: inline-block; }
+  .main.index .game .options .opt-main [class^='ion-'] {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    font-size: 20px; }
+  .main.index .game .options .opt-main .opt-langages {
+    display: inline-block;
+    margin-left: 10px; }
+  .main.index .game .options .opt-main .opt-langages label {
+    margin-right: 10px; }
+  .main.index .game .options .opt-main .langage,
+  .main.index .game .options .opt-main .volume,
+  .main.index .game .options .opt-main .music,
+  .main.index .game .options .opt-main .notifications {
+    padding: 20px 0; }
 
 /*# sourceMappingURL=style.css.map */
