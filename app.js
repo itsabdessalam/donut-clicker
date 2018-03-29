@@ -9,9 +9,8 @@ const bodyParser = require("body-parser");
 const sassMiddleware = require("node-sass-middleware");
 const flash = require("connect-flash");
 
-const session = require("express-session");
-const FileStore = require('session-file-store')(session);
 const expressValidator = require("express-validator");
+const session = require("express-session")({secret: process.env.SESSION_SECRET, saveUninitialized: true, resave: true});
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
@@ -63,12 +62,7 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, "public")));
 
 //express-session
-app.use(session({
-  store: new FileStore({secret: process.env.SESSION_FILE_STORE}),
-  secret: process.env.SESSION_SECRET,
-  saveUninitialized: true,
-  resave: true
-}));
+app.use(session);
 
 //init passport
 app.use(passport.initialize());
