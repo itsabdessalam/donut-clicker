@@ -252,7 +252,8 @@ module.exports = function (io) {
                     game.info.extra[extra].count += game.info.buyMultiplier;
                     game.info.donuts -= cost;
                     game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
-                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS, cost);
+                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS,
+                        game.info.extra[extra].cost);
                     socket.emit("playYesSong", extra);
 
                 } else {
