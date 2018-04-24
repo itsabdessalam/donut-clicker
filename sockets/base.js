@@ -5,8 +5,23 @@ const url = require('url');
 const moment = require('moment');
 const sharedsession = require('express-socket.io-session');
 
+/*  INFOS SUR LE SOCKET
+ *
+ *  Utiliser la session => 'socket.handshake.session'
+ *  Emettre un évenement => 'socket.emit('name', dataToSend)'
+ *  Recevoir un évenement => 'socket.on('name', (dataSent) => Ce que tu dois faire avec )
+ * 
+ *  Pour les ajouter des info dans le jeux, il y a 2 JSON
+ *  - un qui contient toutes les info static (qui n'est pas sauvegardé en base)
+ *  - un qui contient toutes les infos d'une partie (qui est sauvegardé en base)
+ * 
+ *  A vous de voir si vous avez besoin de nouvelle info, et au besoin de le rajouter dans le JSON approprié
+ */
+
 module.exports = function (io) {
-    io.use(sharedsession(session, {autoSave: true}));
+    io.use(sharedsession(session, {
+        autoSave: true
+    }));
     let o;
     io.origins((origin, callback) => {
         const q = url.parse(origin);
@@ -16,6 +31,15 @@ module.exports = function (io) {
     io.on('connection', function (socket) {
         let save;
         let refresh;
+        /*  INFOS SUR LE JSON
+         *
+         *  game.info => donné de l'utilisateur, par défault null, qui seront chargé lors de la connexion ou créer avec le JSON newGame
+         *  game.unlockAchievement => objet contenant les fonctions permettant de savoir si un succés est débloqué
+         *  game.save() => fonction permettant de sauvegarder la partie de l'utilisateur courant
+         *  game.achievements() => fonction permettant d'actualiser l'affichage des succés lors de la connexion
+         *  game.donutsPerSec() => fonction permettant d'ajouter les donuts/S, qui en réalité ajoute toutes les 100ms
+         *  game.costTotal() => fonction permettant de calculer le coût d'un extra, util lorsqu'on ajoute par 10 ou 100
+         */
         const game = {
             info: null,
             unlockAchievement: {
@@ -113,6 +137,29 @@ module.exports = function (io) {
             }
         };
         //console.log('Socket Session'); console.log(socket.handshake.session);
+
+        /*  INFOS SUR LE JSON DE L'UTILISATEUR
+         *
+         *  newGame.donuts => nombre total de donuts depuis le début 
+         *  newGame.donutsPerS => nombre de donuts par seconde
+         *  newGame.donutsPerC => nombre de donuts par click
+         *  newGame.clicks => nombre de click depuis le début
+         *  newGame.donutsOnClick => nombre de donuts gagné grâce à un click
+         *  newGame.countAll => nombre total d'extra possédé
+         *  newGame.buyMultiplier => nombre d'extra acheté par click
+         *  newGame.start => date de début de la partie
+         *  newGame.options => options du joueur (son, notif, theme ...) 
+         *  newGame.extra => stats détaillé sur chaque extra
+         *  newGame.extra[x].enable => booléen indiquant si l'extra est débloqué
+         *  newGame.extra[x].name => nom de l'extra
+         *  newGame.extra[x].count => nombre d'extra possédé
+         *  newGame.extra[x].cost => coût de l'extra
+         *  newGame.extra[x].bonus => bonus de l'extra
+         *  newGame.achievements => info sur les succès débloqué
+         *  newGame.achievements[x].name => intitulé du succès
+         *  newGame.achievements[x].enable => booléen indiquant si le succès est débloqué
+         *  newGame.achievements[x].unlock => classe CSS qui doit être débloqué
+         */
         const newGame = {
             donuts: 0,
             donutsPerS: 0,
@@ -200,7 +247,9 @@ module.exports = function (io) {
             }
         };
 
+        // je vérifie si le joueur est connecté
         if ('passport' in socket.handshake.session) {
+            // si c'est le cas j'essaye de récupérer une sauvegarde en base
             axios({
                 method: 'get',
                 url: '/backup',
@@ -210,7 +259,9 @@ module.exports = function (io) {
                 }
             }).then((response) => {
                 //console.log(response); console.log(response.data);
+                //  si l'objet reçu contient une sauvegarde
                 if (response.data.backup !== null) {
+                    //  je l'initialise dans le JSON du jeu
                     if (util.isObject(response.data.backup)) {
                         game.info = response.data.backup;
                     } else {
@@ -218,6 +269,7 @@ module.exports = function (io) {
                     }
                     console.log(socket.handshake.session.passport.user + ' : Game Retrieve');
                 } else {
+                    // sinon je créé une nouvelle partie
                     game.info = newGame;
                     console.log(socket.handshake.session.passport.user + ' : New Game');
                 }
@@ -225,8 +277,10 @@ module.exports = function (io) {
                     game.info.donutsPerC = 1;
                 }
                 //console.log(game);
+                // Initialisation du jeu coté client
                 console.log(socket.handshake.session.passport.user + ' : Initialize game...');
                 socket.emit('init', game.info);
+                // Lancement de la sauvegarde automatique et du racfraîchissement
                 save = setInterval(game.save, 30000);
                 refresh = setInterval(() => {
                     game.donutsPerSec();
@@ -235,6 +289,10 @@ module.exports = function (io) {
             }).catch((error) => {
                 console.log(error);
             });
+            /*
+             *  Tous les événements du sockets, ils onts des nom assez explicite
+             * 
+             */
 
             socket.on('addDonut', (data) => {
                 game.info.donutsTot += game.info.donutsPerC;
@@ -265,6 +323,8 @@ module.exports = function (io) {
             socket.on('updateBuy', (value) => {
                 game.info.buyMultiplier = value;
             });
+
+            // ajouter vos événements ici au besoin
 
             socket.on("disconnect", function () {
                 game.save();
