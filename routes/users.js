@@ -10,11 +10,17 @@ const User = require("../models/user");
 
 //signup
 router.get("/signup", (req, res) => {
-  res.render("signup", {title: "Inscription - Donut Clicker"});
+  res.render("signup", {
+    title: "Inscription - Donut Clicker",
+    pageClass: 'signup'
+  });
 });
 //login
 router.get("/login", (req, res) => {
-  res.render("login", {title: "Connexion - Donut Clicker"});
+  res.render("login", {
+    title: "Connexion - Donut Clicker",
+    pageClass: 'login'
+  });
 });
 
 //when signup post

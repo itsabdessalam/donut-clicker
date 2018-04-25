@@ -14,27 +14,47 @@ const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 const songs = {
-  "YesSong": [{
-    "maggie": new Audio("/songs/maggie.mp3"),
-    "bart": new Audio("/songs/bart.mp3"),
-    "lisa": new Audio("/songs/lisa.mp3"),
-    "marge": new Audio("/songs/marge.mp3"),
-    "homer": new Audio("/songs/homer.mp3"),
-  }],
-  "NoSong": [{
-    "maggie": new Audio("/songs/NoMaggie.mp3"),
-    "bart": new Audio("/songs/NoBart.mp3"),
-    "lisa": new Audio("/songs/NoLisa.mp3"),
-    "marge": new Audio("/songs/NoMarge.mp3"),
-    "homer": new Audio("/songs/NoHomer.mp3"),
-  }]
+  "YesSong": [
+    {
+      "maggie": new Audio("/songs/maggie.mp3"),
+      "bart": new Audio("/songs/bart.mp3"),
+      "lisa": new Audio("/songs/lisa.mp3"),
+      "marge": new Audio("/songs/marge.mp3"),
+      "homer": new Audio("/songs/homer.mp3")
+    }
+  ],
+  "NoSong": [
+    {
+      "maggie": new Audio("/songs/NoMaggie.mp3"),
+      "bart": new Audio("/songs/NoBart.mp3"),
+      "lisa": new Audio("/songs/NoLisa.mp3"),
+      "marge": new Audio("/songs/NoMarge.mp3"),
+      "homer": new Audio("/songs/NoHomer.mp3")
+    }
+  ]
 }
 
+// colors theme default
 
+$('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
 
+$(".gradient1").click(() => {
+  $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
+});
+$(".gradient2").click(() => {
+  $('body').css("background-image", "linear-gradient(to top, #f77062 0%, #fe5196 100%)");
+});
+$(".gradient3").click(() => {
+  $('body').css("background-image", "linear-gradient(-20deg, rgb(0, 205, 172) 0%, rgb(141, 170, 218) 100%)");
+});
+$(".gradient4").click(() => {
+  $('body').css("background-image", "linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%)");
+});
 
 $('.opt-langages input[type="checkbox"]').on('change', function () {
-  $('.opt-langages input[type="checkbox"]').not(this).prop('checked', false);
+  $('.opt-langages input[type="checkbox"]')
+    .not(this)
+    .prop('checked', false);
 });
 
 // on by default
@@ -42,8 +62,6 @@ $('.opt-langages input[type="checkbox"]').on('change', function () {
 $('#filled-in-box1').prop('checked', true);
 
 $('.switchVolume').prop('checked', true);
-
-
 
 if ($('.switchVolume').prop('checked') !== true) {
   for (key in songs.NoSong[0]) {
@@ -54,25 +72,24 @@ if ($('.switchVolume').prop('checked') !== true) {
   }
 }
 
-$('.switchVolume').change(function (evt) {
-  if ($(this).prop('checked') !== true) {
-    for (key in songs.NoSong[0]) {
-      songs.NoSong[0][key].muted = true;
+$('.switchVolume')
+  .change(function (evt) {
+    if ($(this).prop('checked') !== true) {
+      for (key in songs.NoSong[0]) {
+        songs.NoSong[0][key].muted = true;
+      }
+      for (key in songs.YesSong[0]) {
+        songs.YesSong[0][key].muted = true;
+      }
+    } else {
+      for (key in songs.NoSong[0]) {
+        songs.NoSong[0][key].muted = false;
+      }
+      for (key in songs.YesSong[0]) {
+        songs.YesSong[0][key].muted = false;
+      }
     }
-    for (key in songs.YesSong[0]) {
-      songs.YesSong[0][key].muted = true;
-    }
-  } else {
-    for (key in songs.NoSong[0]) {
-      songs.NoSong[0][key].muted = false;
-    }
-    for (key in songs.YesSong[0]) {
-      songs.YesSong[0][key].muted = false;
-    }
-  }
-});
-
-
+  });
 
 socket.on('init', (game) => {
   console.log('Init Game...');
@@ -101,8 +118,8 @@ $("#donutLink").click(() => {
   // $("#donutLink img").toggleClass("transition");
 });
 
-// rempplacer par la classe correspondante au boutton radio
-// voir a utiliser 'onchange' 
+// rempplacer par la classe correspondante au boutton radio voir a utiliser
+// 'onchange'
 $('.multiplier').click(() => {
   socket.emit('updateBuy', $('.multiplier').val());
 });
@@ -151,19 +168,34 @@ socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
 socket.on("playYesSong", extra => {
   switch (extra) {
     case 1:
-      songs.YesSong[0].maggie.play();
+      songs
+        .YesSong[0]
+        .maggie
+        .play();
       break;
     case 2:
-      songs.YesSong[0].bart.play();
+      songs
+        .YesSong[0]
+        .bart
+        .play();
       break;
     case 3:
-      songs.YesSong[0].lisa.play();
+      songs
+        .YesSong[0]
+        .lisa
+        .play();
       break;
     case 4:
-      songs.YesSong[0].marge.play();
+      songs
+        .YesSong[0]
+        .marge
+        .play();
       break;
     case 5:
-      songs.YesSong[0].homer.play();
+      songs
+        .YesSong[0]
+        .homer
+        .play();
       break;
   }
 });
@@ -171,19 +203,34 @@ socket.on("playYesSong", extra => {
 socket.on("playNoSong", extra => {
   switch (extra) {
     case 1:
-      songs.NoSong[0].maggie.play();
+      songs
+        .NoSong[0]
+        .maggie
+        .play();
       break;
     case 2:
-      songs.NoSong[0].bart.play();
+      songs
+        .NoSong[0]
+        .bart
+        .play();
       break;
     case 3:
-      songs.NoSong[0].lisa.play();
+      songs
+        .NoSong[0]
+        .lisa
+        .play();
       break;
     case 4:
-      songs.NoSong[0].marge.play();
+      songs
+        .NoSong[0]
+        .marge
+        .play();
       break;
     case 5:
-      songs.NoSong[0].homer.play();
+      songs
+        .NoSong[0]
+        .homer
+        .play();
       break;
   }
 });
@@ -210,7 +257,7 @@ function beautifyNumber(number, istrunc = false) {
     2: ' M',
     3: ' MD',
     4: ' BM',
-    5: ' BMD',
+    5: ' BMD'
   };
 
   while (number >= 1000) {
@@ -219,9 +266,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc ? true : false;
+  trunc = istrunc
+    ? true
+    : false;
 
-  return (trunc ? number : number.toFixed(2)) + unit[unitKey];
+  return (trunc
+    ? number
+    : number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {

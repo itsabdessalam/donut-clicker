@@ -6943,13 +6943,16 @@ html {
   min-height: 100vh;
   overflow: auto; }
 
+body.login,
+body.signup {
+  background: linear-gradient(to right bottom, #4086f6, #2f5ca0); }
+
 body {
   font-family: 'Nunito', sans-serif;
   height: 100vh;
   min-height: 100vh;
   text-align: center;
   margin: auto;
-  background: linear-gradient(to bottom right, #4086f6, #2f5ca0);
   background-size: cover;
   background-repeat: no-repeat;
   padding-top: 20px;
@@ -7274,8 +7277,29 @@ textarea.materialize-textarea:focus:not([readonly]) {
   .main.index .game .options .opt-main .langage,
   .main.index .game .options .opt-main .volume,
   .main.index .game .options .opt-main .music,
-  .main.index .game .options .opt-main .notifications {
+  .main.index .game .options .opt-main .notifications,
+  .main.index .game .options .opt-main .theme {
     padding: 20px 0; }
+  .main.index .game .options .opt-main .theme span {
+    margin-right: 20px; }
+  .main.index .game .options .opt-main .theme .gradient1 {
+    background-image: linear-gradient(to bottom right, #4086f6, #2f5ca0); }
+  .main.index .game .options .opt-main .theme [class^="gradient"] {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    margin: 0 5px;
+    border-radius: 3px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    cursor: pointer; }
+  .main.index .game .options .opt-main .theme .gradient2 {
+    background-image: linear-gradient(to top, #f77062 0%, #fe5196 100%); }
+  .main.index .game .options .opt-main .theme .gradient3 {
+    background-image: linear-gradient(-20deg, #00cdac 0%, #8daada 100%); }
+  .main.index .game .options .opt-main .theme .gradient4 {
+    background-image: linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%); }
 
 @-webkit-keyframes fadeIn {
   from {
