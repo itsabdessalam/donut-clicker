@@ -38,7 +38,8 @@ module.exports = function (io) {
          *  game.save() => fonction permettant de sauvegarder la partie de l'utilisateur courant
          *  game.achievements() => fonction permettant d'actualiser l'affichage des succés lors de la connexion
          *  game.donutsPerSec() => fonction permettant d'ajouter les donuts/S, qui en réalité ajoute toutes les 100ms
-         *  game.calcCost() => fonction permettant de calculer le coût d'un extra, util lorsqu'on ajoute par 10 ou 100
+         *  game.calcCost() => fonction permettant de calculer les coûts d'un extra, util lorsqu'on ajoute par 10 ou 100
+         *  game.renewCost() => fonction permettant de mettre à jour les coûts d'un extra
          */
         const game = {
             info: null,
@@ -96,10 +97,10 @@ module.exports = function (io) {
                 }).then((response) => {
                     //console.log(response.data);
                     if (response.data.saved) {
-                        socket.emit('toast', 'Partie Sauvegardé !');
+                        socket.emit('toast', 'Partie Sauvegardé !',  game.info.options.notification);
                         console.log(socket.handshake.session.passport.user + ' : Game successfully saved !');
                     } else {
-                        socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !');
+                        socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !', game.info.options.notification);
                         console.log(socket.handshake.session.passport.user + ' : Game not saved !');
                     }
                 }).catch((error) => {
@@ -114,7 +115,7 @@ module.exports = function (io) {
                             .unlockAchievement[achievement]
                             .isUnlock();
                         if (game.info.achievements[achievement].enable) {
-                            socket.emit("toast", game.info.achievements[achievement].name);
+                            socket.emit("toast", game.info.achievements[achievement].name,  game.info.options.notification);
                             socket.emit("enable", game.info.achievements[achievement].unlock);
                         }
                     }
@@ -158,7 +159,7 @@ module.exports = function (io) {
          *  newGame.extra[x].count => nombre d'extra possédé
          *  newGame.extra[x].cost => coût de l'extra
          *  newGame.extra[x].bonus => bonus de l'extra
-         *  newGame.achievements => info sur les succès débloqué
+         *  newGame.achievements => info sur les succès débloqué (va peut-être être deplacer dans le JSON game)
          *  newGame.achievements[x].name => intitulé du succès
          *  newGame.achievements[x].enable => booléen indiquant si le succès est débloqué
          *  newGame.achievements[x].unlock => classe CSS qui doit être débloqué
@@ -173,7 +174,12 @@ module.exports = function (io) {
             countAll: 0,
             buyMultiplier: 1,
             start: moment().format(),
-            options: {},
+            options: {
+                'theme': 1,
+                'volume': true,
+                'music': true,
+                'notification': true,
+            },
             extra: {
                 1: {
                     enable: false,
@@ -340,7 +346,7 @@ module.exports = function (io) {
 
                 } else {
                     socket.emit("playNoSong", extra);
-                    socket.emit('toast', 'Donuts insuffisant');
+                    socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
                 }
             });
 
@@ -348,8 +354,14 @@ module.exports = function (io) {
                 const buyMultiplier = parseInt(value);
                 if (buyMultiplier !== game.info.buyMultiplier) {
                     game.info.buyMultiplier = buyMultiplier;
-                    socket.emit('toast', 'Multipieur Changé !');
+                    socket.emit('toast', 'Multipieur modifié !', game.info.options.notification);
                 }
+            });
+
+            socket.on('setOption', (key, value) => {
+                game.info.options[key] = value;
+                // console.log(game.info.options.notification);
+                socket.emit('toast', 'Option mofifié !', game.info.options.notification);                
             });
 
             // ajouter vos événements ici au besoin

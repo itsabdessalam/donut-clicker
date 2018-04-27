@@ -32,21 +32,24 @@ const songs = {
 
 // colors theme default
 
-$('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
-
 $(".gradient1").click(() => {
   $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
+  socket.emit('setOption', 'theme', 1);
 });
 $(".gradient2").click(() => {
   $('body').css("background-image", "linear-gradient(to top, #f77062 0%, #fe5196 100%)");
+  socket.emit('setOption', 'theme', 2);
 });
 $(".gradient3").click(() => {
   $('body').css("background-image", "linear-gradient(-20deg, rgb(0, 205, 172) 0%, rgb(141, 170, 218) 100%)");
+  socket.emit('setOption', 'theme', 3);
 });
 $(".gradient4").click(() => {
   $('body').css("background-image", "linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%)");
+  socket.emit('setOption', 'theme', 4);
 });
 
+// changer langue ? à enlever si non utilisé
 $('.opt-langages input[type="checkbox"]').on('change', function () {
   $('.opt-langages input[type="checkbox"]')
     .not(this)
@@ -55,9 +58,10 @@ $('.opt-langages input[type="checkbox"]').on('change', function () {
 
 // on by default
 
-$('#filled-in-box1').prop('checked', true);
+/*
+$('#filled-in-box1').prop('checked', true); // à deplacer dans init lorsque implementer
 
-$('.switchVolume').prop('checked', true);
+$('.switchVolume').prop('checked', true); // à deplacer dans init lorsque implementer
 
 if ($('.switchVolume').prop('checked') !== true) {
   for (var key in songs.NoSong[0]) {
@@ -67,8 +71,7 @@ if ($('.switchVolume').prop('checked') !== true) {
     songs.YesSong[0][key].muted = true;
   }
 }
-
-$('.switchVolume')
+$('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
   .change(function (evt) {
     if ($(this).prop('checked') !== true) {
       for (key in songs.NoSong[0]) {
@@ -86,9 +89,35 @@ $('.switchVolume')
       }
     }
   });
+  */
+// changement option des notification
+$('.notifications .switchVolume').click(() => {
+  // console.log($('.notifications .switchVolume').prop('checked'));  
+  socket.emit('setOption', 'notification', $('.notifications .switchVolume').prop('checked'));
+});
 
 socket.on('init', (game) => {
   console.log('Init Game...');
+  switch (game.options.theme) {
+    case 1:
+      $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
+      break;
+    case 2:
+      $('body').css("background-image", "linear-gradient(to top, #f77062 0%, #fe5196 100%)");
+      break;
+    case 3:
+      $('body').css("background-image", "linear-gradient(-20deg, rgb(0, 205, 172) 0%, rgb(141, 170, 218) 100%)");
+      break;
+    case 4:
+      $('body').css("background-image", "linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%)");
+      break;
+    default:
+      $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
+      break;
+  }
+  // console.log($('.notifications .switchVolume').prop('checked'));
+  $('.notifications .switchVolume').prop('checked', game.options.notification);
+  // console.log($('.notifications .switchVolume').prop('checked'));
   $('.nbDonuts').text(beautifyNumber(game.donuts));
   document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
   // $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
@@ -115,8 +144,7 @@ $("#donutLink").click(() => {
   // $("#donutLink img").toggleClass("transition");
 });
 
-// rempplacer par la classe correspondante au boutton radio voir a utiliser
-// 'onchange'
+// change le multiplier au click
 $('input[name=group1]').click(() => {
   socket.emit('updateBuy', $('input[name=group1]:checked').val());
 });
@@ -143,8 +171,9 @@ socket.on('getDonuts', function (data) {
   // $('title').text(beautifyNumber(data) + ' donuts - Donut Clicker');
 });
 
-socket.on("toast", data => {
-  Materialize.toast(data, 1000);
+socket.on("toast", (data, display) => {
+  if (display)
+    Materialize.toast(data, 1000);
 });
 
 socket.on("enable", extra => {
@@ -234,7 +263,7 @@ socket.on("playNoSong", extra => {
 
 socket.on('getRefresh', (infos) => {
   for (let property in infos.extra) {
-    $('.extra' + property + ' .extra-cost').text(infos.extra[property].cost[infos.buyMultiplier]);
+    $('.extra' + property + ' .extra-cost').text(beautifyNumber(infos.extra[property].cost[infos.buyMultiplier]));
     if (infos.extra[property].cost[infos.buyMultiplier] > infos.donuts) {
       $('.extra' + property).addClass('disabled');
     } else {
