@@ -14,25 +14,21 @@ const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 const songs = {
-  "YesSong": [
-    {
-      "maggie": new Audio("/songs/maggie.mp3"),
-      "bart": new Audio("/songs/bart.mp3"),
-      "lisa": new Audio("/songs/lisa.mp3"),
-      "marge": new Audio("/songs/marge.mp3"),
-      "homer": new Audio("/songs/homer.mp3")
-    }
-  ],
-  "NoSong": [
-    {
-      "maggie": new Audio("/songs/NoMaggie.mp3"),
-      "bart": new Audio("/songs/NoBart.mp3"),
-      "lisa": new Audio("/songs/NoLisa.mp3"),
-      "marge": new Audio("/songs/NoMarge.mp3"),
-      "homer": new Audio("/songs/NoHomer.mp3")
-    }
-  ]
-}
+  "YesSong": [{
+    "maggie": new Audio("/songs/maggie.mp3"),
+    "bart": new Audio("/songs/bart.mp3"),
+    "lisa": new Audio("/songs/lisa.mp3"),
+    "marge": new Audio("/songs/marge.mp3"),
+    "homer": new Audio("/songs/homer.mp3")
+  }],
+  "NoSong": [{
+    "maggie": new Audio("/songs/NoMaggie.mp3"),
+    "bart": new Audio("/songs/NoBart.mp3"),
+    "lisa": new Audio("/songs/NoLisa.mp3"),
+    "marge": new Audio("/songs/NoMarge.mp3"),
+    "homer": new Audio("/songs/NoHomer.mp3")
+  }]
+};
 
 // colors theme default
 
@@ -64,10 +60,10 @@ $('#filled-in-box1').prop('checked', true);
 $('.switchVolume').prop('checked', true);
 
 if ($('.switchVolume').prop('checked') !== true) {
-  for (key in songs.NoSong[0]) {
+  for (var key in songs.NoSong[0]) {
     songs.NoSong[0][key].muted = true;
   }
-  for (key in songs.YesSong[0]) {
+  for (var key in songs.YesSong[0]) {
     songs.YesSong[0][key].muted = true;
   }
 }
@@ -101,7 +97,7 @@ socket.on('init', (game) => {
   for (i = 1; i < 6; i++) {
     const extra = '.extra' + i;
     $(extra + ' .extra-counter span').text(beautifyNumber(game.extra[i].count, true));
-    $(extra + ' .extra-infos .extra-cost').text(beautifyNumber(game.extra[i].cost));
+    $(extra + ' .extra-infos .extra-cost').text(beautifyNumber(game.extra[i].cost[game.buyMultiplier]));
     $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
     if (game.extra[i].enable) {
       $('.extra' + i).removeClass("disabled");
@@ -110,6 +106,7 @@ socket.on('init', (game) => {
       $(extra + ' .extra-head-shadow').removeClass('hidden');
     }
   }
+  $('#value' + game.buyMultiplier).prop('checked', true);
   console.log('Done');
 });
 
@@ -120,8 +117,8 @@ $("#donutLink").click(() => {
 
 // rempplacer par la classe correspondante au boutton radio voir a utiliser
 // 'onchange'
-$('.multiplier').click(() => {
-  socket.emit('updateBuy', $('.multiplier').val());
+$('input[name=group1]').click(() => {
+  socket.emit('updateBuy', $('input[name=group1]:checked').val());
 });
 
 $(".extra1").click(() => {
@@ -236,9 +233,9 @@ socket.on("playNoSong", extra => {
 });
 
 socket.on('getRefresh', (infos) => {
-
   for (let property in infos.extra) {
-    if (infos.extra[property].cost > infos.donuts) {
+    $('.extra' + property + ' .extra-cost').text(infos.extra[property].cost[infos.buyMultiplier]);
+    if (infos.extra[property].cost[infos.buyMultiplier] > infos.donuts) {
       $('.extra' + property).addClass('disabled');
     } else {
       $('.extra' + property).removeClass('disabled');
@@ -266,13 +263,9 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc
-    ? true
-    : false;
+  trunc = istrunc ? true : false;
 
-  return (trunc
-    ? number
-    : number.toFixed(2)) + unit[unitKey];
+  return (trunc ? number : number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {

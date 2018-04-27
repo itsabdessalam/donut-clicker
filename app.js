@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-const dotenv = require('dotenv').config()
+const dotenv = require('dotenv').config();
 const express = require("express");
 const Session = require("express-session");
 const FileStore = require('session-file-store')(Session);
@@ -14,7 +14,9 @@ const flash = require("connect-flash");
 const expressValidator = require("express-validator");
 
 const session = Session({
-  store: new FileStore({secret: process.env.SESSION_FILE_STORE}),
+  store: new FileStore({
+    secret: process.env.SESSION_FILE_STORE
+  }),
   secret: process.env.SESSION_SECRET,
   saveUninitialized: true,
   resave: true
@@ -32,12 +34,12 @@ const app = express();
 const usermodel = require("./models/user");
 // db connection
 mongoose.connect(process.env.DB_URL,
-// Use only in dev if you have mongodb "mongodb://localhost/appLogin",
-err => {
-  if (err) {
-    throw err;
-  }
-});
+  // Use only in dev if you have mongodb "mongodb://localhost/appLogin",
+  err => {
+    if (err) {
+      throw err;
+    }
+  });
 
 // getAllUsers
 app.get("/User", (req, res) => usermodel.getAllUsers((err, user) => res.json(user)));
@@ -58,7 +60,9 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 
 //node-sass-middleware
@@ -86,7 +90,11 @@ app.use(expressValidator({
     while (namespace.length) {
       formParam += `[${namespace.shift()}]`;
     }
-    return {param: formParam, msg, value};
+    return {
+      param: formParam,
+      msg,
+      value
+    };
   }
 }));
 
@@ -117,9 +125,8 @@ app.use((err, req, res, next) => {
   res.locals.message = err.message;
   res.locals.error = req
     .app
-    .get("env") === "development"
-    ? err
-    : {};
+    .get("env") === "development" ?
+    err : {};
 
   // render the error page
   res.status(err.status || 500);

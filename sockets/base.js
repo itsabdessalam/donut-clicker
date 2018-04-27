@@ -38,7 +38,7 @@ module.exports = function (io) {
          *  game.save() => fonction permettant de sauvegarder la partie de l'utilisateur courant
          *  game.achievements() => fonction permettant d'actualiser l'affichage des succés lors de la connexion
          *  game.donutsPerSec() => fonction permettant d'ajouter les donuts/S, qui en réalité ajoute toutes les 100ms
-         *  game.costTotal() => fonction permettant de calculer le coût d'un extra, util lorsqu'on ajoute par 10 ou 100
+         *  game.calcCost() => fonction permettant de calculer le coût d'un extra, util lorsqu'on ajoute par 10 ou 100
          */
         const game = {
             info: null,
@@ -126,14 +126,17 @@ module.exports = function (io) {
                 game.achievements();
                 socket.emit("getDonuts", game.info.donuts);
             },
-            costTotal: (extra) => {
-                let costTot = 0;
-                for (let i = 0; i < game.info.buyMultiplier; i++) {
-                    costTot += game.info.extra[extra].cost;
-                    game.info.extra[extra].cost = Math.trunc(game.info.extra[extra].cost * 1.1);
+            calcCost: (extra, round, cost) => {
+                for (let i = 0; i < round; i++) {
+                    cost = Math.trunc(cost * 1.1);
                 }
 
-                return costTot;
+                return cost;
+            },
+            renewCost: (baseCost, extra) => {
+                for (let mult in game.info.extra[extra].cost) {
+                    game.info.extra[extra].cost[mult] = game.calcCost(extra, mult, baseCost);
+                }
             }
         };
         //console.log('Socket Session'); console.log(socket.handshake.session);
@@ -176,7 +179,11 @@ module.exports = function (io) {
                     enable: false,
                     name: 'Maggie',
                     count: 0,
-                    cost: 10,
+                    cost: {
+                        1: 10,
+                        10: game.calcCost(1, 10, 10),
+                        100: game.calcCost(1, 100, 10)
+                    },
                     bonus: {
                         donutsPerSec: 5
                     }
@@ -185,7 +192,11 @@ module.exports = function (io) {
                     enable: false,
                     name: 'Bart',
                     count: 0,
-                    cost: 200,
+                    cost: {
+                        1: 200,
+                        10: game.calcCost(2, 10, 200),
+                        100: game.calcCost(2, 100, 200)
+                    },
                     bonus: {
                         donutsPerSec: 20
                     }
@@ -194,7 +205,11 @@ module.exports = function (io) {
                     enable: false,
                     name: 'Lisa',
                     count: 0,
-                    cost: 3000,
+                    cost: {
+                        1: 3000,
+                        10: game.calcCost(3, 10, 3000),
+                        100: game.calcCost(3, 100, 3000)
+                    },
                     bonus: {
                         donutsPerSec: 40
                     }
@@ -203,7 +218,11 @@ module.exports = function (io) {
                     enable: false,
                     name: 'Marge',
                     count: 0,
-                    cost: 40000,
+                    cost: {
+                        1: 40000,
+                        10: game.calcCost(4, 10, 40000),
+                        100: game.calcCost(4, 100, 40000)
+                    },
                     bonus: {
                         donutsPerSec: 500
                     }
@@ -212,7 +231,11 @@ module.exports = function (io) {
                     enable: false,
                     name: 'Homer',
                     count: 0,
-                    cost: 500000,
+                    cost: {
+                        1: 500000,
+                        10: game.calcCost(5, 10, 500000),
+                        100: game.calcCost(5, 100, 500000)
+                    },
                     bonus: {
                         donutsPerSec: 2000
                     }
@@ -304,14 +327,15 @@ module.exports = function (io) {
             });
 
             socket.on('addExtra', (extra) => {
-                let cost = game.costTotal(extra);
+                let cost = game.info.extra[extra].cost[game.info.buyMultiplier];
                 if (game.info.donuts >= cost) {
+                    game.renewCost(cost, extra);
                     game.info.countAll += game.info.buyMultiplier;
                     game.info.extra[extra].count += game.info.buyMultiplier;
                     game.info.donuts -= cost;
                     game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
                     socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS,
-                        game.info.extra[extra].cost);
+                        game.info.extra[extra].cost[game.info.buyMultiplier]);
                     socket.emit("playYesSong", extra);
 
                 } else {
@@ -321,7 +345,11 @@ module.exports = function (io) {
             });
 
             socket.on('updateBuy', (value) => {
-                game.info.buyMultiplier = value;
+                const buyMultiplier = parseInt(value);
+                if (buyMultiplier !== game.info.buyMultiplier) {
+                    game.info.buyMultiplier = buyMultiplier;
+                    socket.emit('toast', 'Multipieur Changé !');
+                }
             });
 
             // ajouter vos événements ici au besoin
