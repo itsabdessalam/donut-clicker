@@ -357,7 +357,7 @@ module.exports = function (io) {
             socket.on('setOption', (key, value) => {
                 game.info.options[key] = value;
                 // console.log(game.info.options.notification);
-                console.log(game.info.options[key]);
+                // console.log(game.info.options[key]);
                 socket.emit('toast', 'Option modifiée !', game.info.options[key]);
             });
 
