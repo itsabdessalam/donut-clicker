@@ -15,22 +15,22 @@ block content
                                 span.error_icon
                                     i.ion-ios-close-outline 
                                 | All fields are required
-                        span.card-title.left-align Inscription
+                        span.card-title.left-align Sign up
                         .row
                             .input-field.col.s12
-                                label(for="username") Nom d'utilisateur
+                                label(for="username") Username
                                 input#username.validate(type="text" name="username")
                             .input-field.col.s12
-                                label(for="email") Adresse email
+                                label(for="email") Email
                                 input#email.validate(type="email" name="email")
                             .input-field.col.s12
-                                label(for="password") Mot de passe 
+                                label(for="password") Password
                                 input#password.validate(type="password" name="password")
                             .input-field.col.s12
-                                label(for="password") Confirmez votre mot de passe
+                                label(for="password") Confirm password
                                 input#password_c.validate(type="password" name="password_c")
                             .input-field.col.s12
-                                input.btn.btn-custom.waves-effect.waves-light(type="submit" value="S'inscrire")
+                                input.btn.btn-custom.waves-effect.waves-light(type="submit" value="Sign up")
                     .card-action
-                        a.link-left  Déjà un compte ?
-                        a(class="link-right" , href="/users/login") Se connecter
+                        a.link-left  Have an account ?
+                        a(class="link-right" , href="/users/login") Log in

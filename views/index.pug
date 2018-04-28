@@ -145,8 +145,8 @@ block content
           .opt-main
             .theme
               span 
-               i.ion-android-color-palette
-               | Theme
+                i.ion-android-color-palette
+                | Theme
               a(class="gradient1")   
               a(class="gradient2") 
               a(class="gradient3")   
@@ -206,7 +206,39 @@ block content
                 td test
                 td test
         #gains.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2 Test 4
-
+        //- Modals
+        #modal_profile.modal
+          .modal-content
+            h4.modal-header
+              i.ion-ios-person 
+              | My Profile
+            .row
+              form#updateForm.col.s12
+                .row
+                  .input-field.col.s6
+                    input#id(disabled, value=`${user.id}`, type='text')
+                    label(for='id') Id user
+                  .input-field.col.s6
+                    input#username(value=`${user.username}`, type='text')
+                    label(for='username') Username
+                .row
+                  .input-field.col.s6
+                    input#email( value=`${user.email}`, type='email')
+                    label(for='email') Email
+                  .input-field.col.s6
+                    input#password(value="12345678", type='password')
+                    label(for='Password') Password
+          .modal-footer
+            a.modal-action.modal-update.waves-effect.btn-flat(href='#!') Update
+            a.modal-action.modal-close.waves-effect.btn-flat(href='#!') Close
+        #modal_htp.modal
+          .modal-content
+            h4.modal-header
+              i.ion-ios-help-outline 
+              | How to play ?
+            .row
+          .modal-footer
+            a.modal-action.modal-close.waves-effect.btn-flat(href='#!') Close
 block script
   script(src='/socket.io/socket.io.js')
   script(src="/javascripts/app.js")
@@ -229,3 +261,10 @@ block script
       }, 300);
 
     });
+
+    (function ($) {
+      $(function () {
+        $('.modal').modal();
+
+      }); 
+    })(jQuery);

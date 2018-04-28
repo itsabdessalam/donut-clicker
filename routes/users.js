@@ -23,7 +23,9 @@ router.get("/login", (req, res) => {
   });
 });
 
-//when signup post
+// router.get("/profile", (req, res) => {   res.render("profile", {     title:
+// "Mon profil - Donut Clicker",     pageClass: 'profile'   }); }); when signup
+// post
 router.post("/signup", (req, res) => {
   const username = req.body.username;
   const email = req.body.email;

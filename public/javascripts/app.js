@@ -1,19 +1,17 @@
 /* jshint esversion: 6*/
 const socket = io();
-// YesSong
-const maggie = new Audio("/songs/maggie.mp3");
-const bart = new Audio("/songs/bart.mp3");
-const lisa = new Audio("/songs/lisa.mp3");
-const marge = new Audio("/songs/marge.mp3");
-const homer = new Audio("/songs/homer.mp3");
-// NoSong
-const NoMaggie = new Audio("/songs/NoMaggie.mp3");
-const NoBart = new Audio("/songs/NoBart.mp3");
-const NoLisa = new Audio("/songs/NoLisa.mp3");
-const NoMarge = new Audio("/songs/NoMarge.mp3");
-const NoHomer = new Audio("/songs/NoHomer.mp3");
+// // YesSong const maggie = new Audio("/songs/maggie.mp3"); const bart = new
+// Audio("/songs/bart.mp3"); const lisa = new Audio("/songs/lisa.mp3"); const
+// marge = new Audio("/songs/marge.mp3"); const homer = new
+// Audio("/songs/homer.mp3"); // NoSong const NoMaggie = new
+// Audio("/songs/NoMaggie.mp3"); const NoBart = new Audio("/songs/NoBart.mp3");
+// const NoLisa = new Audio("/songs/NoLisa.mp3"); const NoMarge = new
+// Audio("/songs/NoMarge.mp3"); const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 const songs = {
+  "Intro": {
+    "instru": new Audio("/songs/intro.mp3")
+  },
   "YesSong": [
     {
       "maggie": new Audio("/songs/maggie.mp3"),
@@ -34,7 +32,7 @@ const songs = {
   ]
 };
 
-// colors theme default
+//music colors theme default
 
 $(".gradient1").click(() => {
   $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
@@ -53,18 +51,15 @@ $(".gradient4").click(() => {
   socket.emit('setOption', 'theme', 4);
 });
 
-// changer langue ? à enlever si non utilisé
-$('.opt-langages input[type="checkbox"]').on('change', function () {
-  $('.opt-langages input[type="checkbox"]')
-    .not(this)
-    .prop('checked', false);
-});
-
-// on by default
+// changer langue ? à enlever si non utilisé $('.opt-langages
+// input[type="checkbox"]').on('change', function () {   $('.opt-langages
+// input[type="checkbox"]')     .not(this)     .prop('checked', false); }); on
+// by default
 
 $('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
   .change(function (evt) {
     if ($(this).prop('checked') !== true) {
+      songs.Intro.instru.muted = true;
       for (key in songs.NoSong[0]) {
         songs.NoSong[0][key].muted = true;
       }
@@ -72,12 +67,22 @@ $('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch
         songs.YesSong[0][key].muted = true;
       }
     } else {
+      songs.Intro.instru.muted = false;
       for (key in songs.NoSong[0]) {
         songs.NoSong[0][key].muted = false;
       }
       for (key in songs.YesSong[0]) {
         songs.YesSong[0][key].muted = false;
       }
+    }
+  });
+
+$('.switchMusic') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
+  .change(function (evt) {
+    if ($(this).prop('checked') !== true) {
+      songs.Intro.instru.muted = true
+    } else {
+      songs.Intro.instru.muted = false
     }
   });
 // changement option des notification
@@ -95,6 +100,12 @@ $('.switchMusic').click(() => {
 
 socket.on('init', (game) => {
   console.log('Init Game...');
+  songs.Intro.instru.loop = true;
+  songs.Intro.instru.volume = 0.3;
+  songs
+    .Intro
+    .instru
+    .play();
   switch (game.options.theme) {
     case 1:
       $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");

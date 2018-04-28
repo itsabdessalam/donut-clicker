@@ -9,23 +9,22 @@ html
   body(class=pageClass)
     nav(class="custom-nav")
       .nav-wrapper
-        a.brand-logo(href='#') 
+        a.brand-logo(href='/') 
           img(src="/images/logo-nav.png", alt="",width="160px")
         ul#nav-mobile.right.hide-on-med-and-down
           if user
             li
-              a(href='') 
+              a(class="waves-effect waves-light modal-trigger",href='#modal_htp') 
                 i.ion-ios-help-outline
-                | Comment jouer ?
+                | How to play ?
             li
-              a(href='') 
-               i.ion-ios-person
-               | Profile
-
+               a(class="waves-effect waves-light modal-trigger", href="#modal_profile")
+                i.ion-ios-person
+                | Profile
             li
               a(href='/users/logout') 
                 i.ion-log-in 
-                | Déconnexion
+                | Log out
     block content
   script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js")
   script(src="/javascripts/materialize/bin/materialize.min.js")

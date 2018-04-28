@@ -5,7 +5,9 @@ html {
 }
 
 body.login,
-body.signup {
+body.signup,
+body.profile,
+body.forgot {
   background: linear-gradient(to right bottom, rgb(64, 134, 246), rgb(47, 92, 160));
 }
 
@@ -182,6 +184,56 @@ textarea.materialize-textarea:focus:not([readonly]) {
   color: #fff;
 }
 
+#modal_profile,
+#modal_htp {
+  border-radius: 3px;
+}
+
+#modal_profile .modal-content,
+#modal_htp .modal-content {
+  padding: 0 !important;
+}
+
+#modal_profile .modal-header,
+#modal_htp .modal-header {
+  text-align: left !important;
+  border-bottom: 1px solid rgb(224, 224, 224);
+  padding: 24px 24px 20px;
+  font-size: 22px;
+  background: #4086f6;
+  color: #fff;
+}
+
+#modal_profile form {
+  padding: 22px;
+}
+
+#modal_profile .input-field label.active {
+  color: rgba(0, 0, 0, 0.3) !important;
+}
+
+#modal_profile .modal-update {
+  background: #4086f6;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  margin-right: 15px;
+}
+
+#modal_profile .modal-close {
+  background: #ff4757;
+  color: #fff;
+}
+
+#modal_profile .modal-footer {
+  padding: 0px 20px
+}
+
+#modal_profile .modal-header [class^='ion-'],
+#modal_htp .modal-header [class^='ion-'] {
+  font-size: 35px !important;
+  vertical-align: middle
+}
+
 /*=========== Main page ===========*/
 
 .main.index {
@@ -206,6 +258,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
     padding: 20px;
   }
   .tabs {
+    overflow: hidden;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
   }

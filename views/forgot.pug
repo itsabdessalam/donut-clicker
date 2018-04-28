@@ -1,31 +1,32 @@
 extends layout
 
 block content
-    .main.login
+    .main.signup
         .header-text
             img(src="/images/donut1.png", alt="",width="100px")
             h1(class="header-title") Donut Clicker
             small Built with NodeJS
         .valign-wrapper.row.login-box
-
             .col.card.hoverable.s10.pull-s1.m6.pull-m3.l4.pull-l4
                 form(method="POST")
                     .card-content
-                        if error.length>0 && error!==null
+                        if errors
                             p.message_error
                                 span.error_icon
                                     i.ion-ios-close-outline 
-                                | #{error}
-                        span.card-title.left-align Log in
+                                | All fields are required
+                        span.card-title.left-align Reset password
                         .row
                             .input-field.col.s12
                                 label(for="email") Email
                                 input#email.validate(type="email" name="email")
                             .input-field.col.s12
-                                label(for="password") Password 
+                                label(for="password") New password 
                                 input#password.validate(type="password" name="password")
                             .input-field.col.s12
-                                input.btn.btn-custom.waves-effect.waves-light(type="submit" value="Log in")
+                                label(for="password") Confirm password
+                                input#password_c.validate(type="password" name="password_c")
+                            .input-field.col.s12
+                                input.btn.btn-custom.waves-effect.waves-light(type="submit" value="Reset")
                     .card-action
-                        a(class="link-left", href="/forgot_password") Forgot password?
-                        a(class="link-right" , href="/users/signup") Sign up
+                        a(class="link-right" , href="/users/login") Log in
