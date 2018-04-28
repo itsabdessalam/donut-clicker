@@ -76,8 +76,10 @@ $('.switchVolume').change(function (evt) {
   }
 });
 
-if ($('.switchMusic').prop('checked') !== true) {
+if ($('.switchMusic').prop('checked')) {
   songs.Intro.instru.muted = true
+} else {
+  songs.Intro.instru.muted = false
 }
 
 $('.switchMusic')
@@ -114,6 +116,7 @@ $('.switchVolume').click(() => {
 
 $('.switchMusic').click(() => {
   socket.emit('setOption', 'music', $('.switchMusic').prop('checked'));
+
 });
 
 socket.on('init', (game) => {
