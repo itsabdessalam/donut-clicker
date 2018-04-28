@@ -91,12 +91,27 @@ $('.notifications .switchNotifs').click(() => {
   socket.emit('setOption', 'notification', $('.notifications .switchNotifs').prop('checked'));
 });
 $('.switchVolume').click(() => {
-  socket.emit('setOption', 'volume', $('.switchVolume').prop('checked'))
-})
+  socket.emit('setOption', 'volume', $('.switchVolume').prop('checked'));
+  if ($('.switchVolume').prop('checked')) {
+    for (let key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = false;
+    }
+    for (let key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = false;
+    }
+  } else {
+    for (let key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = true;
+    }
+    for (let key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = true;
+    }
+  }
+});
 
 $('.switchMusic').click(() => {
-  socket.emit('setOption', 'music', $('.switchMusic').prop('checked'))
-})
+  socket.emit('setOption', 'music', $('.switchMusic').prop('checked'));
+});
 
 socket.on('init', (game) => {
   console.log('Init Game...');
@@ -126,6 +141,21 @@ socket.on('init', (game) => {
 
   $('.switchVolume').prop('checked', game.options.volume);
   $('.switchMusic').prop('checked', game.options.music);
+  if ($('.switchVolume').prop('checked')) {
+    for (let key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = false;
+    }
+    for (let key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = false;
+    }
+  } else {
+    for (let key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = true;
+    }
+    for (let key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = true;
+    }
+  }
   // console.log($('.notifications .switchVolume').prop('checked'));
   $('.notifications .switchNotifs').prop('checked', game.options.notification);
   // console.log($('.notifications .switchVolume').prop('checked'));
