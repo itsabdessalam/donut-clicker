@@ -56,28 +56,31 @@ $(".gradient4").click(() => {
 // input[type="checkbox"]')     .not(this)     .prop('checked', false); }); on
 // by default
 
-$('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
-  .change(function (evt) {
-    if ($(this).prop('checked') !== true) {
-      songs.Intro.instru.muted = true;
-      for (key in songs.NoSong[0]) {
-        songs.NoSong[0][key].muted = true;
-      }
-      for (key in songs.YesSong[0]) {
-        songs.YesSong[0][key].muted = true;
-      }
-    } else {
-      songs.Intro.instru.muted = false;
-      for (key in songs.NoSong[0]) {
-        songs.NoSong[0][key].muted = false;
-      }
-      for (key in songs.YesSong[0]) {
-        songs.YesSong[0][key].muted = false;
-      }
+$('.switchVolume').change(function (evt) {
+  if ($(this).prop('checked') !== true) {
+    songs.Intro.instru.muted = true;
+    for (key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = true;
     }
-  });
+    for (key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = true;
+    }
+  } else {
+    songs.Intro.instru.muted = false;
+    for (key in songs.NoSong[0]) {
+      songs.NoSong[0][key].muted = false;
+    }
+    for (key in songs.YesSong[0]) {
+      songs.YesSong[0][key].muted = false;
+    }
+  }
+});
 
-$('.switchMusic') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
+if ($('.switchMusic').prop('checked') !== true) {
+  songs.Intro.instru.muted = true
+}
+
+$('.switchMusic')
   .change(function (evt) {
     if ($(this).prop('checked') !== true) {
       songs.Intro.instru.muted = true

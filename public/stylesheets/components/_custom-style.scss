@@ -500,6 +500,23 @@ textarea.materialize-textarea:focus:not([readonly]) {
         }
       }
     }
+    .gains {
+      .success {
+        padding-top: 50px;
+        padding-bottom: 50px;
+        .success-content {
+          width: 50px;
+          line-height: 50px;
+          box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
+          border-radius: 2px;
+          margin: auto
+        }
+        img {
+          width: 100%;
+          vertical-align: middle;
+        }
+      }
+    }
   }
 }
 

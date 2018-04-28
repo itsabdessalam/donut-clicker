@@ -7339,6 +7339,18 @@ textarea.materialize-textarea:focus:not([readonly]) {
     background-image: linear-gradient(-20deg, #00cdac 0%, #8daada 100%); }
   .main.index .game .options .opt-main .theme .gradient4 {
     background-image: linear-gradient(-20deg, #fc6076 0%, #ff9a44 100%); }
+  .main.index .game .gains .success {
+    padding-top: 50px;
+    padding-bottom: 50px; }
+    .main.index .game .gains .success .success-content {
+      width: 50px;
+      line-height: 50px;
+      box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
+      border-radius: 2px;
+      margin: auto; }
+    .main.index .game .gains .success img {
+      width: 100%;
+      vertical-align: middle; }
 
 @-webkit-keyframes fadeIn {
   from {
