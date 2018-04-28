@@ -35,5 +35,5 @@ npm-debug.log
 .vscode
 
 
-/sessions
-/public/stylesheets/style.css.map
+sessions
+public/stylesheets/style.css.map

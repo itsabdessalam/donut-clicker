@@ -4,14 +4,8 @@ html {
   overflow: auto;
 }
 
-body.login,
-body.signup,
-body.profile,
-body.forgot {
-  background: linear-gradient(to right bottom, rgb(64, 134, 246), rgb(47, 92, 160));
-}
-
 body {
+  background: linear-gradient(to right bottom, rgb(64, 134, 246), rgb(47, 92, 160));
   font-family: 'Nunito', sans-serif;
   height: 100vh;
   min-height: 100vh;

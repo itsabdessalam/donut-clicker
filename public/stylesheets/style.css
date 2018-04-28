@@ -6943,13 +6943,8 @@ html {
   min-height: 100vh;
   overflow: auto; }
 
-body.login,
-body.signup,
-body.profile,
-body.forgot {
-  background: linear-gradient(to right bottom, #4086f6, #2f5ca0); }
-
 body {
+  background: linear-gradient(to right bottom, #4086f6, #2f5ca0);
   font-family: 'Nunito', sans-serif;
   height: 100vh;
   min-height: 100vh;
