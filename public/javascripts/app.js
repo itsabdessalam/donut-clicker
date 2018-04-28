@@ -51,11 +51,6 @@ $(".gradient4").click(() => {
   socket.emit('setOption', 'theme', 4);
 });
 
-// changer langue ? à enlever si non utilisé $('.opt-langages
-// input[type="checkbox"]').on('change', function () {   $('.opt-langages
-// input[type="checkbox"]')     .not(this)     .prop('checked', false); }); on
-// by default
-
 $('.switchVolume').change(function (evt) {
   if ($(this).prop('checked') !== true) {
     songs.Intro.instru.muted = true;
@@ -76,20 +71,13 @@ $('.switchVolume').change(function (evt) {
   }
 });
 
-if ($('.switchMusic').prop('checked')) {
-  songs.Intro.instru.muted = true
-} else {
-  songs.Intro.instru.muted = false
-}
-
-$('.switchMusic')
-  .change(function (evt) {
-    if ($(this).prop('checked') !== true) {
-      songs.Intro.instru.muted = true
-    } else {
-      songs.Intro.instru.muted = false
-    }
-  });
+$('.switchMusic').change(function (evt) {
+  if ($(this).prop('checked') !== true) {
+    songs.Intro.instru.muted = true
+  } else {
+    songs.Intro.instru.muted = false
+  }
+});
 // changement option des notification
 $('.notifications .switchNotifs').click(() => {
   // console.log($('.notifications .switchVolume').prop('checked'));
@@ -162,6 +150,12 @@ socket.on('init', (game) => {
       songs.YesSong[0][key].muted = true;
     }
   }
+  if ($('.switchMusic').prop('checked')) {
+    songs.Intro.instru.muted = false
+  } else {
+    songs.Intro.instru.muted = true
+  }
+
   // console.log($('.notifications .switchVolume').prop('checked'));
   $('.notifications .switchNotifs').prop('checked', game.options.notification);
   // console.log($('.notifications .switchVolume').prop('checked'));
