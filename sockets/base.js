@@ -10,18 +10,16 @@ const sharedsession = require('express-socket.io-session');
  *  Utiliser la session => 'socket.handshake.session'
  *  Emettre un évenement => 'socket.emit('name', dataToSend)'
  *  Recevoir un évenement => 'socket.on('name', (dataSent) => Ce que tu dois faire avec )
- * 
+ *
  *  Pour les ajouter des info dans le jeux, il y a 2 JSON
  *  - un qui contient toutes les info static (qui n'est pas sauvegardé en base)
  *  - un qui contient toutes les infos d'une partie (qui est sauvegardé en base)
- * 
+ *
  *  A vous de voir si vous avez besoin de nouvelle info, et au besoin de le rajouter dans le JSON approprié
  */
 
 module.exports = function (io) {
-    io.use(sharedsession(session, {
-        autoSave: true
-    }));
+    io.use(sharedsession(session, {autoSave: true}));
     let o;
     io.origins((origin, callback) => {
         const q = url.parse(origin);
@@ -97,7 +95,7 @@ module.exports = function (io) {
                 }).then((response) => {
                     //console.log(response.data);
                     if (response.data.saved) {
-                        socket.emit('toast', 'Partie Sauvegardé !',  game.info.options.notification);
+                        socket.emit('toast', 'Partie Sauvegardé !', game.info.options.notification);
                         console.log(socket.handshake.session.passport.user + ' : Game successfully saved !');
                     } else {
                         socket.emit('toast', 'Une erreur est survenue lors de la sauvegarde !', game.info.options.notification);
@@ -115,7 +113,7 @@ module.exports = function (io) {
                             .unlockAchievement[achievement]
                             .isUnlock();
                         if (game.info.achievements[achievement].enable) {
-                            socket.emit("toast", game.info.achievements[achievement].name,  game.info.options.notification);
+                            socket.emit("toast", game.info.achievements[achievement].name, game.info.options.notification);
                             socket.emit("enable", game.info.achievements[achievement].unlock);
                         }
                     }
@@ -144,7 +142,7 @@ module.exports = function (io) {
 
         /*  INFOS SUR LE JSON DE L'UTILISATEUR
          *
-         *  newGame.donuts => nombre total de donuts depuis le début 
+         *  newGame.donuts => nombre total de donuts depuis le début
          *  newGame.donutsPerS => nombre de donuts par seconde
          *  newGame.donutsPerC => nombre de donuts par click
          *  newGame.clicks => nombre de click depuis le début
@@ -152,7 +150,7 @@ module.exports = function (io) {
          *  newGame.countAll => nombre total d'extra possédé
          *  newGame.buyMultiplier => nombre d'extra acheté par click
          *  newGame.start => date de début de la partie
-         *  newGame.options => options du joueur (son, notif, theme ...) 
+         *  newGame.options => options du joueur (son, notif, theme ...)
          *  newGame.extra => stats détaillé sur chaque extra
          *  newGame.extra[x].enable => booléen indiquant si l'extra est débloqué
          *  newGame.extra[x].name => nom de l'extra
@@ -178,7 +176,7 @@ module.exports = function (io) {
                 'theme': 1,
                 'volume': true,
                 'music': true,
-                'notification': true,
+                'notification': true
             },
             extra: {
                 1: {
@@ -287,8 +285,8 @@ module.exports = function (io) {
                     id: socket.handshake.session.passport.user
                 }
             }).then((response) => {
-                //console.log(response); console.log(response.data);
-                //  si l'objet reçu contient une sauvegarde
+                // console.log(response); console.log(response.data);  si l'objet reçu contient
+                // une sauvegarde
                 if (response.data.backup !== null) {
                     //  je l'initialise dans le JSON du jeu
                     if (util.isObject(response.data.backup)) {
@@ -305,8 +303,7 @@ module.exports = function (io) {
                 if (!game.info.hasOwnProperty('donutsPerC')) {
                     game.info.donutsPerC = 1;
                 }
-                //console.log(game);
-                // Initialisation du jeu coté client
+                //console.log(game); Initialisation du jeu coté client
                 console.log(socket.handshake.session.passport.user + ' : Initialize game...');
                 socket.emit('init', game.info);
                 // Lancement de la sauvegarde automatique et du racfraîchissement
@@ -320,7 +317,7 @@ module.exports = function (io) {
             });
             /*
              *  Tous les événements du sockets, ils onts des nom assez explicite
-             * 
+             *
              */
 
             socket.on('addDonut', (data) => {
@@ -340,8 +337,7 @@ module.exports = function (io) {
                     game.info.extra[extra].count += game.info.buyMultiplier;
                     game.info.donuts -= cost;
                     game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
-                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS,
-                        game.info.extra[extra].cost[game.info.buyMultiplier]);
+                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS, game.info.extra[extra].cost[game.info.buyMultiplier]);
                     socket.emit("playYesSong", extra);
 
                 } else {
@@ -361,7 +357,8 @@ module.exports = function (io) {
             socket.on('setOption', (key, value) => {
                 game.info.options[key] = value;
                 // console.log(game.info.options.notification);
-                socket.emit('toast', 'Option mofifié !', game.info.options.notification);                
+                console.log(game.info.options[key]);
+                socket.emit('toast', 'Option modifiée !', game.info.options[key]);
             });
 
             // ajouter vos événements ici au besoin

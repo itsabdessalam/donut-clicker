@@ -14,20 +14,24 @@ const NoMarge = new Audio("/songs/NoMarge.mp3");
 const NoHomer = new Audio("/songs/NoHomer.mp3");
 
 const songs = {
-  "YesSong": [{
-    "maggie": new Audio("/songs/maggie.mp3"),
-    "bart": new Audio("/songs/bart.mp3"),
-    "lisa": new Audio("/songs/lisa.mp3"),
-    "marge": new Audio("/songs/marge.mp3"),
-    "homer": new Audio("/songs/homer.mp3")
-  }],
-  "NoSong": [{
-    "maggie": new Audio("/songs/NoMaggie.mp3"),
-    "bart": new Audio("/songs/NoBart.mp3"),
-    "lisa": new Audio("/songs/NoLisa.mp3"),
-    "marge": new Audio("/songs/NoMarge.mp3"),
-    "homer": new Audio("/songs/NoHomer.mp3")
-  }]
+  "YesSong": [
+    {
+      "maggie": new Audio("/songs/maggie.mp3"),
+      "bart": new Audio("/songs/bart.mp3"),
+      "lisa": new Audio("/songs/lisa.mp3"),
+      "marge": new Audio("/songs/marge.mp3"),
+      "homer": new Audio("/songs/homer.mp3")
+    }
+  ],
+  "NoSong": [
+    {
+      "maggie": new Audio("/songs/NoMaggie.mp3"),
+      "bart": new Audio("/songs/NoBart.mp3"),
+      "lisa": new Audio("/songs/NoLisa.mp3"),
+      "marge": new Audio("/songs/NoMarge.mp3"),
+      "homer": new Audio("/songs/NoHomer.mp3")
+    }
+  ]
 };
 
 // colors theme default
@@ -58,19 +62,6 @@ $('.opt-langages input[type="checkbox"]').on('change', function () {
 
 // on by default
 
-/*
-$('#filled-in-box1').prop('checked', true); // à deplacer dans init lorsque implementer
-
-$('.switchVolume').prop('checked', true); // à deplacer dans init lorsque implementer
-
-if ($('.switchVolume').prop('checked') !== true) {
-  for (var key in songs.NoSong[0]) {
-    songs.NoSong[0][key].muted = true;
-  }
-  for (var key in songs.YesSong[0]) {
-    songs.YesSong[0][key].muted = true;
-  }
-}
 $('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch ou changer les classes
   .change(function (evt) {
     if ($(this).prop('checked') !== true) {
@@ -89,12 +80,18 @@ $('.switchVolume') // ajouter volume ou music pour ne pas cibler plusieur switch
       }
     }
   });
-  */
 // changement option des notification
-$('.notifications .switchVolume').click(() => {
-  // console.log($('.notifications .switchVolume').prop('checked'));  
-  socket.emit('setOption', 'notification', $('.notifications .switchVolume').prop('checked'));
+$('.notifications .switchNotifs').click(() => {
+  // console.log($('.notifications .switchVolume').prop('checked'));
+  socket.emit('setOption', 'notification', $('.notifications .switchNotifs').prop('checked'));
 });
+$('.switchVolume').click(() => {
+  socket.emit('setOption', 'volume', $('.switchVolume').prop('checked'))
+})
+
+$('.switchMusic').click(() => {
+  socket.emit('setOption', 'music', $('.switchMusic').prop('checked'))
+})
 
 socket.on('init', (game) => {
   console.log('Init Game...');
@@ -115,8 +112,11 @@ socket.on('init', (game) => {
       $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
       break;
   }
+
+  $('.switchVolume').prop('checked', game.options.volume);
+  $('.switchMusic').prop('checked', game.options.music);
   // console.log($('.notifications .switchVolume').prop('checked'));
-  $('.notifications .switchVolume').prop('checked', game.options.notification);
+  $('.notifications .switchNotifs').prop('checked', game.options.notification);
   // console.log($('.notifications .switchVolume').prop('checked'));
   $('.nbDonuts').text(beautifyNumber(game.donuts));
   document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
@@ -172,9 +172,10 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display)
+  if (display) 
     Materialize.toast(data, 1000);
-});
+  }
+);
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -292,9 +293,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc ? true : false;
+  trunc = istrunc
+    ? true
+    : false;
 
-  return (trunc ? number : number.toFixed(2)) + unit[unitKey];
+  return (trunc
+    ? number
+    : number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {
