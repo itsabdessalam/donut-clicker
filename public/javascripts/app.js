@@ -12,24 +12,20 @@ const songs = {
   "Intro": {
     "instru": new Audio("/songs/intro.mp3")
   },
-  "YesSong": [
-    {
-      "maggie": new Audio("/songs/maggie.mp3"),
-      "bart": new Audio("/songs/bart.mp3"),
-      "lisa": new Audio("/songs/lisa.mp3"),
-      "marge": new Audio("/songs/marge.mp3"),
-      "homer": new Audio("/songs/homer.mp3")
-    }
-  ],
-  "NoSong": [
-    {
-      "maggie": new Audio("/songs/NoMaggie.mp3"),
-      "bart": new Audio("/songs/NoBart.mp3"),
-      "lisa": new Audio("/songs/NoLisa.mp3"),
-      "marge": new Audio("/songs/NoMarge.mp3"),
-      "homer": new Audio("/songs/NoHomer.mp3")
-    }
-  ]
+  "YesSong": [{
+    "maggie": new Audio("/songs/maggie.mp3"),
+    "bart": new Audio("/songs/bart.mp3"),
+    "lisa": new Audio("/songs/lisa.mp3"),
+    "marge": new Audio("/songs/marge.mp3"),
+    "homer": new Audio("/songs/homer.mp3")
+  }],
+  "NoSong": [{
+    "maggie": new Audio("/songs/NoMaggie.mp3"),
+    "bart": new Audio("/songs/NoBart.mp3"),
+    "lisa": new Audio("/songs/NoLisa.mp3"),
+    "marge": new Audio("/songs/NoMarge.mp3"),
+    "homer": new Audio("/songs/NoHomer.mp3")
+  }]
 };
 
 //music colors theme default
@@ -85,7 +81,7 @@ $('.switchMusic').click(() => {
   }
 });
 
-socket.on('init', (game) => {
+socket.on('init', (game, other) => {
   console.log('Init Game...');
   songs.Intro.instru.loop = true;
   songs.Intro.instru.volume = 0.3;
@@ -107,7 +103,6 @@ socket.on('init', (game) => {
       $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
       break;
   }
-
   $('.switchVolume').prop('checked', game.options.volume);
   $('.switchMusic').prop('checked', game.options.music);
   if ($('.switchVolume').prop('checked')) {
@@ -135,16 +130,24 @@ socket.on('init', (game) => {
   document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
   $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
   $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
-  for (i = 1; i < 6; i++) {
+  for (let i in game.extra) {
     const extra = '.extra' + i;
     $(extra + ' .extra-counter span').text(beautifyNumber(game.extra[i].count, true));
     $(extra + ' .extra-infos .extra-cost').text(beautifyNumber(game.extra[i].cost[game.buyMultiplier]));
     $(extra + ' .extra-infos .extra-title').text(game.extra[i].name);
-    if (game.extra[i].enable) {
+    if (game.achievements[i].enable) {
       $('.extra' + i).removeClass("disabled");
     } else {
       $(extra + ' .extra-head-img').addClass('hidden');
       $(extra + ' .extra-head-shadow').removeClass('hidden');
+    }
+  }
+  for (let achievement in game.achievements) {
+    for (let item in game.achievements[achievement]) {
+      if (game.achievements[achievement][item]) {
+        $(other[achievement][item].unlock + ' .unlock').removeClass('hidden');
+        $(other[achievement][item].unlock + ' .lock').addClass('hidden');
+      }
     }
   }
   $('#value' + game.buyMultiplier).prop('checked', true);
@@ -184,10 +187,9 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display) 
+  if (display)
     Materialize.toast(data, 1000);
-  }
-);
+});
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -195,6 +197,11 @@ socket.on("enable", extra => {
     $(extra + ' .extra-head-img').removeClass('hidden');
     $(extra + ' .extra-head-shadow').addClass('hidden');
   }
+});
+
+socket.on('unlock', item => {
+  $(item + ' .unlock').removeClass('hidden');
+  $(item + ' .lock').addClass('hidden');
 });
 
 socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
@@ -305,13 +312,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc
-    ? true
-    : false;
+  trunc = istrunc ?
+    true :
+    false;
 
-  return (trunc
-    ? number
-    : number.toFixed(2)) + unit[unitKey];
+  return (trunc ?
+    number :
+    number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {

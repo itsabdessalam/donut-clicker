@@ -71,18 +71,18 @@ router.post('/forgot_password', (req, res) => {
         bcrypt.hash(req.body.password, salt, (err, hash) => {
           user.password = hash;
           user.save(function (err) {
-            if (err) 
+            if (err)
               throw err;
             console.log(req.body.email + ' : Reset done !');
-            res.send({reset: true});
+            res.send({ reset: true });
           });
         });
-      })
+      });
     } else {
       res.send("User not found");
-    };
+    }
   });
-})
+});
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {

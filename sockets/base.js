@@ -19,7 +19,9 @@ const sharedsession = require('express-socket.io-session');
  */
 
 module.exports = function (io) {
-    io.use(sharedsession(session, {autoSave: true}));
+    io.use(sharedsession(session, {
+        autoSave: true
+    }));
     let o;
     io.origins((origin, callback) => {
         const q = url.parse(origin);
@@ -32,56 +34,377 @@ module.exports = function (io) {
         /*  INFOS SUR LE JSON
          *
          *  game.info => donné de l'utilisateur, par défault null, qui seront chargé lors de la connexion ou créer avec le JSON newGame
-         *  game.unlockAchievement => objet contenant les fonctions permettant de savoir si un succés est débloqué
+         *  game.achievements => objet contenant tout ce qui concerne les succès
+         *  game.achievements.setAchievements() => fonction permettant d'actualiser l'affichage des succés
          *  game.save() => fonction permettant de sauvegarder la partie de l'utilisateur courant
-         *  game.achievements() => fonction permettant d'actualiser l'affichage des succés lors de la connexion
          *  game.donutsPerSec() => fonction permettant d'ajouter les donuts/S, qui en réalité ajoute toutes les 100ms
          *  game.calcCost() => fonction permettant de calculer les coûts d'un extra, util lorsqu'on ajoute par 10 ou 100
          *  game.renewCost() => fonction permettant de mettre à jour les coûts d'un extra
          */
         const game = {
             info: null,
-            unlockAchievement: {
-                'maggie': {
-                    isUnlock: () => {
-                        if (game.info.donuts >= 10) {
-                            return true;
+            achievements: {
+                setAchievements: () => {
+                    for (let achievement in game.info.achievements) {
+                        for (let item in game.info.achievements[achievement]) {
+                            if (!game.info.achievements[achievement][item]) {
+                                game.info.achievements[achievement][item] = game.achievements.items[achievement][item].isUnlock();
+                                if (game.info.achievements[achievement][item]) {
+                                    socket.emit("toast", game.achievements.items[achievement][item].name, game.info.options.notification);
+                                    if (item == 'enable') {
+                                        socket.emit("enable", game.achievements.items[achievement][item].unlock);
+                                    } else {
+                                        socket.emit('unlock', game.achievements.items[achievement][item].unlock);
+                                    }
+                                }
+                            }
                         }
-                        return false;
                     }
                 },
-                'bart': {
-                    isUnlock: () => {
-                        if (game.info.donuts >= 200) {
-                            return true;
-                        }
-                        return false;
+                items: {
+                    1: {
+                        enable: {
+                            name: 'Vous avez débloqué Maggie',
+                            desc: 'Avoir 10 donuts depuis le début',
+                            unlock: '.extra1',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1: {
+                            name: 'Succès : Ma première Maggie',
+                            desc: 'Posséder 1 Maggie',
+                            unlock: '#maggie-1',
+                            isUnlock: () => {
+                                if (game.info.extra[1].count >= 1) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        10: {
+                            name: 'Succès : Amateur de Maggie',
+                            desc: 'Posséder 10 Maggie',
+                            unlock: '#maggie-2',
+                            isUnlock: () => {
+                                if (game.info.extra[1].count >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        100: {
+                            name: 'Succès : Fan de Maggie',
+                            desc: 'Posséder 100 Maggie',
+                            unlock: '#maggie-3',
+                            isUnlock: () => {
+                                if (game.info.extra[1].count >= 100) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1000: {
+                            name: 'Succès : Collectionneur de Maggie',
+                            desc: 'Posséder 1 K Maggie',
+                            unlock: '#maggie-4',
+                            isUnlock: () => {
+                                if (game.info.extra[1].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                    },
+                    2: {
+                        enable: {
+                            name: 'Vous avez débloqué Bart',
+                            desc: 'Avoir 200 donuts depuis le début',
+                            unlock: '.extra2',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 200) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1: {
+                            name: 'Succès : Mon premier Bart',
+                            desc: 'Posséder 1 Bart',
+                            unlock: '#bart-1',
+                            isUnlock: () => {
+                                if (game.info.extra[2].count >= 1) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        10: {
+                            name: 'Succès : Amateur de Bart',
+                            desc: 'Posséder 10 Bart',
+                            unlock: '#bart-2',
+                            isUnlock: () => {
+                                if (game.info.extra[2].count >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        100: {
+                            name: 'Succès : Fan de Bart',
+                            desc: 'Posséder 100 Bart',
+                            unlock: '#bart-3',
+                            isUnlock: () => {
+                                if (game.info.extra[2].count >= 100) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1000: {
+                            name: 'Succès : Collectionneur de Bart',
+                            desc: 'Posséder 1 K Bart',
+                            unlock: '#bart-4',
+                            isUnlock: () => {
+                                if (game.info.extra[2].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                    },
+                    3: {
+                        enable: {
+                            name: 'Vous avez débloqué Lisa',
+                            desc: 'Avoir 3 K donuts depuis le début',
+                            unlock: '.extra3',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 3000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1: {
+                            name: 'Succès : Ma première Lisa',
+                            desc: 'Posséder 1 Lisa',
+                            unlock: '#lisa-1',
+                            isUnlock: () => {
+                                if (game.info.extra[3].count >= 1) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        10: {
+                            name: 'Succès : Amateur de Lisa',
+                            desc: 'Posséder 10 Lisa',
+                            unlock: '#lisa-2',
+                            isUnlock: () => {
+                                if (game.info.extra[3].count >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        100: {
+                            name: 'Succès : Fan de Lisa',
+                            desc: 'Posséder 100 Lisa',
+                            unlock: '#lisa-3',
+                            isUnlock: () => {
+                                if (game.info.extra[3].count >= 100) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1000: {
+                            name: 'Succès : Collectionneur de Lisa',
+                            desc: 'Posséder 1 K Lisa',
+                            unlock: '#lisa-4',
+                            isUnlock: () => {
+                                if (game.info.extra[3].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                    },
+                    4: {
+                        enable: {
+                            name: 'Vous avez débloqué Marge',
+                            desc: 'Avoir 40 K donuts depuis le début',
+                            unlock: '.extra4',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 40000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1: {
+                            name: 'Succès : Ma première Marge',
+                            desc: 'Posséder 1 Marge',
+                            unlock: '#marge-1',
+                            isUnlock: () => {
+                                if (game.info.extra[4].count >= 1) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        10: {
+                            name: 'Succès : Amateur de Marge',
+                            desc: 'Posséder 10 Marge',
+                            unlock: '#marge-2',
+                            isUnlock: () => {
+                                if (game.info.extra[4].count >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        100: {
+                            name: 'Succès : Fan de Marge',
+                            desc: 'Posséder 100 Marge',
+                            unlock: '#marge-3',
+                            isUnlock: () => {
+                                if (game.info.extra[4].count >= 100) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1000: {
+                            name: 'Succès : Collectionneur de Marge',
+                            desc: 'Posséder 1 K Marge',
+                            unlock: '.marge-4',
+                            isUnlock: () => {
+                                if (game.info.extra[4].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                    },
+                    5: {
+                        enable: {
+                            name: 'Vous avez débloqué Homer',
+                            desc: 'Avoir 500 K donuts depuis le début',
+                            unlock: '.extra5',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 500000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1: {
+                            name: 'Succès : Mon premier Homer',
+                            desc: 'Posséder 1 Homer',
+                            unlock: '#homer-1',
+                            isUnlock: () => {
+                                if (game.info.extra[5].count >= 1) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        10: {
+                            name: 'Succès : Amateur de Homer',
+                            desc: 'Posséder 10 Homer',
+                            unlock: '.homer-2',
+                            isUnlock: () => {
+                                if (game.info.extra[5].count >= 10) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        100: {
+                            name: 'Succès : Fan de Homer',
+                            desc: 'Posséder 100 Homer',
+                            unlock: '#homer-3',
+                            isUnlock: () => {
+                                if (game.info.extra[5].count >= 100) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                        1000: {
+                            name: 'Succès : Collectionneur de Homer',
+                            desc: 'Posséder 1 K Homer',
+                            unlock: '#homer-4',
+                            isUnlock: () => {
+                                if (game.info.extra[5].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            },
+                        },
+                    },
+                    donuts: {
+                        1: {
+                            name: 'Succès : Goinfre',
+                            desc: 'Avoir 1 MD de donuts depuis le début',
+                            unlock: '#surprise-1',
+                            isUnlock: () => {
+                                if (game.info.donutsTot >= 1000000000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        2: {
+                            name: 'Succès : Collectionneur de donuts',
+                            desc: 'Avoir 100 M de donuts',
+                            unlock: '#surprise-2',
+                            isUnlock: () => {
+                                if (game.info.donuts >= 100000000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        3: {
+                            name: 'Succès : Prodige du click',
+                            desc: 'Faire 100 K click',
+                            unlock: '#surprise-3',
+                            isUnlock: () => {
+                                if (game.info.clicks >= 100000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        4: {
+                            name: 'Succès : Collectionneur de Simpson',
+                            desc: 'Avoir 10 K Simpson',
+                            unlock: '#surprise-4',
+                            isUnlock: () => {
+                                if (game.info.countAll >= 10000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        5: {
+                            name: 'Succès : Roi du Donuts',
+                            desc: 'Gagner 1 M de donuts par seconde',
+                            unlock: '#surprise-5',
+                            isUnlock: () => {
+                                if (game.info.donutsPerS >= 1000000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
                     }
                 },
-                'lisa': {
-                    isUnlock: () => {
-                        if (game.info.donuts >= 3000) {
-                            return true;
-                        }
-                        return false;
-                    }
-                },
-                'marge': {
-                    isUnlock: () => {
-                        if (game.info.donuts >= 40000) {
-                            return true;
-                        }
-                        return false;
-                    }
-                },
-                'homer': {
-                    isUnlock: () => {
-                        if (game.info.donuts >= 500000) {
-                            return true;
-                        }
-                        return false;
-                    }
-                }
             },
             save: () => {
                 axios({
@@ -105,24 +428,10 @@ module.exports = function (io) {
                     console.log(error);
                 });
             },
-            achievements: () => {
-                for (const achievement in game.info.achievements) {
-                    if (!game.info.achievements[achievement].enable) {
-                        const regex = /\d/;
-                        game.info.achievements[achievement].enable = game.info.extra[regex.exec(game.info.achievements[achievement].unlock)].enable = game
-                            .unlockAchievement[achievement]
-                            .isUnlock();
-                        if (game.info.achievements[achievement].enable) {
-                            socket.emit("toast", game.info.achievements[achievement].name, game.info.options.notification);
-                            socket.emit("enable", game.info.achievements[achievement].unlock);
-                        }
-                    }
-                }
-            },
             donutsPerSec: () => {
                 game.info.donuts += game.info.donutsPerS / 100;
                 game.info.donutsTot += game.info.donutsPerS / 100;
-                game.achievements();
+                game.achievements.setAchievements();
                 socket.emit("getDonuts", game.info.donuts);
             },
             calcCost: (extra, round, cost) => {
@@ -142,9 +451,10 @@ module.exports = function (io) {
 
         /*  INFOS SUR LE JSON DE L'UTILISATEUR
          *
-         *  newGame.donuts => nombre total de donuts depuis le début
+         *  newGame.donuts => nombre de donuts possédé
          *  newGame.donutsPerS => nombre de donuts par seconde
          *  newGame.donutsPerC => nombre de donuts par click
+         *  newGame.donutsTot => nombre total de donuts depuis le début
          *  newGame.clicks => nombre de click depuis le début
          *  newGame.donutsOnClick => nombre de donuts gagné grâce à un click
          *  newGame.countAll => nombre total d'extra possédé
@@ -180,7 +490,6 @@ module.exports = function (io) {
             },
             extra: {
                 1: {
-                    enable: false,
                     name: 'Maggie',
                     count: 0,
                     cost: {
@@ -193,7 +502,6 @@ module.exports = function (io) {
                     }
                 },
                 2: {
-                    enable: false,
                     name: 'Bart',
                     count: 0,
                     cost: {
@@ -206,7 +514,6 @@ module.exports = function (io) {
                     }
                 },
                 3: {
-                    enable: false,
                     name: 'Lisa',
                     count: 0,
                     cost: {
@@ -219,7 +526,6 @@ module.exports = function (io) {
                     }
                 },
                 4: {
-                    enable: false,
                     name: 'Marge',
                     count: 0,
                     cost: {
@@ -232,7 +538,6 @@ module.exports = function (io) {
                     }
                 },
                 5: {
-                    enable: false,
                     name: 'Homer',
                     count: 0,
                     cost: {
@@ -246,30 +551,47 @@ module.exports = function (io) {
                 }
             },
             achievements: {
-                'maggie': {
-                    name: 'Maggie débloqué',
+                1: {
                     enable: false,
-                    unlock: '.extra1'
+                    1: false,
+                    10: false,
+                    100: false,
+                    1000: false,
                 },
-                'bart': {
-                    name: 'Bart débloqué !',
+                2: {
                     enable: false,
-                    unlock: '.extra2'
+                    1: false,
+                    10: false,
+                    100: false,
+                    1000: false,
                 },
-                'lisa': {
-                    name: 'Lisa débloqué !',
+                3: {
                     enable: false,
-                    unlock: '.extra3'
+                    1: false,
+                    10: false,
+                    100: false,
+                    1000: false,
                 },
-                'marge': {
-                    name: 'Marge débloqué !',
+                4: {
                     enable: false,
-                    unlock: '.extra4'
+                    1: false,
+                    10: false,
+                    100: false,
+                    1000: false,
                 },
-                'homer': {
-                    name: 'Homer débloqué !',
+                5: {
                     enable: false,
-                    unlock: '.extra5'
+                    1: false,
+                    10: false,
+                    100: false,
+                    1000: false,
+                },
+                donuts: {
+                    1: false,
+                    2: false,
+                    3: false,
+                    4: false,
+                    5: false,
                 }
             }
         };
@@ -305,7 +627,7 @@ module.exports = function (io) {
                 }
                 //console.log(game); Initialisation du jeu coté client
                 console.log(socket.handshake.session.passport.user + ' : Initialize game...');
-                socket.emit('init', game.info);
+                socket.emit('init', game.info, game.achievements.items);
                 // Lancement de la sauvegarde automatique et du racfraîchissement
                 save = setInterval(game.save, 30000);
                 refresh = setInterval(() => {
@@ -325,7 +647,7 @@ module.exports = function (io) {
                 game.info.donutsOnClick += game.info.donutsPerC;
                 game.info.donuts += game.info.donutsPerC;
                 game.info.clicks++;
-                game.achievements();
+                game.achievements.setAchievements();
                 socket.emit('getDonuts', game.info.donuts);
             });
 
