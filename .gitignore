@@ -36,4 +36,4 @@ npm-debug.log
 
 
 sessions
-public/stylesheets/style.css.map
+*.map

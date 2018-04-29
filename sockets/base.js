@@ -358,7 +358,7 @@ module.exports = function (io) {
                 game.info.options[key] = value;
                 // console.log(game.info.options.notification);
                 // console.log(game.info.options[key]);
-                socket.emit('toast', 'Option modifiée !', game.info.options[key]);
+                socket.emit('toast', 'Option modifiée !', game.info.options.notification);
             });
 
             // ajouter vos événements ici au besoin

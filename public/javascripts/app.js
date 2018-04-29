@@ -51,38 +51,12 @@ $(".gradient4").click(() => {
   socket.emit('setOption', 'theme', 4);
 });
 
-$('.switchVolume').change(function (evt) {
-  if ($(this).prop('checked') !== true) {
-    songs.Intro.instru.muted = true;
-    for (key in songs.NoSong[0]) {
-      songs.NoSong[0][key].muted = true;
-    }
-    for (key in songs.YesSong[0]) {
-      songs.YesSong[0][key].muted = true;
-    }
-  } else {
-    songs.Intro.instru.muted = false;
-    for (key in songs.NoSong[0]) {
-      songs.NoSong[0][key].muted = false;
-    }
-    for (key in songs.YesSong[0]) {
-      songs.YesSong[0][key].muted = false;
-    }
-  }
-});
-
-$('.switchMusic').change(function (evt) {
-  if ($(this).prop('checked') !== true) {
-    songs.Intro.instru.muted = true
-  } else {
-    songs.Intro.instru.muted = false
-  }
-});
 // changement option des notification
-$('.notifications .switchNotifs').click(() => {
+$('.switchNotifs').click(() => {
   // console.log($('.notifications .switchVolume').prop('checked'));
   socket.emit('setOption', 'notification', $('.notifications .switchNotifs').prop('checked'));
 });
+// changement option volume - renommer son ?
 $('.switchVolume').click(() => {
   socket.emit('setOption', 'volume', $('.switchVolume').prop('checked'));
   if ($('.switchVolume').prop('checked')) {
@@ -101,20 +75,21 @@ $('.switchVolume').click(() => {
     }
   }
 });
-
+// changement option music
 $('.switchMusic').click(() => {
   socket.emit('setOption', 'music', $('.switchMusic').prop('checked'));
-
+  if ($('.switchMusic').prop('checked')) {
+    songs.Intro.instru.muted = false;
+  } else {
+    songs.Intro.instru.muted = true;
+  }
 });
 
 socket.on('init', (game) => {
   console.log('Init Game...');
   songs.Intro.instru.loop = true;
   songs.Intro.instru.volume = 0.3;
-  songs
-    .Intro
-    .instru
-    .play();
+  songs.Intro.instru.play();
   switch (game.options.theme) {
     case 1:
       $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
@@ -151,17 +126,13 @@ socket.on('init', (game) => {
     }
   }
   if ($('.switchMusic').prop('checked')) {
-    songs.Intro.instru.muted = false
+    songs.Intro.instru.muted = false;
   } else {
-    songs.Intro.instru.muted = true
+    songs.Intro.instru.muted = true;
   }
-
-  // console.log($('.notifications .switchVolume').prop('checked'));
-  $('.notifications .switchNotifs').prop('checked', game.options.notification);
-  // console.log($('.notifications .switchVolume').prop('checked'));
+  $('.switchNotifs').prop('checked', game.options.notification);
   $('.nbDonuts').text(beautifyNumber(game.donuts));
   document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
-  // $('title').text(beautifyNumber(game.donuts) + ' donuts - Donut Clicker');
   $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
   $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
   for (i = 1; i < 6; i++) {
