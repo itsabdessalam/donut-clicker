@@ -120,6 +120,17 @@ module.exports = function (io) {
                                 }
                                 return false;
                             }
+                        },
+                        '1M': {
+                            name: 'Succès : Armée de Maggie',
+                            desc: 'Posséder 1 M Maggie',
+                            unlock: '#maggie-5',
+                            isUnlock: () => {
+                                if (game.info.extra[1].count >= 1000000) {
+                                    return true;
+                                }
+                                return false;
+                            }
                         }
                     },
                     2: {
@@ -173,6 +184,17 @@ module.exports = function (io) {
                             unlock: '#bart-4',
                             isUnlock: () => {
                                 if (game.info.extra[2].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        '1M': {
+                            name: 'Succès : Armée de Bart',
+                            desc: 'Posséder 1 M Bart',
+                            unlock: '#bart-5',
+                            isUnlock: () => {
+                                if (game.info.extra[2].count >= 1000000) {
                                     return true;
                                 }
                                 return false;
@@ -234,6 +256,17 @@ module.exports = function (io) {
                                 }
                                 return false;
                             }
+                        },
+                        '1M': {
+                            name: 'Succès : Armée de Lisa',
+                            desc: 'Posséder 1 M Lisa',
+                            unlock: '#lisa-5',
+                            isUnlock: () => {
+                                if (game.info.extra[3].count >= 1000000) {
+                                    return true;
+                                }
+                                return false;
+                            }
                         }
                     },
                     4: {
@@ -284,9 +317,20 @@ module.exports = function (io) {
                         1000: {
                             name: 'Succès : Collectionneur de Marge',
                             desc: 'Posséder 1 K Marge',
-                            unlock: '.marge-4',
+                            unlock: '#marge-4',
                             isUnlock: () => {
                                 if (game.info.extra[4].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        '1M': {
+                            name: 'Succès : Armée de Marge',
+                            desc: 'Posséder 1 M Marge',
+                            unlock: '#marge-5',
+                            isUnlock: () => {
+                                if (game.info.extra[4].count >= 1000000) {
                                     return true;
                                 }
                                 return false;
@@ -319,7 +363,7 @@ module.exports = function (io) {
                         10: {
                             name: 'Succès : Amateur de Homer',
                             desc: 'Posséder 10 Homer',
-                            unlock: '.homer-2',
+                            unlock: '#homer-2',
                             isUnlock: () => {
                                 if (game.info.extra[5].count >= 10) {
                                     return true;
@@ -344,6 +388,17 @@ module.exports = function (io) {
                             unlock: '#homer-4',
                             isUnlock: () => {
                                 if (game.info.extra[5].count >= 1000) {
+                                    return true;
+                                }
+                                return false;
+                            }
+                        },
+                        '1M': {
+                            name: 'Succès : Armée de Homer',
+                            desc: 'Posséder 1 M Homer',
+                            unlock: '#homer-5',
+                            isUnlock: () => {
+                                if (game.info.extra[5].count >= 1000000) {
                                     return true;
                                 }
                                 return false;
@@ -561,42 +616,48 @@ module.exports = function (io) {
                     1: false,
                     10: false,
                     100: false,
-                    1000: false
+                    1000: false,
+                    '1M': false
                 },
                 2: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false
+                    1000: false,
+                    '1M': false
                 },
                 3: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false
+                    1000: false,
+                    '1M': false
                 },
                 4: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false
+                    1000: false,
+                    '1M': false
                 },
                 5: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false
+                    1000: false,
+                    '1M': false
                 },
                 donuts: {
                     1: false,
                     2: false,
                     3: false,
                     4: false,
-                    5: false
+                    5: false,
+                    '1M': false
                 }
             }
         };
