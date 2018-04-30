@@ -656,8 +656,7 @@ module.exports = function (io) {
                     2: false,
                     3: false,
                     4: false,
-                    5: false,
-                    '1M': false
+                    5: false
                 }
             }
         };
