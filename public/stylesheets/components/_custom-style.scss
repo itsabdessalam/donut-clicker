@@ -5,8 +5,35 @@ html {
 }
 
 body {
+  .success-infos {
+    position: absolute;
+    width: 250px;
+    height: 100px;
+    background: #fff;
+    color: #34495e;
+    border-radius: 150px 300px / 300px 160px;
+    overflow: hidden;
+    z-index: 10000;
+    display: none;
+    top: 20px;
+    left: 60px;
+    padding: 25px 0;
+    box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.1)
+  }
+  .success-item {
+    position: relative;
+  }
+  .success-item:hover .success-infos {
+    display: block !important;
+  }
+  .success-infos .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d89ff
+  }
   background: linear-gradient(to right bottom, rgb(64, 134, 246), rgb(47, 92, 160));
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Nunito',
+  sans-serif;
   height: 100vh;
   min-height: 100vh;
   text-align: center;

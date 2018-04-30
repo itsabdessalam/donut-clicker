@@ -6959,6 +6959,28 @@ body {
   -khtml-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none; }
+  body .success-infos {
+    position: absolute;
+    width: 250px;
+    height: 100px;
+    background: #fff;
+    color: #34495e;
+    border-radius: 150px 300px / 300px 160px;
+    overflow: hidden;
+    z-index: 10000;
+    display: none;
+    top: 20px;
+    left: 60px;
+    padding: 25px 0;
+    box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.1); }
+  body .success-item {
+    position: relative; }
+  body .success-item:hover .success-infos {
+    display: block !important; }
+  body .success-infos .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d89ff; }
   body p.message_error {
     color: #EA2027 !important;
     text-align: center;

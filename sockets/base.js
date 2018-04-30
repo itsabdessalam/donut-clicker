@@ -19,9 +19,7 @@ const sharedsession = require('express-socket.io-session');
  */
 
 module.exports = function (io) {
-    io.use(sharedsession(session, {
-        autoSave: true
-    }));
+    io.use(sharedsession(session, {autoSave: true}));
     let o;
     io.origins((origin, callback) => {
         const q = url.parse(origin);
@@ -48,7 +46,10 @@ module.exports = function (io) {
                     for (let achievement in game.info.achievements) {
                         for (let item in game.info.achievements[achievement]) {
                             if (!game.info.achievements[achievement][item]) {
-                                game.info.achievements[achievement][item] = game.achievements.items[achievement][item].isUnlock();
+                                game.info.achievements[achievement][item] = game
+                                    .achievements
+                                    .items[achievement][item]
+                                    .isUnlock();
                                 if (game.info.achievements[achievement][item]) {
                                     socket.emit("toast", game.achievements.items[achievement][item].name, game.info.options.notification);
                                     if (item == 'enable') {
@@ -72,7 +73,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1: {
                             name: 'Succès : Ma première Maggie',
@@ -83,7 +84,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         10: {
                             name: 'Succès : Amateur de Maggie',
@@ -94,7 +95,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         100: {
                             name: 'Succès : Fan de Maggie',
@@ -105,7 +106,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1000: {
                             name: 'Succès : Collectionneur de Maggie',
@@ -116,8 +117,8 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
-                        },
+                            }
+                        }
                     },
                     2: {
                         enable: {
@@ -129,7 +130,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1: {
                             name: 'Succès : Mon premier Bart',
@@ -140,7 +141,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         10: {
                             name: 'Succès : Amateur de Bart',
@@ -151,7 +152,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         100: {
                             name: 'Succès : Fan de Bart',
@@ -162,7 +163,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1000: {
                             name: 'Succès : Collectionneur de Bart',
@@ -173,8 +174,8 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
-                        },
+                            }
+                        }
                     },
                     3: {
                         enable: {
@@ -186,7 +187,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1: {
                             name: 'Succès : Ma première Lisa',
@@ -197,7 +198,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         10: {
                             name: 'Succès : Amateur de Lisa',
@@ -208,7 +209,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         100: {
                             name: 'Succès : Fan de Lisa',
@@ -219,7 +220,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1000: {
                             name: 'Succès : Collectionneur de Lisa',
@@ -230,8 +231,8 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
-                        },
+                            }
+                        }
                     },
                     4: {
                         enable: {
@@ -243,7 +244,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1: {
                             name: 'Succès : Ma première Marge',
@@ -254,7 +255,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         10: {
                             name: 'Succès : Amateur de Marge',
@@ -265,7 +266,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         100: {
                             name: 'Succès : Fan de Marge',
@@ -276,7 +277,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1000: {
                             name: 'Succès : Collectionneur de Marge',
@@ -287,8 +288,8 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
-                        },
+                            }
+                        }
                     },
                     5: {
                         enable: {
@@ -300,7 +301,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1: {
                             name: 'Succès : Mon premier Homer',
@@ -311,7 +312,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         10: {
                             name: 'Succès : Amateur de Homer',
@@ -322,7 +323,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         100: {
                             name: 'Succès : Fan de Homer',
@@ -333,7 +334,7 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
+                            }
                         },
                         1000: {
                             name: 'Succès : Collectionneur de Homer',
@@ -344,8 +345,8 @@ module.exports = function (io) {
                                     return true;
                                 }
                                 return false;
-                            },
-                        },
+                            }
+                        }
                     },
                     donuts: {
                         1: {
@@ -402,9 +403,9 @@ module.exports = function (io) {
                                 }
                                 return false;
                             }
-                        },
+                        }
                     }
-                },
+                }
             },
             save: () => {
                 axios({
@@ -431,7 +432,9 @@ module.exports = function (io) {
             donutsPerSec: () => {
                 game.info.donuts += game.info.donutsPerS / 100;
                 game.info.donutsTot += game.info.donutsPerS / 100;
-                game.achievements.setAchievements();
+                game
+                    .achievements
+                    .setAchievements();
                 socket.emit("getDonuts", game.info.donuts);
             },
             calcCost: (extra, round, cost) => {
@@ -556,42 +559,42 @@ module.exports = function (io) {
                     1: false,
                     10: false,
                     100: false,
-                    1000: false,
+                    1000: false
                 },
                 2: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false,
+                    1000: false
                 },
                 3: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false,
+                    1000: false
                 },
                 4: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false,
+                    1000: false
                 },
                 5: {
                     enable: false,
                     1: false,
                     10: false,
                     100: false,
-                    1000: false,
+                    1000: false
                 },
                 donuts: {
                     1: false,
                     2: false,
                     3: false,
                     4: false,
-                    5: false,
+                    5: false
                 }
             }
         };
@@ -647,7 +650,9 @@ module.exports = function (io) {
                 game.info.donutsOnClick += game.info.donutsPerC;
                 game.info.donuts += game.info.donutsPerC;
                 game.info.clicks++;
-                game.achievements.setAchievements();
+                game
+                    .achievements
+                    .setAchievements();
                 socket.emit('getDonuts', game.info.donuts);
             });
 

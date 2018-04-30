@@ -12,20 +12,24 @@ const songs = {
   "Intro": {
     "instru": new Audio("/songs/intro.mp3")
   },
-  "YesSong": [{
-    "maggie": new Audio("/songs/maggie.mp3"),
-    "bart": new Audio("/songs/bart.mp3"),
-    "lisa": new Audio("/songs/lisa.mp3"),
-    "marge": new Audio("/songs/marge.mp3"),
-    "homer": new Audio("/songs/homer.mp3")
-  }],
-  "NoSong": [{
-    "maggie": new Audio("/songs/NoMaggie.mp3"),
-    "bart": new Audio("/songs/NoBart.mp3"),
-    "lisa": new Audio("/songs/NoLisa.mp3"),
-    "marge": new Audio("/songs/NoMarge.mp3"),
-    "homer": new Audio("/songs/NoHomer.mp3")
-  }]
+  "YesSong": [
+    {
+      "maggie": new Audio("/songs/maggie.mp3"),
+      "bart": new Audio("/songs/bart.mp3"),
+      "lisa": new Audio("/songs/lisa.mp3"),
+      "marge": new Audio("/songs/marge.mp3"),
+      "homer": new Audio("/songs/homer.mp3")
+    }
+  ],
+  "NoSong": [
+    {
+      "maggie": new Audio("/songs/NoMaggie.mp3"),
+      "bart": new Audio("/songs/NoBart.mp3"),
+      "lisa": new Audio("/songs/NoLisa.mp3"),
+      "marge": new Audio("/songs/NoMarge.mp3"),
+      "homer": new Audio("/songs/NoHomer.mp3")
+    }
+  ]
 };
 
 //music colors theme default
@@ -85,7 +89,10 @@ socket.on('init', (game, other) => {
   console.log('Init Game...');
   songs.Intro.instru.loop = true;
   songs.Intro.instru.volume = 0.3;
-  songs.Intro.instru.play();
+  songs
+    .Intro
+    .instru
+    .play();
   switch (game.options.theme) {
     case 1:
       $('body').css("background-image", "linear-gradient(to bottom right, #4086f6, #2f5ca0)");
@@ -145,8 +152,13 @@ socket.on('init', (game, other) => {
   for (let achievement in game.achievements) {
     for (let item in game.achievements[achievement]) {
       if (game.achievements[achievement][item]) {
+        $(other[achievement][item].unlock + ' .success-infos .name').text(other[achievement][item].name)
+        $(other[achievement][item].unlock + ' .success-infos .desc').text(other[achievement][item].desc)
         $(other[achievement][item].unlock + ' .unlock').removeClass('hidden');
         $(other[achievement][item].unlock + ' .lock').addClass('hidden');
+      } else {
+        $(other[achievement][item].unlock + ' .success-infos .name').text("??????")
+        $(other[achievement][item].unlock + ' .success-infos .desc').text("???")
       }
     }
   }
@@ -187,9 +199,10 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display)
+  if (display) 
     Materialize.toast(data, 1000);
-});
+  }
+);
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -312,13 +325,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc ?
-    true :
-    false;
+  trunc = istrunc
+    ? true
+    : false;
 
-  return (trunc ?
-    number :
-    number.toFixed(2)) + unit[unitKey];
+  return (trunc
+    ? number
+    : number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {
