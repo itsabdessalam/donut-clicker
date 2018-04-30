@@ -19,7 +19,9 @@ const sharedsession = require('express-socket.io-session');
  */
 
 module.exports = function (io) {
-    io.use(sharedsession(session, {autoSave: true}));
+    io.use(sharedsession(session, {
+        autoSave: true
+    }));
     let o;
     io.origins((origin, callback) => {
         const q = url.parse(origin);
@@ -55,7 +57,7 @@ module.exports = function (io) {
                                     if (item == 'enable') {
                                         socket.emit("enable", game.achievements.items[achievement][item].unlock);
                                     } else {
-                                        socket.emit('unlock', game.achievements.items[achievement][item].unlock);
+                                        socket.emit('unlock', game.achievements.items[achievement][item]);
                                     }
                                 }
                             }

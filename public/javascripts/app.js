@@ -12,24 +12,20 @@ const songs = {
   "Intro": {
     "instru": new Audio("/songs/intro.mp3")
   },
-  "YesSong": [
-    {
-      "maggie": new Audio("/songs/maggie.mp3"),
-      "bart": new Audio("/songs/bart.mp3"),
-      "lisa": new Audio("/songs/lisa.mp3"),
-      "marge": new Audio("/songs/marge.mp3"),
-      "homer": new Audio("/songs/homer.mp3")
-    }
-  ],
-  "NoSong": [
-    {
-      "maggie": new Audio("/songs/NoMaggie.mp3"),
-      "bart": new Audio("/songs/NoBart.mp3"),
-      "lisa": new Audio("/songs/NoLisa.mp3"),
-      "marge": new Audio("/songs/NoMarge.mp3"),
-      "homer": new Audio("/songs/NoHomer.mp3")
-    }
-  ]
+  "YesSong": [{
+    "maggie": new Audio("/songs/maggie.mp3"),
+    "bart": new Audio("/songs/bart.mp3"),
+    "lisa": new Audio("/songs/lisa.mp3"),
+    "marge": new Audio("/songs/marge.mp3"),
+    "homer": new Audio("/songs/homer.mp3")
+  }],
+  "NoSong": [{
+    "maggie": new Audio("/songs/NoMaggie.mp3"),
+    "bart": new Audio("/songs/NoBart.mp3"),
+    "lisa": new Audio("/songs/NoLisa.mp3"),
+    "marge": new Audio("/songs/NoMarge.mp3"),
+    "homer": new Audio("/songs/NoHomer.mp3")
+  }]
 };
 
 //music colors theme default
@@ -199,10 +195,9 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display) 
+  if (display)
     Materialize.toast(data, 1000);
-  }
-);
+});
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -213,8 +208,10 @@ socket.on("enable", extra => {
 });
 
 socket.on('unlock', item => {
-  $(item + ' .unlock').removeClass('hidden');
-  $(item + ' .lock').addClass('hidden');
+  $(item.unlock + ' .success-infos .name').text(item.name)
+  $(item.unlock + ' .success-infos .desc').text(item.desc)
+  $(item.unlock + ' .unlock').removeClass('hidden');
+  $(item.unlock + ' .lock').addClass('hidden');
 });
 
 socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
@@ -325,13 +322,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc
-    ? true
-    : false;
+  trunc = istrunc ?
+    true :
+    false;
 
-  return (trunc
-    ? number
-    : number.toFixed(2)) + unit[unitKey];
+  return (trunc ?
+    number :
+    number.toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {
