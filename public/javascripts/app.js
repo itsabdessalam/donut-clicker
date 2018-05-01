@@ -300,6 +300,24 @@ socket.on('getRefresh', (infos) => {
       $('.extra' + property).removeClass('disabled');
     }
   }
+	$('.stats-title-donuts').text("donuts");
+  $('.stats-donuts').text(beautifyNumber(infos.donuts));
+  $('.stats-title-donutsPerS').text("donuts/s");
+  $('.stats-donutsPerS').text(beautifyNumber(infos.donutsPerS));
+  $('.stats-title-donutsPerC').text("donuts/click");
+  $('.stats-donutsPerC').text(beautifyNumber(infos.donutsPerC));
+  $('.stats-title-donutsTot').text("donuts total");
+  $('.stats-donutsTot').text(beautifyNumber(infos.donutsTot));
+  $('.stats-title-clicks').text("clicks total");
+  $('.stats-clicks').text(beautifyNumber(infos.clicks));
+  $('.stats-title-donutsOnClick').text("donuts/click");
+  $('.stats-donutsOnClick').text(beautifyNumber(infos.donutsOnClick));
+  $('.stats-title-countAll').text("extras");
+  $('.stats-countAll').text(beautifyNumber(infos.countAll));
+  $('.stats-title-buyMultiplier').text("extra acheté/click");
+  $('.stats-buyMultiplier').text(beautifyNumber(infos.buyMultiplier));
+  $('.stats-title-start').text("date de début");
+  $('.stats-start').text(beautifyNumber(infos.start));
 });
 
 function beautifyNumber(number, istrunc = false) {
