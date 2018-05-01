@@ -612,19 +612,64 @@ module.exports = function (io) {
             },
 
 
-       /* 
+       
         Bonus: {
                 1: {
-                    name: 'Duff',
+                    name: 'duff',
                     cost: {
-                        1: 250000,
+                        1: 50000,
                     },
                     bonus: {
                         donutsPerSec: 200
                     }
                 },
+                2: {
+                    name: 'papy',
+                    cost: {
+                        1: 100000,
+                    },
+                    bonus: {
+                        donutsPerSec: 350
+                    }
+                },
+                1: {
+                    name: 'saxo',
+                    cost: {
+                        1: 250000,
+                    },
+                    bonus: {
+                        donutsPerSec: 400
+                    }
+                },
+                1: {
+                    name: 'skate',
+                    cost: {
+                        1: 1500000,
+                    },
+                    bonus: {
+                        donutsPerSec: 500
+
+                    }
+                },
+                1: {
+                    name: 'tetine',
+                    cost: {
+                        1: 2500000,
+                    },
+                    bonus: {
+                        donutsPerSec: 600
+                    }
+                },
+                1: {
+                    name: 'krusty',
+                    cost: {
+                        1: 25000000,
+                    },
+                    bonus: {
+                        donutsPerSec: 700
+                    }
+                },
             },
-        */
             
             achievements: {
                 1: {
