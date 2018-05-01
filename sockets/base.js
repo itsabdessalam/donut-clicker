@@ -621,7 +621,9 @@ module.exports = function (io) {
                     },
                     bonus: {
                         donutsPerSec: 200
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
                 2: {
                     name: 'papy',
@@ -630,18 +632,22 @@ module.exports = function (io) {
                     },
                     bonus: {
                         donutsPerSec: 350
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
-                1: {
+                3: {
                     name: 'saxo',
                     cost: {
                         1: 250000,
                     },
                     bonus: {
                         donutsPerSec: 400
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
-                1: {
+                4: {
                     name: 'skate',
                     cost: {
                         1: 1500000,
@@ -649,25 +655,31 @@ module.exports = function (io) {
                     bonus: {
                         donutsPerSec: 500
 
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
-                1: {
+                5: {
                     name: 'tetine',
                     cost: {
                         1: 2500000,
                     },
                     bonus: {
                         donutsPerSec: 600
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
-                1: {
+                6: {
                     name: 'krusty',
                     cost: {
                         1: 25000000,
                     },
                     bonus: {
                         donutsPerSec: 700
-                    }
+                    },
+                    active :false,
+						enable: false,
                 },
             },
             
@@ -797,15 +809,11 @@ module.exports = function (io) {
             });
 
             socket.on('addBonus', (Bonus) => {
-                let cost = game.info.Bonus[Bonus].cost[game.info.buyMultiplier];
+                let cost = game.info.Bonus[Bonus].cost[1];
                 if (game.info.donuts >= cost) {
-                    game.renewCost(cost, Bonus);
-                    game.info.countAll += game.info.buyMultiplier;
-                    game.info.Bonus[Bonus].count += game.info.buyMultiplier;
+                    game.info.Bonus[Bonus].active = true;
                     game.info.donuts -= cost;
-                    game.info.donutsPerS += game.info.Bonus[Bonus].bonus.donutsPerSec * game.info.buyMultiplier;
-                    socket.emit('getBonus', Bonus, game.info.Bonus[Bonus].count, game.info.donuts, game.info.donutsPerS, game.info.extra[extra].cost[game.info.buyMultiplier]);
-
+                    socket.emit('getBonus', Bonus, game.info.Bonus[Bonus].active);
                 } else {
                     socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
                 }
