@@ -796,6 +796,22 @@ module.exports = function (io) {
                 }
             });
 
+            socket.on('addBonus', (Bonus) => {
+                let cost = game.info.Bonus[Bonus].cost[game.info.buyMultiplier];
+                if (game.info.donuts >= cost) {
+                    game.renewCost(cost, Bonus);
+                    game.info.countAll += game.info.buyMultiplier;
+                    game.info.Bonus[Bonus].count += game.info.buyMultiplier;
+                    game.info.donuts -= cost;
+                    game.info.donutsPerS += game.info.Bonus[Bonus].bonus.donutsPerSec * game.info.buyMultiplier;
+                    socket.emit('getBonus', Bonus, game.info.Bonus[Bonus].count, game.info.donuts, game.info.donutsPerS, game.info.extra[extra].cost[game.info.buyMultiplier]);
+
+                } else {
+                    socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
+                }
+            });
+        
+
             socket.on('updateBuy', (value) => {
                 const buyMultiplier = parseInt(value);
                 if (buyMultiplier !== game.info.buyMultiplier) {
