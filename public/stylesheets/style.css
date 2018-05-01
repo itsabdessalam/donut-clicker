@@ -7397,3 +7397,8 @@ textarea.materialize-textarea:focus:not([readonly]) {
   animation-name: fadeIn; }
 
 /*# sourceMappingURL=style.css.map */
+
+.main.index .game .bonus .col.s2.bonus-item .bonus-content img {
+  vertical-align: middle;
+  width: 100%;
+}
