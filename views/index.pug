@@ -429,24 +429,27 @@ block content
               i.ion-ios-person 
               | My Profile
             .row
-              form#updateForm.col.s12
+              form#updateForm.col.s12(method="POST")
                 .row
+                  if status 
+                   p=status
                   .input-field.col.s6
-                    input#id(disabled, value=`${user.id}`, type='text')
+                    input#id( value=`${user.id}`, type='text', name="id", readonly="readonly")
                     label(for='id') Id user
                   .input-field.col.s6
-                    input#username(value=`${user.username}`, type='text')
+                    input#username(value=`${user.username}`, type='text',name="username")
                     label(for='username') Username
                 .row
                   .input-field.col.s6
-                    input#email( value=`${user.email}`, type='email')
+                    input#email( value=`${user.email}`, type='email', name="email")
                     label(for='email') Email
                   .input-field.col.s6
-                    input#password(value="12345678", type='password')
+                    input#password(placeholder="New password", type='password', name="password")
                     label(for='Password') Password
-          .modal-footer
-            a.modal-action.modal-update.waves-effect.btn-flat(href='#!') Update
-            a.modal-action.modal-close.waves-effect.btn-flat(href='#!') Close
+                .modal-footer
+                  input#btnUpdate.btn.modal-update(type="submit" value="Update")
+                  a.modal-action.modal-close.waves-effect.btn-flat(href='#!') Close
+
         #modal_htp.modal
           .modal-content
             h4.modal-header
@@ -477,9 +480,14 @@ block script
       }, 300);
 
     });
-    (function ($) {
+    //-materialize modal
       $(function () {
         $('.modal').modal();
-
       }); 
-    })(jQuery);
+    //-modal update events
+    $(function(){
+       $('#btnUpdate').attr('disabled', true).addClass('disabled');
+       $('#updateForm :input#username,#updateForm :input#email,#updateForm :input#password').on('keyup', function(){
+          $('#btnUpdate').removeAttr('disabled').removeClass('disabled');
+       });
+    });

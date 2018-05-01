@@ -208,6 +208,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 #modal_profile,
 #modal_htp {
   border-radius: 3px;
+  overflow: hidden;
 }
 
 #modal_profile .modal-content,

@@ -13,6 +13,38 @@ router.get('/', ensureAuthenticated, (req, res) => {
     user: req.user
   });
 });
+
+router.post('/', (req, res) => {
+  const id = req.body.id
+  const username = req.body.username;
+  const email = req.body.email;
+  let password_test = null
+  User.findById(req.body.id, function (err, user) {
+    if (err) 
+      throw err;
+    if (user.username !== username || user.email !== email || req.body.password.length !== 0) {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(req.body.password, salt, (err, hash) => {
+          user.username = username;
+          user.email = email;
+          if (req.body.password.length !== 0) {
+            user.password = hash;
+          }
+          user
+            .save(function (err) {
+              if (err) 
+                throw err;
+              console.log("user saved")
+              res.redirect(req.originalUrl)
+            });
+        });
+      });
+
+    }
+
+  });
+
+})
 router.get('/backup', (req, res) => {
 
   if ('id' in req.query) {
@@ -65,23 +97,25 @@ router.post('/forgot_password', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const password_c = req.body.password_c;
-  User.getUserByEmail(req.body.email, (err, user) => {
-    if (!err && user) {
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(req.body.password, salt, (err, hash) => {
-          user.password = hash;
-          user.save(function (err) {
-            if (err)
-              throw err;
-            console.log(req.body.email + ' : Reset done !');
-            res.send({ reset: true });
+  if (email.length > 0 && password.length > 0 && password_c.length > 0 && password === password_c) {
+    User.getUserByEmail(req.body.email, (err, user) => {
+      if (!err && user) {
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(password, salt, (err, hash) => {
+            user.password = hash;
+            user.save(function (err) {
+              if (err) 
+                throw err;
+              console.log(req.body.email + ' : Reset done !');
+            });
           });
         });
-      });
-    } else {
-      res.send("User not found");
-    }
-  });
+      }
+    });
+    res.redirect('/users/login')
+  } else {
+    res.redirect('/forgot_password')
+  }
 });
 
 function ensureAuthenticated(req, res, next) {
