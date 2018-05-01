@@ -610,6 +610,22 @@ module.exports = function (io) {
                     }
                 }
             },
+
+
+       /* 
+        Bonus: {
+                1: {
+                    name: 'Duff',
+                    cost: {
+                        1: 250000,
+                    },
+                    bonus: {
+                        donutsPerSec: 200
+                    }
+                },
+            },
+        */
+            
             achievements: {
                 1: {
                     enable: false,
