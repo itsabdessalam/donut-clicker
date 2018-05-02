@@ -1,5 +1,3 @@
-import { Model } from "mongoose";
-
 /*jshint esversion: 6*/
 const mongoose = require("mongoose");
 //bcrypt for passwords
