@@ -15,6 +15,11 @@ block content
                                 span.error_icon
                                     i.ion-ios-close-outline 
                                 | All fields are required
+                        else if errorEmail
+                            p.message_error
+                                span.error_icon
+                                    i.ion-ios-close-outline 
+                                | #{errorEmail.name}
                         span.card-title.left-align Sign up
                         .row
                             .input-field.col.s12

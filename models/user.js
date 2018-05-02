@@ -1,5 +1,7 @@
+import { Model } from "mongoose";
+
 /*jshint esversion: 6*/
- const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 //bcrypt for passwords
 const bcrypt = require("bcrypt");
 const passport = require("passport");
@@ -36,7 +38,7 @@ module.exports.resetAllUsers = (req, res) => {
 
   User
     .find({}, function (err, users) {
-      if (err) 
+      if (err)
         throw err;
       users.forEach(user => {
 
@@ -44,7 +46,7 @@ module.exports.resetAllUsers = (req, res) => {
 
         // save the user
         user.save(function (err) {
-          if (err) 
+          if (err)
             throw err;
           console.log('User successfully updated!');
         });
@@ -58,14 +60,14 @@ module.exports.resetUserById = (req, res) => {
 
   User
     .findById(req.params.id, function (err, user) {
-      if (err) 
+      if (err)
         throw err;
-      
+
       user.backup = null;
 
       // save the user
       user.save(function (err) {
-        if (err) 
+        if (err)
           throw err;
         console.log(req.params.id + ' : User successfully updated!');
       });
@@ -103,7 +105,7 @@ module.exports.getUserById = (id, callback) => {
 
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
-    if (err) 
+    if (err)
       throw err;
     callback(null, isMatch);
   });

@@ -54,19 +54,29 @@ router.post("/signup", (req, res) => {
       errors: errors
     });
   } else {
-    const newUser = new User({
-      username,
-      email,
-      password
-    });
+    User.getUserByEmail(email, (err, user) => {
+        if (user == null) {
+          const newUser = new User({
+            username,
+            email,
+            password
+          });
 
-    User.createUser(newUser, (err, user) => {
-      if (err)
-        throw err;
-      console.log(user);
+          User.createUser(newUser, (err, user) => {
+            if (err)
+              throw err;
+            console.log(user);
+          });
+          res.redirect("/users/login");
+        } else {
+          res.render('signup', {
+            errorEmail: {
+              name: 'Email Already use'
+            }
+          });
+      }
     });
-    res.redirect("/users/login");
-  }
+}
 });
 //use passport strategy and redefine, by default login is with username
 passport.use("local", new LocalStrategy({
