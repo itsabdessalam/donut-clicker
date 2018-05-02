@@ -512,9 +512,9 @@ module.exports = function (io) {
 
                 return total;
             },
-            renewCost: (baseCost, extra) => {
+            renewCost: (extra) => {
                 for (let mult in game.info.extra[extra].cost) {
-                    game.info.extra[extra].cost[mult] = game.calcCost(extra, mult, baseCost);
+                    game.info.extra[extra].cost[mult] = game.calcCost(extra, mult, game.info.extra[extra].cost[1]);
                 }
             },
             setBonus: () => {
@@ -797,7 +797,7 @@ module.exports = function (io) {
                 if (game.info.achievements[extra].enable) {
                     let cost = game.info.extra[extra].cost[game.info.buyMultiplier];
                     if (game.info.donuts >= cost) {
-                        game.renewCost(cost, extra);
+                        game.renewCost(extra);
                         game.info.countAll += game.info.buyMultiplier;
                         game.info.extra[extra].count += game.info.buyMultiplier;
                         game.info.donuts -= cost;
