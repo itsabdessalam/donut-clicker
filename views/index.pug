@@ -37,24 +37,48 @@ block content
 
               .bonus
                 .bonus-title Bonus
-                .col.s2.bonus-item
-                  .bonus-content.disabled  
-                    img(src="/images/bonus/duff.png", alt="duff")
-                .col.s2.bonus-item
-                  .bonus-content.disabled 
-                    img(src="/images/bonus/papy.jpg", alt="papy")
-                .col.s2.bonus-item
-                  .bonus-content.disabled  
-                    img(src="/images/bonus/saxo.png", alt="saxo")
-                .col.s2.bonus-item
-                  .bonus-content.disabled 
-                    img(src="/images/bonus/skate.jpg", alt="skate")
-                .col.s2.bonus-item
+                #bonus-1.col.s2.bonus-item
                   .bonus-content.disabled
                     img(src="/images/bonus/tetine.jpg", alt="tetine")
-                .col.s2.bonus-item
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
+                #bonus-2.col.s2.bonus-item
+                  .bonus-content.disabled 
+                    img(src="/images/bonus/skate.jpg", alt="skate")
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
+                #bonus-3.col.s2.bonus-item
+                  .bonus-content.disabled  
+                    img(src="/images/bonus/saxo.png", alt="saxo")
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
+                #bonus-4.col.s2.bonus-item
+                  .bonus-content.disabled 
+                    img(src="/images/bonus/papy.jpg", alt="papy")
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
+                #bonus-5.col.s2.bonus-item
+                  .bonus-content.disabled  
+                    img(src="/images/bonus/duff.png", alt="duff")
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
+                #bonus-6.col.s2.bonus-item
                   .bonus-content.disabled
                     img(src="/images/bonus/krusty.jpg", alt="krusty")
+                  .bonus-infos                   
+                    .name                 
+                    .desc
+                    .cost
             .col.s6.extras-part
               .title 
                 span.main-title Extras
@@ -192,25 +216,35 @@ block content
           table.striped.responsive-table.stats
             thead
               tr
-                th.stats-title-donuts
-                th.stats-title-donutsPerS
-                th.stats-title-donutsPerC
-                th.stats-title-donutsTot
-                th.stats-title-clicks
-                th.stats-title-donutsOnClick
-                th.stats-title-countAll
-                th.stats-title-buyMultiplier
-                th.stats-title-start
+                th
+                th
             tbody
               tr
+                th.stats-title-donuts
                 td.stats-donuts
-                td.stats-donutsPerS
-                td.stats-donutsPerC
+              tr
+                th.stats-title-donutsTot
                 td.stats-donutsTot
+              tr
+                th.stats-title-donutsPerS
+                td.stats-donutsPerS
+              tr
+                th.stats-title-donutsPerSwithBonus
+                td.stats-donutsPerSwithBonus
+              tr
+                th.stats-title-donutsPerC
+                td.stats-donutsPerC
+              tr
+                th.stats-title-clicks
                 td.stats-clicks
+              tr
+                th.stats-title-donutsOnClick
                 td.stats-donutsOnClick
+              tr
+                th.stats-title-countAll
                 td.stats-countAll
-                td.stats-buyMultiplier
+              tr
+                th.stats-title-start
                 td.stats-start
 
         #gains.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.gains
@@ -463,7 +497,29 @@ block content
             h4.modal-header
               i.ion-ios-help-outline 
               | How to play ?
+              | 
             .row
+              .faq-item
+                .head Comment gagner des donuts ?
+                .content
+                  ul
+                    li Cliquer sur le donuts
+                    li Augmenter ses donuts par seconde
+              .faq-item 
+                .head Comment augmenter mes donuts par seconde ?
+                .content
+                  ul
+                    li Acheter des extra
+                    li Débloquer les bonus
+              .faq-item
+                .head Comment débloquer les succès ?
+                .content Gagner, gagner, gagner et encore gagner plus de donuts
+              .faq-item
+                .head La musique me gave, comment faire ?
+                .content Faites un tour dans l'onglet 'options'
+              .faq-item
+                .head Comment modifier mes informations de profil ?
+                .content Cliquer sur le bouton 'Profile' en haut à droite
           .modal-footer
             a.modal-action.modal-close.waves-effect.btn-flat(href='#!') Close
 block script

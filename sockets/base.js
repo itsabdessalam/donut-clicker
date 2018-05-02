@@ -487,23 +487,55 @@ module.exports = function (io) {
                 });
             },
             donutsPerSec: () => {
-                game.info.donuts += game.info.donutsPerS / 100;
-                game.info.donutsTot += game.info.donutsPerS / 100;
+                game.calcBonus();
+                game.info.donuts += game.info.donutsPerSwithBonus / 100;
+                game.info.donutsTot += game.info.donutsPerSwithBonus / 100;
                 game
                     .achievements
                     .setAchievements();
                 socket.emit("getDonuts", game.info.donuts);
             },
+            calcBonus: () => {
+                game.info.donutsPerSwithBonus = game.info.donutsPerS;
+                for (let m = 1; m < 6; m++)  {
+                    if (game.info.bonus[m].active) {
+                        game.info.donutsPerSwithBonus *= 2;
+                    }
+                }
+            },
             calcCost: (extra, round, cost) => {
+                let total = 0;
                 for (let i = 0; i < round; i++) {
                     cost = Math.trunc(cost * 1.1);
+                    total += cost;
                 }
 
-                return cost;
+                return total;
             },
             renewCost: (baseCost, extra) => {
                 for (let mult in game.info.extra[extra].cost) {
                     game.info.extra[extra].cost[mult] = game.calcCost(extra, mult, baseCost);
+                }
+            },
+            setBonus: () => {
+                for (let bonusKey in game.info.bonus) {
+                    if (bonusKey !== '6') {
+                        if (game.info.achievements[bonusKey][100]) {
+                            if (!game.info.bonus[bonusKey].enable) {
+                                game.info.bonus[bonusKey].enable = true;
+                                socket.emit('unlockBonus', bonusKey);
+                                socket.emit('toast', `Bonus : ${game.info.bonus[bonusKey].name} débloqué`, game.info.options.notification);
+                            }
+                        }
+                    } else {
+                        if (game.info.achievements[5]['1M']) {
+                            if (!game.info.bonus[bonusKey].enable) {
+                                game.info.bonus[bonusKey].enable = true;
+                                socket.emit('unlockBonus', bonusKey);
+                                socket.emit('toast', `Bonus : ${game.info.bonus[bonusKey].name} débloqué`, game.info.options.notification);
+                            }
+                        }
+                    }    
                 }
             }
         };
@@ -535,6 +567,7 @@ module.exports = function (io) {
         const newGame = {
             donuts: 0,
             donutsPerS: 0,
+            donutsPerSwithBonus: 0,
             donutsPerC: 1,
             donutsTot: 0,
             clicks: 0,
@@ -570,7 +603,7 @@ module.exports = function (io) {
                         100: game.calcCost(2, 100, 200)
                     },
                     bonus: {
-                        donutsPerSec: 20
+                        donutsPerSec: 100
                     }
                 },
                 3: {
@@ -582,7 +615,7 @@ module.exports = function (io) {
                         100: game.calcCost(3, 100, 3000)
                     },
                     bonus: {
-                        donutsPerSec: 40
+                        donutsPerSec: 1000
                     }
                 },
                 4: {
@@ -594,7 +627,7 @@ module.exports = function (io) {
                         100: game.calcCost(4, 100, 40000)
                     },
                     bonus: {
-                        donutsPerSec: 500
+                        donutsPerSec: 5000
                     }
                 },
                 5: {
@@ -606,83 +639,54 @@ module.exports = function (io) {
                         100: game.calcCost(5, 100, 500000)
                     },
                     bonus: {
-                        donutsPerSec: 2000
+                        donutsPerSec: 20000
                     }
                 }
             },
-
-
-       
-        Bonus: {
+            bonus: {
                 1: {
-                    name: 'duff',
-                    cost: {
-                        1: 50000,
-                    },
-                    bonus: {
-                        donutsPerSec: 200
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Tetine',
+                    desc: 'Augmente de 100% les donuts/s',
+                    cost: 100000000,
+                    active: false,
+                    enable: false,
                 },
                 2: {
-                    name: 'papy',
-                    cost: {
-                        1: 100000,
-                    },
-                    bonus: {
-                        donutsPerSec: 350
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Skate',
+                    desc: 'Augmente de 100% les donuts/s',
+                    cost: 500000000,
+                    active: false,
+                    enable: false,
                 },
                 3: {
-                    name: 'saxo',
-                    cost: {
-                        1: 250000,
-                    },
-                    bonus: {
-                        donutsPerSec: 400
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Saxophone',
+                    desc: 'Augmente de 100% les donuts/s',
+                    cost: 2000000000,
+                    active: false,
+                    enable: false,
                 },
                 4: {
-                    name: 'skate',
-                    cost: {
-                        1: 1500000,
-                    },
-                    bonus: {
-                        donutsPerSec: 500
-
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Papy',
+                    desc: 'Augmente de 100% les donuts/s',
+                    cost: 50000000000,
+                    active: false,
+                    enable: false,
                 },
                 5: {
-                    name: 'tetine',
-                    cost: {
-                        1: 2500000,
-                    },
-                    bonus: {
-                        donutsPerSec: 600
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Duff',
+                    desc: 'Augmente de 100% les donuts/s',
+                    cost: 100000000000,
+                    active: false,
+                    enable: false,
                 },
                 6: {
-                    name: 'krusty',
-                    cost: {
-                        1: 25000000,
-                    },
-                    bonus: {
-                        donutsPerSec: 700
-                    },
-                    active :false,
-						enable: false,
+                    name: 'Krusty',
+                    desc: 'Tout ou rien',
+                    cost: 999999999999999999999999999999,
+                    active: false,
+                    enable: false,
                 },
             },
-            
             achievements: {
                 1: {
                     enable: false,
@@ -760,15 +764,13 @@ module.exports = function (io) {
                     game.info = newGame;
                     console.log(socket.handshake.session.passport.user + ' : New Game');
                 }
-                if (!game.info.hasOwnProperty('donutsPerC')) {
-                    game.info.donutsPerC = 1;
-                }
                 //console.log(game); Initialisation du jeu coté client
                 console.log(socket.handshake.session.passport.user + ' : Initialize game...');
                 socket.emit('init', game.info, game.achievements.items);
                 // Lancement de la sauvegarde automatique et du racfraîchissement
                 save = setInterval(game.save, 30000);
                 refresh = setInterval(() => {
+                    game.setBonus();
                     game.donutsPerSec();
                     socket.emit('getRefresh', game.info);
                 }, 10);
@@ -792,33 +794,46 @@ module.exports = function (io) {
             });
 
             socket.on('addExtra', (extra) => {
-                let cost = game.info.extra[extra].cost[game.info.buyMultiplier];
-                if (game.info.donuts >= cost) {
-                    game.renewCost(cost, extra);
-                    game.info.countAll += game.info.buyMultiplier;
-                    game.info.extra[extra].count += game.info.buyMultiplier;
-                    game.info.donuts -= cost;
-                    game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
-                    socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerS, game.info.extra[extra].cost[game.info.buyMultiplier]);
-                    socket.emit("playYesSong", extra);
+                if (game.info.achievements[extra].enable) {
+                    let cost = game.info.extra[extra].cost[game.info.buyMultiplier];
+                    if (game.info.donuts >= cost) {
+                        game.renewCost(cost, extra);
+                        game.info.countAll += game.info.buyMultiplier;
+                        game.info.extra[extra].count += game.info.buyMultiplier;
+                        game.info.donuts -= cost;
+                        game.info.donutsPerS += game.info.extra[extra].bonus.donutsPerSec * game.info.buyMultiplier;
+                        game.calcBonus();
+                        socket.emit('getExtra', extra, game.info.extra[extra].count, game.info.donuts, game.info.donutsPerSwithBonus, game.info.extra[extra].cost[game.info.buyMultiplier]);
+                        socket.emit("playYesSong", extra);
 
+                    } else {
+                        socket.emit("playNoSong", extra);
+                        socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
+                    }
                 } else {
-                    socket.emit("playNoSong", extra);
-                    socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
+                    socket.emit('toast', 'Extra Vérrouillé', game.info.options.notification);
                 }
             });
 
             socket.on('addBonus', (Bonus) => {
-                let cost = game.info.Bonus[Bonus].cost[1];
-                if (game.info.donuts >= cost) {
-                    game.info.Bonus[Bonus].active = true;
-                    game.info.donuts -= cost;
-                    socket.emit('getBonus', Bonus, game.info.Bonus[Bonus].active);
-                } else {
-                    socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
-                }
+                if (game.info.bonus[Bonus].enable) {
+                    if (!game.info.bonus[Bonus].active) {
+                        let cost = game.info.bonus[Bonus].cost;
+                        if (game.info.donuts >= cost) {
+                            game.info.bonus[Bonus].active = true;
+                            game.info.donuts -= cost;
+                            game.calcBonus();
+                            socket.emit('toast', 'Bonus activé !', game.info.options.notification);
+                            socket.emit('activeBonus', Bonus, game.info.donutsPerSwithBonus);
+                        } else {
+                            socket.emit('toast', 'Donuts insuffisant', game.info.options.notification);
+                        }
+                    } else
+                        socket.emit('toast', 'Bonus déjà activé !', game.info.options.notification);
+                } else
+                    socket.emit('toast', 'Bonus Vérrouillé', game.info.options.notification);
             });
-        
+
 
             socket.on('updateBuy', (value) => {
                 const buyMultiplier = parseInt(value);

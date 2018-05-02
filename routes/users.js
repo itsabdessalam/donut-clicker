@@ -50,12 +50,18 @@ router.post("/signup", (req, res) => {
   const errors = req.validationErrors();
 
   if (errors) {
-    res.render("signup", {errors: errors});
+    res.render("signup", {
+      errors: errors
+    });
   } else {
-    const newUser = new User({username, email, password});
+    const newUser = new User({
+      username,
+      email,
+      password
+    });
 
     User.createUser(newUser, (err, user) => {
-      if (err) 
+      if (err)
         throw err;
       console.log(user);
     });
@@ -68,19 +74,23 @@ passport.use("local", new LocalStrategy({
   passwordField: "password"
 }, (email, password, done) => {
   User.getUserByEmail(email, (err, user) => {
-    if (err) 
-      throw err;
+    if (err)
+      return done(err);
     if (!user) {
-      return done(null, false, {message: "User not found"});
+      return done(null, false, {
+        message: "User not found"
+      });
     }
 
     User.comparePassword(password, user.password, (err, isMatch) => {
-      if (err) 
-        throw err;
+      if (err)
+        return done(err);
       if (isMatch) {
         return done(null, user);
       } else {
-        return done(null, false, {message: "Incorrect password"});
+        return done(null, false, {
+          message: "Incorrect password"
+        });
       }
     });
   });
@@ -102,13 +112,12 @@ router.post("/login", passport.authenticate("local", {
   successRedirect: "/",
   failureRedirect: "/users/login",
   failureFlash: true
-}), (req, res) => {
-  res.redirect("/");
-});
+}));
 
 //when logout passport allows to logout with .logout()
 router.get("/logout", (req, res) => {
   req.logOut();
+  req.session.destroy();
   res.redirect("/users/login");
 });
 module.exports = router;

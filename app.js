@@ -16,8 +16,8 @@ const expressValidator = require("express-validator");
 const session = Session({
   store: new FileStore({secret: process.env.SESSION_FILE_STORE}),
   secret: process.env.SESSION_SECRET,
-  saveUninitialized: true,
-  resave: true
+  saveUninitialized: false,
+  resave: false
 });
 
 const passport = require("passport");
@@ -38,13 +38,6 @@ err => {
     throw err;
   }
 });
-
-// getAllUsers
-app.get("/User", (req, res) => usermodel.getAllUsers((err, user) => res.json(user)));
-
-app.put('/reset', usermodel.resetAllUsers);
-
-app.put('/reset/:id', usermodel.resetUserById);
 
 // // create collection app.put("/User", (req, res) =>   new usermodel.user({
 // username: "Bob",     email: "bob.sponge@test.com",     password: "test"
@@ -100,6 +93,14 @@ app.use(function (req, res, next) {
   res.locals.user = req.user || null;
   next();
 });
+
+// getAllUsers
+app.get("/User", (req, res) => usermodel.getAllUsers((err, user) => res.json(user)));
+
+app.put('/reset', usermodel.resetAllUsers);
+
+app.put('/reset/:id', usermodel.resetUserById);
+
 
 app.use("/", index);
 app.use("/users", users);

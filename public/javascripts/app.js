@@ -12,24 +12,20 @@ const songs = {
   "Intro": {
     "instru": new Audio("/songs/intro.mp3")
   },
-  "YesSong": [
-    {
-      "maggie": new Audio("/songs/maggie.mp3"),
-      "bart": new Audio("/songs/bart.mp3"),
-      "lisa": new Audio("/songs/lisa.mp3"),
-      "marge": new Audio("/songs/marge.mp3"),
-      "homer": new Audio("/songs/homer.mp3")
-    }
-  ],
-  "NoSong": [
-    {
-      "maggie": new Audio("/songs/NoMaggie.mp3"),
-      "bart": new Audio("/songs/NoBart.mp3"),
-      "lisa": new Audio("/songs/NoLisa.mp3"),
-      "marge": new Audio("/songs/NoMarge.mp3"),
-      "homer": new Audio("/songs/NoHomer.mp3")
-    }
-  ]
+  "YesSong": [{
+    "maggie": new Audio("/songs/maggie.mp3"),
+    "bart": new Audio("/songs/bart.mp3"),
+    "lisa": new Audio("/songs/lisa.mp3"),
+    "marge": new Audio("/songs/marge.mp3"),
+    "homer": new Audio("/songs/homer.mp3")
+  }],
+  "NoSong": [{
+    "maggie": new Audio("/songs/NoMaggie.mp3"),
+    "bart": new Audio("/songs/NoBart.mp3"),
+    "lisa": new Audio("/songs/NoLisa.mp3"),
+    "marge": new Audio("/songs/NoMarge.mp3"),
+    "homer": new Audio("/songs/NoHomer.mp3")
+  }]
 };
 
 //music colors theme default
@@ -135,7 +131,7 @@ socket.on('init', (game, other) => {
   $('.switchNotifs').prop('checked', game.options.notification);
   $('.nbDonuts').text(beautifyNumber(game.donuts));
   document.title = '' + beautifyNumber(game.donuts) + ' donuts - Donut Clicker';
-  $('.donutsPerSec').text(beautifyNumber(game.donutsPerS));
+  $('.donutsPerSec').text(beautifyNumber(game.donutsPerSwithBonus));
   $('.donutParticleNb').text('+' + beautifyNumber(game.donutsPerC, true));
   for (let i in game.extra) {
     const extra = '.extra' + i;
@@ -152,17 +148,30 @@ socket.on('init', (game, other) => {
   for (let achievement in game.achievements) {
     for (let item in game.achievements[achievement]) {
       if (game.achievements[achievement][item]) {
-        $(other[achievement][item].unlock + ' .success-infos .name').text(other[achievement][item].name)
-        $(other[achievement][item].unlock + ' .success-infos .desc').text(other[achievement][item].desc)
+        $(other[achievement][item].unlock + ' .success-infos .name').text(other[achievement][item].name);
+        $(other[achievement][item].unlock + ' .success-infos .desc').text(other[achievement][item].desc);
         $(other[achievement][item].unlock + ' .unlock').removeClass('hidden');
         $(other[achievement][item].unlock + ' .lock').addClass('hidden');
       } else {
-        $(other[achievement][item].unlock + ' .success-infos .name').text("??????")
-        $(other[achievement][item].unlock + ' .success-infos .desc').text("???")
+        $(other[achievement][item].unlock + ' .success-infos .name').text("??????");
+        $(other[achievement][item].unlock + ' .success-infos .desc').text("???");
       }
     }
   }
+  for (let bonus in game.bonus) {
+    if (game.bonus[bonus].enable) {
+      $('#bonus-' + bonus + ' .bonus-content').removeClass('disabled');
+      if (game.bonus[bonus].active) {
+        $('#bonus-' + bonus + ' .bonus-content').addClass('active');
+      }
+    }
+    $('#bonus-' + bonus + ' .bonus-infos .name').text(game.bonus[bonus].name);
+    $('#bonus-' + bonus + ' .bonus-infos .desc').text(game.bonus[bonus].desc);
+    $('#bonus-' + bonus + ' .bonus-infos .cost').text(beautifyNumber(game.bonus[bonus].cost));
+    $('#bonus-' + bonus + ' .bonus-infos .cost').append(' donuts');
+  }
   $('#value' + game.buyMultiplier).prop('checked', true);
+  stats(game);
   console.log('Done');
 });
 
@@ -192,6 +201,25 @@ $(".extra5").click(() => {
   socket.emit("addExtra", 5);
 });
 
+$("#bonus-1").click(() => {
+  socket.emit("addBonus", 1);
+});
+$("#bonus-2").click(() => {
+  socket.emit("addBonus", 2);
+});
+$("#bonus-3").click(() => {
+  socket.emit("addBonus", 3);
+});
+$("#bonus-4").click(() => {
+  socket.emit("addBonus", 4);
+});
+$("#bonus-5").click(() => {
+  socket.emit("addBonus", 5);
+});
+$("#bonus-6").click(() => {
+  socket.emit("addBonus", 6);
+});
+
 socket.on('getDonuts', function (data) {
   $('.nbDonuts').text(beautifyNumber(data));
   document.title = '' + beautifyNumber(data) + ' donuts - Donut Clicker';
@@ -199,10 +227,9 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display) 
+  if (display)
     Materialize.toast(data, 1000);
-  }
-);
+});
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -213,10 +240,19 @@ socket.on("enable", extra => {
 });
 
 socket.on('unlock', item => {
-  $(item.unlock + ' .success-infos .name').text(item.name)
-  $(item.unlock + ' .success-infos .desc').text(item.desc)
+  $(item.unlock + ' .success-infos .name').text(item.name);
+  $(item.unlock + ' .success-infos .desc').text(item.desc);
   $(item.unlock + ' .unlock').removeClass('hidden');
   $(item.unlock + ' .lock').addClass('hidden');
+});
+
+socket.on('unlockBonus', bonusKey => {
+  $('#bonus-' + bonusKey + ' .bonus-content').removeClass('disabled');
+});
+
+socket.on('activeBonus', (bonusKey, donutsPerSec) => {
+  $('#bonus-' + bonusKey + ' .bonus-content').addClass('active');
+  $(".donutsPerSec").text(beautifyNumber(donutsPerSec));  
 });
 
 socket.on("getExtra", (extra, count, donuts, donutsPerSec, costExtra) => {
@@ -305,26 +341,29 @@ socket.on('getRefresh', (infos) => {
       $('.extra' + property).removeClass('disabled');
     }
   }
-  $('.stats-title-donuts').text("donuts");
-  $('.stats-donuts').text(beautifyNumber(infos.donuts));
-  $('.stats-title-donutsPerS').text("donuts/s");
-  $('.stats-donutsPerS').text(beautifyNumber(infos.donutsPerS));
-  $('.stats-title-donutsPerC').text("donuts/click");
-  $('.stats-donutsPerC').text(beautifyNumber(infos.donutsPerC));
-  $('.stats-title-donutsTot').text("donuts total");
-  $('.stats-donutsTot').text(beautifyNumber(infos.donutsTot));
-  $('.stats-title-clicks').text("clicks total");
-  $('.stats-clicks').text(beautifyNumber(infos.clicks));
-  $('.stats-title-donutsOnClick').text("donuts/click");
-  $('.stats-donutsOnClick').text(beautifyNumber(infos.donutsOnClick));
-  $('.stats-title-countAll').text("extras");
-  $('.stats-countAll').text(beautifyNumber(infos.countAll));
-  $('.stats-title-buyMultiplier').text("extra acheté/click");
-  $('.stats-buyMultiplier').text(beautifyNumber(infos.buyMultiplier));
-  $('.stats-title-start').text("date de début");
-  $('.stats-start').text(infos.start.substr(0, 10));
-
+  stats(infos);
 });
+
+function stats(infos) {
+  $('.stats-title-donuts').text("Donuts en réserve");
+  $('.stats-donuts').text(beautifyNumber(infos.donuts));
+  $('.stats-title-donutsPerS').text("Donuts par Seconde (sans bonus)");
+  $('.stats-donutsPerS').text(beautifyNumber(infos.donutsPerS));
+  $('.stats-title-donutsPerSwithBonus').text("Donuts par Seconde (avec bonus)");
+  $('.stats-donutsPerSwithBonus').text(beautifyNumber(infos.donutsPerSwithBonus));
+  $('.stats-title-donutsPerC').text("Donuts par click");
+  $('.stats-donutsPerC').text(beautifyNumber(infos.donutsPerC, true));
+  $('.stats-title-donutsTot').text("Donuts acheté (depuis le début)");
+  $('.stats-donutsTot').text(beautifyNumber(infos.donutsTot));
+  $('.stats-title-clicks').text("Nombre de click");
+  $('.stats-clicks').text(beautifyNumber(infos.clicks, true));
+  $('.stats-title-donutsOnClick').text("Donuts acheté avec un click");
+  $('.stats-donutsOnClick').text(beautifyNumber(infos.donutsOnClick, true));
+  $('.stats-title-countAll').text("Nombre d'extra (en tout)");
+  $('.stats-countAll').text(beautifyNumber(infos.countAll, true));
+  $('.stats-title-start').text("Débuté le");
+  $('.stats-start').text(infos.start.substr(0, 10));
+}
 
 function beautifyNumber(number, istrunc = false) {
 
@@ -337,7 +376,12 @@ function beautifyNumber(number, istrunc = false) {
     2: ' M',
     3: ' MD',
     4: ' BM',
-    5: ' BMD'
+    5: ' BMD',
+    6: ' L',
+    7: ' LK',
+    8: ' LM',
+    9: ' LMD',
+    10: ' LBMD',
   };
 
   while (number >= 1000) {
@@ -346,13 +390,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc
-    ? true
-    : false;
+  trunc = istrunc ?
+    true :
+    false;
 
-  return (trunc
-    ? number
-    : parseFloat(number).toFixed(2)) + unit[unitKey];
+  return (trunc ?
+    number :
+    parseFloat(number).toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {

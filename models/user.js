@@ -1,5 +1,5 @@
 /*jshint esversion: 6*/
-const mongoose = require("mongoose");
+ const mongoose = require("mongoose");
 //bcrypt for passwords
 const bcrypt = require("bcrypt");
 const passport = require("passport");

@@ -5,7 +5,7 @@ html {
 }
 
 body {
-  .success-infos {
+  .success-infos, .bonus-infos {
     position: absolute;
     width: 250px;
     height: 100px;
@@ -20,13 +20,13 @@ body {
     padding: 25px 0;
     box-shadow: 2px 5px 20px rgba(0, 0, 0, 0.1)
   }
-  .success-item {
+  .success-item, .bonus-item {
     position: relative;
   }
-  .success-item:hover .success-infos {
+  .success-item:hover .success-infos, .bonus-item:hover .bonus-infos {
     display: block !important;
   }
-  .success-infos .name {
+  .success-infos .name, .bonus-infos .name {
     font-size: 15px;
     font-weight: 600;
     color: #1d89ff
@@ -224,6 +224,19 @@ textarea.materialize-textarea:focus:not([readonly]) {
   font-size: 22px;
   background: #4086f6;
   color: #fff;
+}
+
+#modal_htp .faq-item {
+  margin: 20px 0;
+}
+
+#modal_htp .faq-item .head {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+#modal_htp .faq-item .content {
+  margin-top: 10px;
 }
 
 #modal_profile form {
@@ -461,6 +474,12 @@ textarea.materialize-textarea:focus:not([readonly]) {
         line-height: 50px;
         box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
         border-radius: 2px;
+      }
+      .active {
+        box-shadow: 0 2px 5px 0 #3874D2, 0 0 0 2px #3874D2;        
+      }
+      .bonus-item {
+        cursor: pointer;
       }
       .bonus-content img {
         width: 100%;
