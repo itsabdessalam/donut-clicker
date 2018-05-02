@@ -10,9 +10,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
-    index: {
-      unique: true
-    }
   },
   email: {
     type: String,
