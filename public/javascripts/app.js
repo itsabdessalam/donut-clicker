@@ -12,20 +12,24 @@ const songs = {
   "Intro": {
     "instru": new Audio("/songs/intro.mp3")
   },
-  "YesSong": [{
-    "maggie": new Audio("/songs/maggie.mp3"),
-    "bart": new Audio("/songs/bart.mp3"),
-    "lisa": new Audio("/songs/lisa.mp3"),
-    "marge": new Audio("/songs/marge.mp3"),
-    "homer": new Audio("/songs/homer.mp3")
-  }],
-  "NoSong": [{
-    "maggie": new Audio("/songs/NoMaggie.mp3"),
-    "bart": new Audio("/songs/NoBart.mp3"),
-    "lisa": new Audio("/songs/NoLisa.mp3"),
-    "marge": new Audio("/songs/NoMarge.mp3"),
-    "homer": new Audio("/songs/NoHomer.mp3")
-  }]
+  "YesSong": [
+    {
+      "maggie": new Audio("/songs/maggie.mp3"),
+      "bart": new Audio("/songs/bart.mp3"),
+      "lisa": new Audio("/songs/lisa.mp3"),
+      "marge": new Audio("/songs/marge.mp3"),
+      "homer": new Audio("/songs/homer.mp3")
+    }
+  ],
+  "NoSong": [
+    {
+      "maggie": new Audio("/songs/NoMaggie.mp3"),
+      "bart": new Audio("/songs/NoBart.mp3"),
+      "lisa": new Audio("/songs/NoLisa.mp3"),
+      "marge": new Audio("/songs/NoMarge.mp3"),
+      "homer": new Audio("/songs/NoHomer.mp3")
+    }
+  ]
 };
 
 //music colors theme default
@@ -195,9 +199,10 @@ socket.on('getDonuts', function (data) {
 });
 
 socket.on("toast", (data, display) => {
-  if (display)
+  if (display) 
     Materialize.toast(data, 1000);
-});
+  }
+);
 
 socket.on("enable", extra => {
   if (extra !== null) {
@@ -300,7 +305,7 @@ socket.on('getRefresh', (infos) => {
       $('.extra' + property).removeClass('disabled');
     }
   }
-	$('.stats-title-donuts').text("donuts");
+  $('.stats-title-donuts').text("donuts");
   $('.stats-donuts').text(beautifyNumber(infos.donuts));
   $('.stats-title-donutsPerS').text("donuts/s");
   $('.stats-donutsPerS').text(beautifyNumber(infos.donutsPerS));
@@ -317,7 +322,8 @@ socket.on('getRefresh', (infos) => {
   $('.stats-title-buyMultiplier').text("extra acheté/click");
   $('.stats-buyMultiplier').text(beautifyNumber(infos.buyMultiplier));
   $('.stats-title-start').text("date de début");
-  $('.stats-start').text(beautifyNumber(infos.start));
+  $('.stats-start').text(infos.start.substr(0, 10));
+
 });
 
 function beautifyNumber(number, istrunc = false) {
@@ -340,13 +346,13 @@ function beautifyNumber(number, istrunc = false) {
     unitKey++;
   }
 
-  trunc = istrunc ?
-    true :
-    false;
+  trunc = istrunc
+    ? true
+    : false;
 
-  return (trunc ?
-    number :
-    number.toFixed(2)) + unit[unitKey];
+  return (trunc
+    ? number
+    : parseFloat(number).toFixed(2)) + unit[unitKey];
 }
 
 function precisionRound(number, precision) {

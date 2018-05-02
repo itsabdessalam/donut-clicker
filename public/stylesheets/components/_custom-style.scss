@@ -462,6 +462,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
         box-shadow: 0 2px 5px 0 #8d8d8d, 0 0 0 2px #8d8d8d;
         border-radius: 2px;
       }
+      .bonus-content img {
+        width: 100%;
+        vertical-align: middle;
+      }
     } // Options
     .options {
       .thumb {

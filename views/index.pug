@@ -191,27 +191,27 @@ block content
         #stats.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2
           table.striped.responsive-table.stats
             thead
-						 tr
-							th.stats-title-donuts
-							th.stats-title-donutsPerS
-							th.stats-title-donutsPerC
-							th.stats-title-donutsTot
-							th.stats-title-clicks
-							th.stats-title-donutsOnClick
-							th.stats-title-countAll
-							th.stats-title-buyMultiplier
-							th.stats-title-start
-					tbody
-						tr
-							td.stats-donuts
-							td.stats-donutsPerS
-							td.stats-donutsPerC
-							td.stats-donutsTot
-							td.stats-clicks
-							td.stats-donutsOnClick
-							td.stats-countAll
-							td.stats-buyMultiplier
-							td.stats-start
+              tr
+                th.stats-title-donuts
+                th.stats-title-donutsPerS
+                th.stats-title-donutsPerC
+                th.stats-title-donutsTot
+                th.stats-title-clicks
+                th.stats-title-donutsOnClick
+                th.stats-title-countAll
+                th.stats-title-buyMultiplier
+                th.stats-title-start
+            tbody
+              tr
+                td.stats-donuts
+                td.stats-donutsPerS
+                td.stats-donutsPerC
+                td.stats-donutsTot
+                td.stats-clicks
+                td.stats-donutsOnClick
+                td.stats-countAll
+                td.stats-buyMultiplier
+                td.stats-start
 
         #gains.tab-item.col.s10.pull-s1.m8.pull-m2.l8.pull-l2.gains
           .success
@@ -440,7 +440,7 @@ block content
               form#updateForm.col.s12(method="POST")
                 .row
                   if status 
-                   p=status
+                    p=status
                   .input-field.col.s6
                     input#id( value=`${user.id}`, type='text', name="id", readonly="readonly")
                     label(for='id') Id user
@@ -494,8 +494,8 @@ block script
       }); 
     //-modal update events
     $(function(){
-       $('#btnUpdate').attr('disabled', true).addClass('disabled');
-       $('#updateForm :input#username,#updateForm :input#email,#updateForm :input#password').on('keyup', function(){
-          $('#btnUpdate').removeAttr('disabled').removeClass('disabled');
-       });
+      $('#btnUpdate').attr('disabled', true).addClass('disabled');
+      $('#updateForm :input#username,#updateForm :input#email,#updateForm :input#password').on('keyup', function(){
+        $('#btnUpdate').removeAttr('disabled').removeClass('disabled');
+      });
     });
