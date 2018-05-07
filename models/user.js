@@ -10,6 +10,9 @@ const LocalStrategy = require("passport-local").Strategy;
 const UserSchema = mongoose.Schema({
   username: {
     type: String,
+    index: {
+      unique: true
+    }
   },
   email: {
     type: String,
@@ -23,6 +26,10 @@ const UserSchema = mongoose.Schema({
   backup: {
     type: JSON,
     default: null
+  },
+  createdOn: {
+    type: Date,
+    default: Date.now()
   }
 });
 
@@ -83,18 +90,24 @@ module.exports.createUser = (newUser, callback) => {
   });
 };
 
-module.exports.getUserByUsername = (username, callback) => {
+module.exports.getUserByUsername = (username, callback = null) => {
   const query = {
     username
   };
-  User.findOne(query, callback);
+  if (callback != null)
+    User.findOne(query, callback);
+  else
+    return User.findOne(query);  
 };
 
-module.exports.getUserByEmail = (email, callback) => {
+module.exports.getUserByEmail = (email, callback = null) => {
   const query = {
     email
   };
-  User.findOne(query, callback);
+  if (callback != null)
+    User.findOne(query, callback);
+  else
+    return User.findOne(query);
 };
 
 module.exports.getUserById = (id, callback) => {

@@ -36,47 +36,45 @@ router.post("/signup", (req, res) => {
     .checkBody("username", "Username is required")
     .notEmpty();
   req
+    .checkBody("username", "Username Already Exist")
+    .isUniqueUsername();
+  req
     .checkBody("email", "Email is required")
     .notEmpty();
   req
     .checkBody("email", "Email is not valid")
     .isEmail();
   req
+    .checkBody("email", "Email already exist")
+    .isUniqueEmail();
+  req
     .checkBody("password", "Password is required")
     .notEmpty();
   req
     .checkBody("password_c", "Passwords do not match")
     .equals(req.body.password);
-  const errors = req.validationErrors();
+  const result = req.getValidationResult().then(err => {
+    const errors = err.array();
+    console.log(errors);
+    if (!err.isEmpty()) {
+      res.render("signup", {
+        errors: errors
+      });
+    } else {
+      const newUser = new User({
+        username,
+        email,
+        password
+      });
 
-  if (errors) {
-    res.render("signup", {
-      errors: errors
-    });
-  } else {
-    User.getUserByEmail(email, (err, user) => {
-        if (user == null) {
-          const newUser = new User({
-            username,
-            email,
-            password
-          });
-
-          User.createUser(newUser, (err, user) => {
-            if (err)
-              throw err;
-            console.log(user);
-          });
-          res.redirect("/users/login");
-        } else {
-          res.render('signup', {
-            errorEmail: {
-              name: 'Email Already use'
-            }
-          });
-      }
-    });
-}
+      User.createUser(newUser, (err, user) => {
+        if (err)
+          throw err;
+        console.log(user);
+      });
+      res.redirect("/users/login");
+    }
+  });
 });
 //use passport strategy and redefine, by default login is with username
 passport.use("local", new LocalStrategy({

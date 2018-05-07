@@ -503,7 +503,7 @@ module.exports = function (io) {
                     }
                 }
             },
-            calcCost: (extra, round, cost) => {
+            calcCost: (round, cost) => {
                 let total = 0;
                 for (let i = 0; i < round; i++) {
                     cost = Math.trunc(cost * 1.1);
@@ -513,8 +513,9 @@ module.exports = function (io) {
                 return total;
             },
             renewCost: (extra) => {
+                baseCost = game.info.extra[extra].cost[game.info.buyMultiplier];
                 for (let mult in game.info.extra[extra].cost) {
-                    game.info.extra[extra].cost[mult] = game.calcCost(extra, mult, game.info.extra[extra].cost[1]);
+                    game.info.extra[extra].cost[mult] = game.calcCost(mult, baseCost);
                 }
             },
             setBonus: () => {
@@ -587,8 +588,8 @@ module.exports = function (io) {
                     count: 0,
                     cost: {
                         1: 10,
-                        10: game.calcCost(1, 10, 10),
-                        100: game.calcCost(1, 100, 10)
+                        10: game.calcCost(10, 10),
+                        100: game.calcCost(100, 10)
                     },
                     bonus: {
                         donutsPerSec: 5
@@ -599,8 +600,8 @@ module.exports = function (io) {
                     count: 0,
                     cost: {
                         1: 200,
-                        10: game.calcCost(2, 10, 200),
-                        100: game.calcCost(2, 100, 200)
+                        10: game.calcCost(10, 200),
+                        100: game.calcCost(100, 200)
                     },
                     bonus: {
                         donutsPerSec: 100
@@ -611,8 +612,8 @@ module.exports = function (io) {
                     count: 0,
                     cost: {
                         1: 3000,
-                        10: game.calcCost(3, 10, 3000),
-                        100: game.calcCost(3, 100, 3000)
+                        10: game.calcCost(10, 3000),
+                        100: game.calcCost(100, 3000)
                     },
                     bonus: {
                         donutsPerSec: 1000
@@ -623,8 +624,8 @@ module.exports = function (io) {
                     count: 0,
                     cost: {
                         1: 40000,
-                        10: game.calcCost(4, 10, 40000),
-                        100: game.calcCost(4, 100, 40000)
+                        10: game.calcCost(10, 40000),
+                        100: game.calcCost(100, 40000)
                     },
                     bonus: {
                         donutsPerSec: 5000
@@ -635,8 +636,8 @@ module.exports = function (io) {
                     count: 0,
                     cost: {
                         1: 500000,
-                        10: game.calcCost(5, 10, 500000),
-                        100: game.calcCost(5, 100, 500000)
+                        10: game.calcCost(10, 500000),
+                        100: game.calcCost(100, 500000)
                     },
                     bonus: {
                         donutsPerSec: 20000
@@ -647,35 +648,35 @@ module.exports = function (io) {
                 1: {
                     name: 'Tetine',
                     desc: 'Augmente de 100% les donuts/s',
-                    cost: 100000000,
+                    cost: 5000000,
                     active: false,
                     enable: false,
                 },
                 2: {
                     name: 'Skate',
                     desc: 'Augmente de 100% les donuts/s',
-                    cost: 500000000,
+                    cost: 25000000,
                     active: false,
                     enable: false,
                 },
                 3: {
                     name: 'Saxophone',
                     desc: 'Augmente de 100% les donuts/s',
-                    cost: 2000000000,
+                    cost: 100000000,
                     active: false,
                     enable: false,
                 },
                 4: {
                     name: 'Papy',
                     desc: 'Augmente de 100% les donuts/s',
-                    cost: 50000000000,
+                    cost: 500000000,
                     active: false,
                     enable: false,
                 },
                 5: {
                     name: 'Duff',
                     desc: 'Augmente de 100% les donuts/s',
-                    cost: 100000000000,
+                    cost: 3000000000,
                     active: false,
                     enable: false,
                 },

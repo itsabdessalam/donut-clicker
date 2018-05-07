@@ -167,7 +167,7 @@ socket.on('init', (game, other) => {
     }
     $('#bonus-' + bonus + ' .bonus-infos .name').text(game.bonus[bonus].name);
     $('#bonus-' + bonus + ' .bonus-infos .desc').text(game.bonus[bonus].desc);
-    $('#bonus-' + bonus + ' .bonus-infos .cost').text(beautifyNumber(game.bonus[bonus].cost));
+    $('#bonus-' + bonus + ' .bonus-infos .cost').text(beautifyNumber(game.bonus[bonus].cost, true));
     $('#bonus-' + bonus + ' .bonus-infos .cost').append(' donuts');
   }
   $('#value' + game.buyMultiplier).prop('checked', true);
