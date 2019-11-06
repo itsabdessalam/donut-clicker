@@ -1,8 +1,8 @@
 /*jshint esversion: 6*/
-const dotenv = require('dotenv').config();
+const dotenv = require("dotenv").config();
 const express = require("express");
 const Session = require("express-session");
-const FileStore = require('session-file-store')(Session);
+const FileStore = require("session-file-store")(Session);
 const path = require("path");
 const favicon = require("serve-favicon");
 const logger = require("morgan");
@@ -33,13 +33,19 @@ const app = express();
 
 const usermodel = require("./models/user");
 // db connection
-mongoose.connect(process.env.DB_URL,
+mongoose.connect(
+  process.env.DB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  },
   // Use only in dev if you have mongodb "mongodb://localhost/appLogin",
   err => {
     if (err) {
       throw err;
     }
-  });
+  }
+);
 
 // // create collection app.put("/User", (req, res) =>   new usermodel.user({
 // username: "Bob",     email: "bob.sponge@test.com",     password: "test"
@@ -53,18 +59,22 @@ app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+);
 app.use(cookieParser());
 
 //node-sass-middleware
-app.use(sassMiddleware({
-  src: path.join(__dirname, "public"),
-  dest: path.join(__dirname, "public"),
-  indentedSyntax: false,
-  sourceMap: true
-}));
+app.use(
+  sassMiddleware({
+    src: path.join(__dirname, "public"),
+    dest: path.join(__dirname, "public"),
+    indentedSyntax: false,
+    sourceMap: true
+  })
+);
 app.use(express.static(path.join(__dirname, "public")));
 
 //express-session
@@ -75,56 +85,64 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //express validator
-app.use(expressValidator({
-  errorFormatter(param, msg, value) {
-    const namespace = param.split(".");
-    const root = namespace.shift();
-    let formParam = root;
-    while (namespace.length) {
-      formParam += `[${namespace.shift()}]`;
-    }
-    return {
-      param: formParam,
-      msg,
-      value
-    };
-  },
-  customValidators: {
-    isUniqueEmail: (value) => {
-      return new Promise((resolve, reject) => {
-         usermodel.getUserByEmail(value).then((user) => {
-           console.log(user);
-          if (user !== null) {
-            return reject(user);
-          }
-          return resolve(true);
-        }).catch((err) => {
-          resolve(err);
-          console.log(err);
-        });
-      });
+app.use(
+  expressValidator({
+    errorFormatter(param, msg, value) {
+      const namespace = param.split(".");
+      const root = namespace.shift();
+      let formParam = root;
+      while (namespace.length) {
+        formParam += `[${namespace.shift()}]`;
+      }
+      return {
+        param: formParam,
+        msg,
+        value
+      };
     },
-    isUniqueUsername: (value) => {
-      return new Promise((resolve, reject) => {
-         usermodel.getUserByUsername(value).then((user) => {
-           console.log(user);
-          if (user !== null) {
-            return reject(user);
-          }
-          return resolve(true);
-        }).catch((err) => {
-          resolve(err);
-          console.log(err);
+    customValidators: {
+      isUniqueEmail: value => {
+        return new Promise((resolve, reject) => {
+          usermodel
+            .getUserByEmail(value)
+            .then(user => {
+              console.log(user);
+              if (user !== null) {
+                return reject(user);
+              }
+              return resolve(true);
+            })
+            .catch(err => {
+              resolve(err);
+              console.log(err);
+            });
         });
-      });
+      },
+      isUniqueUsername: value => {
+        return new Promise((resolve, reject) => {
+          usermodel
+            .getUserByUsername(value)
+            .then(user => {
+              console.log(user);
+              if (user !== null) {
+                return reject(user);
+              }
+              return resolve(true);
+            })
+            .catch(err => {
+              resolve(err);
+              console.log(err);
+            });
+        });
+      }
     }
-  }
-}));
+  })
+);
 
 // use flash
 app.use(flash());
 // Declare global vars
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.success_msg = req.flash("success_msg");
   res.locals.error_msg = req.flash("error_msg");
   res.locals.error = req.flash("error");
@@ -133,12 +151,13 @@ app.use(function (req, res, next) {
 });
 
 // getAllUsers
-app.get("/User", (req, res) => usermodel.getAllUsers((err, user) => res.json(user)));
+app.get("/User", (req, res) =>
+  usermodel.getAllUsers((err, user) => res.json(user))
+);
 
-app.put('/reset', usermodel.resetAllUsers);
+app.put("/reset", usermodel.resetAllUsers);
 
-app.put('/reset/:id', usermodel.resetUserById);
-
+app.put("/reset/:id", usermodel.resetUserById);
 
 app.use("/", index);
 app.use("/users", users);
@@ -154,9 +173,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req
-    .app
-    .get("env") === "development" ? err : {};
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
   // render the error page
   res.status(err.status || 500);
